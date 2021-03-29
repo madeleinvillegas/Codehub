@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "817676133176",
+    "project_id": "codehub-106de",
+    "storage_bucket": "codehub-106de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817676133176:android:b58a1aaec94752b53717cd",
+        "android_client_info": {
+          "package_name": "ph.edu.dlsu.codehub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817676133176-haopaifdl2ib1598qib0vda5p0uifrbi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq4nVaH1IA5OuBY_CRhDLUfYarVYVPbSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817676133176-haopaifdl2ib1598qib0vda5p0uifrbi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

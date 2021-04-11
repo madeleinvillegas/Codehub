@@ -28,8 +28,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button registerBtn;
     private EditText registerName, registerEmail, registerPassword;
-    private ProgressDialog loading;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,18 +73,13 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Your password should be at least 8 characters long", Toast.LENGTH_SHORT).show();
         }
         else {
-            loading.setTitle("Create Account");
-            loading.setMessage("Please wait while we are creating you account.");
-            loading.setCanceledOnTouchOutside(false);
-            loading.show();
             checkEmail(name, email, password);
         }
     }
     public void checkEmail(final String name, final String email, final String pass) {
         final DatabaseReference reference;
-        reference = FirebaseDatabase.getInstance().getReference();
+        reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("ShowToast")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.child("Users").child(email).exists()) {
@@ -99,12 +92,10 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
-                                loading.dismiss();
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(intent);
                             }
                             else {
-                                loading.dismiss();
                                 Toast.makeText(RegisterActivity.this, "Your account has not been created. PLease try again", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -113,7 +104,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(RegisterActivity.this, "The username has been taken", Toast.LENGTH_SHORT).show();
-                    loading.dismiss();
                     Toast.makeText(RegisterActivity.this, "Try again using a different username", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);

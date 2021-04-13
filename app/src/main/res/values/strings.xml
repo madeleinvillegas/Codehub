@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Codehub</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="create_post">Create Post</string>
+    <string name="my_profile">my Profile</string>
+    <string name="search">Search</string>
+</resources>

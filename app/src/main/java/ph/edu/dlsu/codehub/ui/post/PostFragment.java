@@ -1,4 +1,4 @@
-package ph.edu.dlsu.codehub.ui.dashboard;
+package ph.edu.dlsu.codehub.ui.post;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import ph.edu.dlsu.codehub.R;
 
-public class DashboardFragment extends Fragment {
+public class PostFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private PostViewModel postViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        postViewModel =
+                new ViewModelProvider(this).get(PostViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_post, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        postViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

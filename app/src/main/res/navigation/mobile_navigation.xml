@@ -5,6 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="ph.edu.dlsu.codehub.ui.home.HomeFragment"
@@ -12,10 +13,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="ph.edu.dlsu.codehub.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_post"
+        android:name="ph.edu.dlsu.codehub.ui.post.PostFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_post" />
 
     <fragment
         android:id="@+id/navigation_notifications"

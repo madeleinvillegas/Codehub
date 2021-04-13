@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_own_profile"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_post"
-        android:icon="@android:drawable/ic_input_add"
+        android:id="@+id/navigation_other_profile"
+        android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="Create Post" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_search"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_notifications" />
 

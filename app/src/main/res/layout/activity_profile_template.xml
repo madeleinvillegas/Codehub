@@ -34,6 +34,11 @@
                     android:background="@color/teal_700"-->
                 </androidx.appcompat.widget.Toolbar>
 
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray" />
             </com.google.android.material.appbar.AppBarLayout>
         </RelativeLayout>
         <!--End Top Bar-->
@@ -46,10 +51,7 @@
             android:layout_below="@+id/rel_layout_top_bar"
             android:layout_above="@+id/rel_layout_bottom_bar"
             >
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray" />
+
             <!--    Main content fragment attached here-->
             <androidx.viewpager.widget.ViewPager
                 android:layout_width="match_parent"

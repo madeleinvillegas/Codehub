@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rel_layout">
+
+        <!--Start Top Bar-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/rel_layout_top_bar"
+            android:layout_alignParentTop="true">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/top_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <!--Attribute to change the background color of App bar:
+                    android:background="@color/teal_700"-->
+                </androidx.appcompat.widget.Toolbar>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray" />
+            </com.google.android.material.appbar.AppBarLayout>
+        </RelativeLayout>
+        <!--End Top Bar-->
+
+        <!--Start Middle Bar-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rel_layout_middle_bar"
+            android:layout_below="@+id/rel_layout_top_bar"
+            android:layout_above="@+id/rel_layout_bottom_bar"
+            >
+
+            <!--    Main content fragment attached here-->
+            <androidx.viewpager.widget.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/container">
+
+
+            </androidx.viewpager.widget.ViewPager>
+
+        </RelativeLayout>
+        <!--End Middle Bar-->
+
+
+        <!--Start Bottom Bar-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/rel_layout_bottom_bar"
+            android:layout_alignParentBottom="true"
+            >
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/toolbar_bottom"
+                    >
+
+                    <!--            android:background="@color/white"-->
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <!--Attribute to change the background color of App bar:
+                        android:background="@color/teal_700"-->
+                    </com.google.android.material.tabs.TabLayout>
+
+
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <!--End Bottom Bar-->
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -22,7 +22,9 @@
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                >
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/top_banner"
                     android:layout_width="match_parent"
@@ -74,7 +76,9 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom">
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                >
 
                 <View
                     android:layout_width="match_parent"
@@ -89,6 +93,7 @@
 
                     <!--            android:background="@color/white"-->
                     <com.google.android.material.tabs.TabLayout
+
                         android:id="@+id/tabs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

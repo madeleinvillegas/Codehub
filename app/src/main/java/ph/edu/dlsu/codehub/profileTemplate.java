@@ -6,16 +6,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
+
+import ph.edu.dlsu.codehub.fragmentClasses.homeFragment;
+import ph.edu.dlsu.codehub.fragmentClasses.notificationsFragment;
 
 public class profileTemplate extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +27,13 @@ public class profileTemplate extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.top_banner);
         setSupportActionBar(myToolbar);
 
+        //set content container
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container); //not yet made
         setupViewPager(mViewPager);
 
 
-        //bottom nav
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);//not yet referenced
         tabLayout.setupWithViewPager(mViewPager);
 

@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="ph.edu.dlsu.codehub.ui.home.HomeFragment"
+        android:name="ph.edu.dlsu.codehub.fragmentClasses.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="ph.edu.dlsu.codehub.ui.dashboard.DashboardFragment"
+        android:name="ph.edu.dlsu.codehub.fragmentClasses.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_create_post" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="ph.edu.dlsu.codehub.ui.notifications.NotificationsFragment"
+        android:name="ph.edu.dlsu.codehub.fragmentClasses.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

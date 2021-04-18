@@ -7,4 +7,13 @@
     <string name="create_post">Create Post</string>
     <string name="my_profile">my Profile</string>
     <string name="search">Search</string>
+
+    <string name="first">First</string>
+    <string name="second">Second</string>
+    <string name="third">Third</string>
+    <string name="long_latin">
+    Donec sed velit neque. Ut vel imperdiet massa. Sed at lorem magna. Sed molestie sem id urna auctor scelerisque. Sed velit nulla, malesuada id bibendum et, condimentum sit amet tellus. Donec pharetra quam elit. Phasellus id malesuada tortor. Aenean tristique fermentum metus eu rhoncus. Aenean ac malesuada nisl. Curabitur et ante dolor. Cras eget ex nec metus suscipit mollis. Mauris eu viverra orci. Nunc tincidunt diam nec nulla condimentum, non porttitor justo egestas. Etiam sapien enim, feugiat ut lorem eu, euismod vulputate enim.
+    Etiam in placerat turpis. Proin sed porta neque. Nulla egestas maximus velit non porttitor. Nam nec ornare augue. Sed in sapien accumsan, tincidunt lorem id, aliquam nunc. Sed id ex quis lectus posuere elementum quis ut nisl. Praesent id mollis urna. Etiam sodales sapien neque, faucibus tempus arcu semper ac. Sed congue neque suscipit justo placerat, in blandit nisi volutpat. Cras dapibus enim massa, vel suscipit lacus faucibus et. Sed pharetra, tortor at ultricies tempus, enim odio euismod eros, sit amet vehicula diam tellus a nibh. Fusce rhoncus blandit mattis. Integer convallis, turpis sit amet fermentum feugiat, arcu odio consectetur purus, ac finibus elit ligula vitae metus.
+    </string>
+
 </resources>

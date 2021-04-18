@@ -10,8 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Codehub">
 
+        <activity android:name=".myProfileActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
-        <activity android:name=".profileTemplate">
+        <activity android:name=".fragmentClasses.profileTemplate">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

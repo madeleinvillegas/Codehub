@@ -1,4 +1,4 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.fragmentClasses;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,6 +9,9 @@ import android.view.Menu;
 
 import com.google.android.material.tabs.TabLayout;
 
+import ph.edu.dlsu.codehub.R;
+import ph.edu.dlsu.codehub.SectionsPagerAdapter;
+import ph.edu.dlsu.codehub.fragmentClasses.createPostFragment;
 import ph.edu.dlsu.codehub.fragmentClasses.homeFragment;
 import ph.edu.dlsu.codehub.fragmentClasses.notificationsFragment;
 
@@ -45,8 +48,8 @@ public class profileTemplate extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager)
     {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new createPostFragment());
         adapter.addFragment(new homeFragment());
+        adapter.addFragment(new createPostFragment());
         adapter.addFragment(new notificationsFragment());
         viewPager.setAdapter(adapter);
     }

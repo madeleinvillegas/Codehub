@@ -36,16 +36,16 @@ What things you need to install the software and how to install them
 
 A step by step series of examples that tell you how to get a development env running
 
-Make sure that you have complied with the prerequisites section above.
-Pull the code locally
-Open Android Studio and select 'Open an existing Android Studio Project'
-Navigate to the pulled repository.
-Inside the ‘Codehub” folder. Select settings.gradle file. Gradle would install all the dependencies required (including firebase).
-Run the code in Android Studio
+1. Make sure that you have complied with the prerequisites section above.
+2. Pull the code locally
+3. Open Android Studio and select 'Open an existing Android Studio Project'
+4. Navigate to the pulled repository.
+5. Inside the ‘Codehub” folder. Select settings.gradle file. Gradle would install all the dependencies required (including firebase).
+6. Run the code in Android Studio
 
-Additional Information:
-[Setting up Android Studio] (https://developer.android.com/training/basics/firstapp/running-app)
-[Getting Started with Firebase] (https://firebase.google.com/docs/functions/local-emulator)
+<b>Additional Information:</b><br/>
+[Setting up Android Studio](https://developer.android.com/training/basics/firstapp/running-app)<br/>
+[Getting Started with Firebase](https://firebase.google.com/docs/functions/local-emulator)
 
 
 ## Authors

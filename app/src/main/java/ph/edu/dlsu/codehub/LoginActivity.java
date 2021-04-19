@@ -72,9 +72,6 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-
-//                      Eugene, please change the MainActivity.class to go to the main page
-
                         Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
                         startActivity(intent);
                     }
@@ -87,14 +84,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+//  Allows the user to not login every time they open the app
     @Override
     protected void onStart() {
         super.onStart();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-//            Eugene, please change the MainActivity.class to go to the main page
-//
             Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
             startActivity(intent);
         }

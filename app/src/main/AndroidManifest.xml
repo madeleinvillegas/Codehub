@@ -10,11 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Codehub">
 
-        <activity android:name=".MyProfileActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
 
         <activity android:name=".fragmentClasses.ProfileTemplate">
             <intent-filter>
@@ -22,9 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

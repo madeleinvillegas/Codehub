@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
 
 //                      Eugene, please change the MainActivity.class to go to the main page
-
+//                      Ok po,
                         Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
                         startActivity(intent);
                     }

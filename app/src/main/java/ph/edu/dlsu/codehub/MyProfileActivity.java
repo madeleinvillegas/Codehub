@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import ph.edu.dlsu.codehub.R;
 
-public class myProfileActivity extends AppCompatActivity {
+public class MyProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

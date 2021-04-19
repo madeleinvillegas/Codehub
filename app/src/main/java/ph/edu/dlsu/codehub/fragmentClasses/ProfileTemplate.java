@@ -11,11 +11,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.SectionsPagerAdapter;
-import ph.edu.dlsu.codehub.fragmentClasses.createPostFragment;
-import ph.edu.dlsu.codehub.fragmentClasses.homeFragment;
-import ph.edu.dlsu.codehub.fragmentClasses.notificationsFragment;
 
-public class profileTemplate extends AppCompatActivity {
+public class ProfileTemplate extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -48,9 +45,9 @@ public class profileTemplate extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager)
     {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new homeFragment());
-        adapter.addFragment(new createPostFragment());
-        adapter.addFragment(new notificationsFragment());
+        adapter.addFragment(new HomeFragment());
+        adapter.addFragment(new CreatePostFragment());
+        adapter.addFragment(new NotificationsFragment());
         viewPager.setAdapter(adapter);
     }
 

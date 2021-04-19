@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import ph.edu.dlsu.codehub.R;
 
-public class notificationsFragment extends Fragment {
+public class NotificationsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

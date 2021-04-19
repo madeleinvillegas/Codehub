@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText loginEmail, loginPassword;
     private FirebaseAuth mAuth;
@@ -73,8 +75,8 @@ public class LoginActivity extends AppCompatActivity {
 
 //                      Eugene, please change the MainActivity.class to go to the main page
 
-//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
+                        startActivity(intent);
                     }
                     else {
                         String message = task.getException().toString();
@@ -93,8 +95,8 @@ public class LoginActivity extends AppCompatActivity {
         if(currentUser != null) {
 //            Eugene, please change the MainActivity.class to go to the main page
 //
-//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
+            startActivity(intent);
         }
     }
 }

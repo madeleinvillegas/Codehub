@@ -14,6 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText loginEmail, loginPassword;
-    public static Person currentUser;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,32 +40,23 @@ public class LoginActivity extends AppCompatActivity {
         Button registerHere = findViewById(R.id.register_here);
         TextView forgotPassword = findViewById(R.id.forgot_password);
 
-        registerHere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
+        registerHere.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-                startActivity(intent);
-            }
+        forgotPassword.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-            }
+        loginBtn.setOnClickListener(view -> {
+            login();
         });
     }
     private void login() {
         String email = loginEmail.getText().toString();
         String pass = loginPassword.getText().toString();
-
+        mAuth = FirebaseAuth.getInstance();
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "You forgot to add your username", Toast.LENGTH_SHORT).show();
         }
@@ -68,38 +65,42 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "You forgot to add your password", Toast.LENGTH_SHORT).show();
         }
         else {
-            checkCredentials(email, pass);
+            mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+
+//                      Eugene, please change the MainActivity.class to go to the main page
+
+//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                        startActivity(intent);
+                    }
+                    else {
+                        String message = task.getException().toString();
+                        Toast.makeText(LoginActivity.this, "Login unsuccessful due to " + message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 
-    public void checkCredentials(final String email, final String password) {
-        final DatabaseReference reference;
-        reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("ShowToast")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child("Users").child(email).exists()) {
-                    currentUser = dataSnapshot.child("Users").child(email).getValue(Person.class);
-                    if (currentUser.getEmail().equals(email)) {
-                        if (currentUser.getPassword().equals(password)) {
-                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
-                            startActivity(intent);
-                        }
-                        else {
-                            Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-                else {
-                    Toast.makeText(LoginActivity.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null) {
+//            Eugene, please change the MainActivity.class to go to the main page
+//
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            startActivity(intent);
+        }
     }
 }
+
+//    Code for logging out the user
+//    private FirebaseAuth mAuth;
+//    mAuth = FirebaseAuth.getInstance();
+//    mAuth.signOut();
+//    go back to login

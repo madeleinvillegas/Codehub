@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,32 +28,27 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private Button registerBtn;
     private EditText registerName, registerEmail, registerPassword;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        registerBtn = findViewById(R.id.register_btn);
+        Button registerBtn = findViewById(R.id.register_btn);
         registerEmail = findViewById(R.id.register_email);
         registerName = findViewById(R.id.register_name);
         registerPassword = findViewById(R.id.register_password);
+        mAuth = FirebaseAuth.getInstance();
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createAccount();
-            }
+        registerBtn.setOnClickListener(view -> {
+            createAccount();
         });
 
         TextView backToLogin = findViewById(R.id.login_here);
-        backToLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
+        backToLogin.setOnClickListener(view -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
     }
     private void createAccount() {
@@ -73,46 +70,20 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Your password should be at least 8 characters long", Toast.LENGTH_SHORT).show();
         }
         else {
-            checkEmail(name, email, password);
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()) {
+                        Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        String message = task.getException().getMessage();
+                        Toast.makeText(RegisterActivity.this, "Your account has not been created due to " + message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
-    }
-    public void checkEmail(final String name, final String email, final String pass) {
-        final DatabaseReference reference;
-        reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.child("Users").child(email).exists()) {
-                    HashMap<String, Object> user = new HashMap<>();
-                    user.put("name", name);
-                    user.put("email", email);
-                    user.put("password", pass);
-                    reference.child("Users").child(email).updateChildren(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                            }
-                            else {
-                                Toast.makeText(RegisterActivity.this, "Your account has not been created. PLease try again", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                }
-                else {
-                    Toast.makeText(RegisterActivity.this, "The username has been taken", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(RegisterActivity.this, "Try again using a different username", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
     }
 }

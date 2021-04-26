@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:id="@+id/root_layout"
+    >
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/activity_horizontal_margin"
+    android:id="@+id/container"
     >
 
 
@@ -84,7 +86,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:layout_marginStart="0dp"
         android:layout_marginTop="656dp"
         android:layout_weight="1"
         android:text="Current Occupation"
@@ -296,7 +297,7 @@
         android:textSize="@dimen/body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="672dp" />
+        app:layout_constraintTop_toBottomOf="@+id/current_occupation_label" />
 
     <Button
         android:id="@+id/save_changes_button"

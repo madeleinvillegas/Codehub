@@ -1,6 +1,5 @@
 package ph.edu.dlsu.codehub;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,14 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,7 +43,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_edit_profile);
         Log.d(TAG, "Initializing Firebase Current User");
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
@@ -64,9 +60,9 @@ public class EditProfileDataActivity extends AppCompatActivity {
         currentUserName = (EditText) findViewById(R.id.current_user_name);
         currentAddress = (EditText) findViewById(R.id.current_address);
         currentOccupation = (EditText) findViewById(R.id.current_occupation);
-        saveChanges = (Button) findViewById(R.id.save_changes_button);
+        saveChanges = findViewById(R.id.save_changes_button);
         currentProfilePicture = (CircleImageView) findViewById(R.id.profile_picture) ;
-        currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
+//        currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
         Log.d(TAG, "Successfully Gotten The Android Id's");
 
         Log.d(TAG, "Starting relative layout with progressbar");
@@ -82,17 +78,14 @@ public class EditProfileDataActivity extends AppCompatActivity {
         Log.d(TAG, "Successfully finished relative layout with progressbar");
 
         Log.d(TAG, "Adding on click listener for button");
-//        saveChanges.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d(TAG, "INSIDE THE ON CLICK LISTENER");
-//                saveAccountInformation();
-//            }
-//        });
+        saveChanges.setOnClickListener(view -> {
+            Log.d(TAG, "INSIDE THE ON CLICK LISTENER");
+            saveAccountInformation();
+        });
         Log.d(TAG, "Successfully Added on click listener for button");
         Log.d(TAG, "Adding Layout");
 
-        setContentView(R.layout.activity_edit_profile);
+
         Log.d(TAG, "Ended Layout");
 
 

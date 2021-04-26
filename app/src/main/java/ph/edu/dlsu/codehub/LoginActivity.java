@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(view -> {
             login();
         });
+
     }
     private void login() {
         String email = loginEmail.getText().toString();

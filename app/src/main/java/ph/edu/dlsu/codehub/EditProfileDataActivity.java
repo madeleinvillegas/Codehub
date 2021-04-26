@@ -1,4 +1,4 @@
-package ph.edu.dlsu.codehub;
+                                                                                                                                                                               package ph.edu.dlsu.codehub;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,7 +37,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private DatabaseReference usersDatabaseReference;
     private String currentUserId;
 
-    private ProgressBar progressBar;
+//    private ProgressBar progressBar;
 
     private String TAG = "DEBUGGING TAG";
     @Override
@@ -47,6 +47,8 @@ public class EditProfileDataActivity extends AppCompatActivity {
         Log.d(TAG, "Initializing Firebase Current User");
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
+
+
         usersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
         Log.d(TAG, "Finished Firebase Current User");
 
@@ -67,7 +69,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         Log.d(TAG, "Starting relative layout with progressbar");
 //        RelativeLayout layout = new RelativeLayout(this);
-//        progressBar = new ProgressBar(EditProfileDataActivity.this,null,android.R.attr.progressBarStyleLarge);
+//        progressBar = new ProgressBar(getApplicationContext(),null,android.R.attr.progressBarStyleLarge);
 //        progressBar.setIndeterminate(true);
 //        progressBar.setVisibility(View.GONE);
 
@@ -113,23 +115,29 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(firstNameText) || TextUtils.isEmpty(lastNameText))
         {
+            Log.d(TAG, "Empty first name or last name");
             Toast.makeText(this, "Please Input Your Name", Toast.LENGTH_SHORT);
         }
         else if(TextUtils.isEmpty(currentUserNameText))
         {
+            Log.d(TAG, "Empty username");
+
             Toast.makeText(this, "Please Input Current Username", Toast.LENGTH_SHORT);
         }
         else if (TextUtils.isEmpty(currentAddressText))
         {
+            Log.d(TAG, "Empty Address");
+
             Toast.makeText(this, "Please Input An Address", Toast.LENGTH_SHORT);
         }
         else if(TextUtils.isEmpty(currentOccupationText))
         {
+            Log.d(TAG, "Empty Occupation");
             Toast.makeText(this, "Please Input Your Current Occupation", Toast.LENGTH_SHORT);
         }
         else
         {
-            progressBar.setVisibility(View.VISIBLE);
+//            progressBar.setVisibility(View.VISIBLE);
 
             HashMap userMap = new HashMap();
             userMap.put("username", currentUserNameText);
@@ -150,15 +158,19 @@ public class EditProfileDataActivity extends AppCompatActivity {
                     if (task.isSuccessful())
                     {
                         sendUserToHomePage();  // send user to main activity
-                        Toast.makeText(EditProfileDataActivity.this, "Profile Data Changed Successfully", Toast.LENGTH_LONG);
-                        progressBar.setVisibility(View.GONE);
+                        Log.d(TAG, "Data Change Successful");
+
+                        Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
+//                        progressBar.setVisibility(View.GONE);
 
                     }
                     else
                     {
+                        Log.d(TAG, "Data Change Failed");
+
                         String errorMessage = task.getException().getMessage();
-                        Toast.makeText(EditProfileDataActivity.this, errorMessage, Toast.LENGTH_LONG);
-                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+//                        progressBar.setVisibility(View.GONE);
 
 
                     }
@@ -171,7 +183,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     }
 
     private void sendUserToHomePage() {
-        Intent intent = new Intent(EditProfileDataActivity.this, ProfileTemplate.class);
+        Intent intent = new Intent(getApplicationContext(), ProfileTemplate.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

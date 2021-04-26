@@ -1,6 +1,7 @@
                                                                                                                                                                                package ph.edu.dlsu.codehub;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,13 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
@@ -34,26 +42,26 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private CircleImageView currentProfilePicture;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference usersDatabaseReference;
+    private DatabaseReference UsersDatabaseReference;
     private String currentUserId;
+
+    private final static int gallery_pick = 1;
 
 //    private ProgressBar progressBar;
 
-    private String TAG = "DEBUGGING TAG";
+    private StorageReference userProfileImageRef;
+
+    private String TAG = "DEBUGGING_TAG";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        Log.d(TAG, "Initializing Firebase Current User");
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
+        userProfileImageRef = FirebaseStorage.getInstance().getReference().child("profileImages");
 
+        UsersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
-        usersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
-        Log.d(TAG, "Finished Firebase Current User");
-
-
-        Log.d(TAG, "Started to Get Android Id's");
         //ID references
         editProfilePicture = (TextView) findViewById(R.id.edit_profile_picture);
         editBackgroundPicture = (TextView) findViewById(R.id.edit_background_image);
@@ -64,33 +72,64 @@ public class EditProfileDataActivity extends AppCompatActivity {
         currentOccupation = (EditText) findViewById(R.id.current_occupation);
         saveChanges = findViewById(R.id.save_changes_button);
         currentProfilePicture = (CircleImageView) findViewById(R.id.profile_picture) ;
-//        currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
-        Log.d(TAG, "Successfully Gotten The Android Id's");
+        currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
 
-        Log.d(TAG, "Starting relative layout with progressbar");
-//        RelativeLayout layout = new RelativeLayout(this);
-//        progressBar = new ProgressBar(getApplicationContext(),null,android.R.attr.progressBarStyleLarge);
-//        progressBar.setIndeterminate(true);
-//        progressBar.setVisibility(View.GONE);
-
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
-//        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-//        layout.addView(progressBar,params);
-//        setContentView(layout);
-        Log.d(TAG, "Successfully finished relative layout with progressbar");
-
-        Log.d(TAG, "Adding on click listener for button");
         saveChanges.setOnClickListener(view -> {
-            Log.d(TAG, "INSIDE THE ON CLICK LISTENER");
             saveAccountInformation();
         });
-        Log.d(TAG, "Successfully Added on click listener for button");
-        Log.d(TAG, "Adding Layout");
+
+        editProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, gallery_pick);
+            }
+        });
+        editBackgroundPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, gallery_pick);
+            }
+        });
 
 
-        Log.d(TAG, "Ended Layout");
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == gallery_pick && resultCode == RESULT_OK && data != null)
+        {
+//            Uri ImageUri = data.getData();
+
+            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(this);
+
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
+        {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK)
+            {
+                Uri resultUri = result.getUri();
+
+                StorageReference filePath = userProfileImageRef.child(currentUserId + ".jpg");
+
+                Log.d(TAG, "Attempting to pick image");
+
+                //TODO: add code to upload image to firebase here and set database reference image
+            }
+            else {
+                Log.d(TAG, "Error. Image cannot be cropped.");
+            }
+
+        }
     }
 
     private void saveAccountInformation(){
@@ -102,8 +141,6 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         //picture related stuff here: (get the source of image)
 
-        profilePictureText = "";
-        backgroundPictureText = "";
 
 
         //non picture related stuff here
@@ -145,14 +182,14 @@ public class EditProfileDataActivity extends AppCompatActivity {
             userMap.put("lastName", lastNameText);
             userMap.put("address", currentAddressText);
             userMap.put("occupation", currentOccupationText);
-            userMap.put("profilePicture", profilePictureText);
-            userMap.put("backgroundImage", backgroundPictureText);
+            userMap.put("profilePicture", "");
+            userMap.put("backgroundImage", "");
 
 
             //I noticed that theis doesn't check if there are duplicates
 
             //
-            usersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful())

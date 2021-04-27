@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:gravity="top|left"
         android:layout_margin="15dp"
         android:id="@+id/input_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:hint="@string/hint_title"
         android:maxLength="30">
     </EditText>

@@ -89,7 +89,7 @@ public class CreatePostFragment extends Fragment {
                     postsMap.put("profileimage", userProfileImage);
                     postsMap.put("fullname", userFullName);
 
-                    postsRef.child(currentUserID + timestamp).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {
+                    postsRef.child(currentUserID + " " + timestamp).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()) {

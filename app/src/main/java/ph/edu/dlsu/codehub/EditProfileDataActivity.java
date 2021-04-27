@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -108,61 +109,74 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         if (requestCode == gallery_pick && resultCode == RESULT_OK && data != null)
         {
-//            Uri ImageUri = data.getData();
+            Uri ImageUri = data.getData();
+            StorageReference profilePic = userProfileImageRef.child("profile_image" + ".jpg");
+            profilePic.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d(TAG, "Upload completed");
 
-            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(this);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "Upload Failed");
+                }
+            });
 
-        }
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
-        {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK)
-            {
-                Uri resultUri = result.getUri();
-                String extension = resultUri.toString().substring(resultUri.toString().lastIndexOf("."));
-                //TODO: add code to upload image to firebase, download image and set image attributes in real time data base
-                //upload profile picture
-                Log.d(TAG, resultUri.toString());
-
-                StorageReference profilePic = userProfileImageRef.child("profile_image" + extension);
-                UploadTask uploadTask = profilePic.putFile(resultUri);
-                Log.d(TAG, "Image cropped and Uploading File Here");
-
-                uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            Log.d(TAG, "Uploading of Image was Successful");
-                            //get download url (nasty workaround)
-                            String downloadUrl = profilePic.getDownloadUrl().toString();
-                            Log.d(TAG, downloadUrl);
-                            //set database reference in real time data base
-                            UsersDatabaseReference.child("profileImage").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    //download and set profile picture
-
-                                }
-                            });
-                        }
-                        else
-                        {
-                            Log.d(TAG, "Uploading of Image Failed: " + task.getException());
-                        }
-                    }
-                });
-
-
-
-
-            }
-            else {
-                Log.d(TAG, "Error. Image cannot be cropped.");
-            }
+//            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(this);
 
         }
+
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
+//        {
+//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//            if (resultCode == RESULT_OK)
+//            {
+//                Uri resultUri = result.getUri();
+//                String extension = resultUri.toString().substring(resultUri.toString().lastIndexOf("."));
+//                //TODO: add code to upload image to firebase, download image and set image attributes in real time data base
+//                //upload profile picture
+//                Log.d(TAG, resultUri.toString());
+//
+//                StorageReference profilePic = userProfileImageRef.child("profile_image" + extension);
+//                UploadTask uploadTask = profilePic.putFile(resultUri);
+//                Log.d(TAG, "Image cropped and Uploading File Here");
+//
+//                uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+//                        if(task.isSuccessful())
+//                        {
+//                            Log.d(TAG, "Uploading of Image was Successful");
+//                            //get download url (nasty workaround)
+//                            String downloadUrl = profilePic.getDownloadUrl().toString();
+//                            Log.d(TAG, downloadUrl);
+//                            //set database reference in real time data base
+//                            UsersDatabaseReference.child("profileImage").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    //download and set profile picture
+//
+//                                }
+//                            });
+//                        }
+//                        else
+//                        {
+//                            Log.d(TAG, "Uploading of Image Failed: " + task.getException());
+//                        }
+//                    }
+//                });
+//
+//
+//
+//
+//            }
+//            else {
+//                Log.d(TAG, "Error. Image cannot be cropped.");
+//            }
+//
+//        }
     }
 
     private void saveAccountInformation(){

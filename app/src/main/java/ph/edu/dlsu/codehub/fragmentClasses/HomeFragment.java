@@ -31,7 +31,6 @@ import ph.edu.dlsu.codehub.RegisterActivity;
 
 
 public class HomeFragment extends Fragment {
-    private FirebaseAuth mAuth;
     private DatabaseReference postRef;
     private RecyclerView postList;
     @Nullable
@@ -39,7 +38,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
         postList = view.findViewById(R.id.recyclerView);
         postList.setHasFixedSize(true);

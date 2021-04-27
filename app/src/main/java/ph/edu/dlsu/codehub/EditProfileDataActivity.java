@@ -64,7 +64,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         //ID references
         editProfilePicture = (TextView) findViewById(R.id.edit_profile_picture);
-        editBackgroundPicture = (TextView) findViewById(R.id.edit_background_image);
+//        editBackgroundPicture = (TextView) findViewById(R.id.edit_background_image);
         firstName = (EditText) findViewById(R.id.first_name);
         lastName = (EditText) findViewById(R.id.last_name);
         currentUserName = (EditText) findViewById(R.id.current_user_name);
@@ -72,7 +72,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
         currentOccupation = (EditText) findViewById(R.id.current_occupation);
         saveChanges = findViewById(R.id.save_changes_button);
         currentProfilePicture = (CircleImageView) findViewById(R.id.profile_picture) ;
-        currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
+//        currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
 
         saveChanges.setOnClickListener(view -> {
             saveAccountInformation();
@@ -87,15 +87,15 @@ public class EditProfileDataActivity extends AppCompatActivity {
                 startActivityForResult(galleryIntent, gallery_pick);
             }
         });
-        editBackgroundPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, gallery_pick);
-            }
-        });
+//        editBackgroundPicture.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent galleryIntent = new Intent();
+//                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+//                galleryIntent.setType("image/*");
+//                startActivityForResult(galleryIntent, gallery_pick);
+//            }
+//        });
 
 
     }

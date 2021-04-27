@@ -58,7 +58,9 @@ public class EditProfileDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
-        userProfileImageRef = FirebaseStorage.getInstance().getReference().child("profileImages");
+
+        //file structure would be currentUserId/
+        userProfileImageRef = FirebaseStorage.getInstance().getReference().child(currentUserId);
 
         UsersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
@@ -118,12 +120,43 @@ public class EditProfileDataActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK)
             {
                 Uri resultUri = result.getUri();
+                String extension = resultUri.toString().substring(resultUri.toString().lastIndexOf("."));
+                //TODO: add code to upload image to firebase, download image and set image attributes in real time data base
+                //upload profile picture
+                Log.d(TAG, resultUri.toString());
 
-                StorageReference filePath = userProfileImageRef.child(currentUserId + ".jpg");
+                StorageReference profilePic = userProfileImageRef.child("profile_image" + extension);
+                UploadTask uploadTask = profilePic.putFile(resultUri);
+                Log.d(TAG, "Image cropped and Uploading File Here");
 
-                Log.d(TAG, "Attempting to pick image");
+                uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            Log.d(TAG, "Uploading of Image was Successful");
+                            //get download url (nasty workaround)
+                            String downloadUrl = profilePic.getDownloadUrl().toString();
+                            Log.d(TAG, downloadUrl);
+                            //set database reference in real time data base
+                            UsersDatabaseReference.child("profileImage").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    //download and set profile picture
 
-                //TODO: add code to upload image to firebase here and set database reference image
+                                }
+                            });
+                        }
+                        else
+                        {
+                            Log.d(TAG, "Uploading of Image Failed: " + task.getException());
+                        }
+                    }
+                });
+
+
+
+
             }
             else {
                 Log.d(TAG, "Error. Image cannot be cropped.");

@@ -2,6 +2,7 @@ package ph.edu.dlsu.codehub.fragmentClasses;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ph.edu.dlsu.codehub.DeleteAndEditPostActivity;
+import ph.edu.dlsu.codehub.LoginActivity;
 import ph.edu.dlsu.codehub.Post;
 import ph.edu.dlsu.codehub.R;
+import ph.edu.dlsu.codehub.RegisterActivity;
 
 
 public class HomeFragment extends Fragment {
@@ -61,9 +65,15 @@ public class HomeFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull Post model) {
+                String pos = getRef(position).getKey();
                 holder.postDetails.setText(model.getFullName() + " | " + model.getDate() + " | " + model.getTime());
                 holder.postBody.setText(model.getBody());
                 holder.postTitle.setText(model.getTitle());
+                holder.itemView.setOnClickListener(view -> {
+                    Intent intent = new Intent(getActivity(), DeleteAndEditPostActivity.class);
+                    intent.putExtra("Position", pos);
+                    startActivity(intent);
+                });
             }
 
             @NonNull

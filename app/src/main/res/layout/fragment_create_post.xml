@@ -15,6 +15,7 @@
     </EditText>
 
     <EditText
+        android:layout_margin="15dp"
         android:id="@+id/input_post"
         android:layout_width="match_parent"
         android:layout_height="300dp"

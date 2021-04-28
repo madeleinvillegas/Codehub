@@ -61,7 +61,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
         currentUserId = mAuth.getCurrentUser().getUid();
 
         //file structure would be currentUserId/
-        userProfileImageRef = FirebaseStorage.getInstance().getReference().child(currentUserId);
+        userProfileImageRef = FirebaseStorage.getInstance().getReference().child(currentUserId.toString());
 
         UsersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
@@ -103,11 +103,18 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
     }
 
+    private void choose_image(){
+        Intent intent = new Intent();
+        intent.setType("image/");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivity(intent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == gallery_pick && resultCode == RESULT_OK && data != null)
+        if (requestCode == gallery_pick && resultCode == RESULT_OK && data.getData()  != null)
         {
             Uri ImageUri = data.getData();
             StorageReference profilePic = userProfileImageRef.child("profile_image" + ".jpg");

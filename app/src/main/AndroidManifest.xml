@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Codehub">
-        <activity android:name=".DeleteAndEditPostActivity"></activity>
+        <activity android:name=".ReportPostActivity"></activity>
+        <activity android:name=".EditPostActivity" />
+        <activity android:name=".ViewAPostAndDelete" />
         <activity android:name=".EditProfileDataActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

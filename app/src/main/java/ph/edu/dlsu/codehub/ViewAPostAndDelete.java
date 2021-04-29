@@ -1,14 +1,12 @@
 package ph.edu.dlsu.codehub;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,26 +21,30 @@ import java.util.Objects;
 
 import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
-public class DeleteAndEditPostActivity extends AppCompatActivity {
+public class ViewAPostAndDelete extends AppCompatActivity {
+    // TODO: Convert to a fragment
     private TextView editTitle, editBody;
-    private Button editBtn, deleteBtn;
-    private String pos, currentUserID, dbUserID, body, title;
-    private DatabaseReference postRef;
-    private FirebaseAuth mAuth;
+    private Button editBtn, deleteBtn, reportBtn;
+    private String currentUserID;
+    private String dbUserID;
+    private String body;
+    private String title;
+    public static DatabaseReference postRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delete_and_edit_post);
-        editTitle = findViewById(R.id.edit_title);
-        editBody = findViewById(R.id.edit_post);
+        setContentView(R.layout.activity_view_a_post_and_delete);
+        editTitle = findViewById(R.id.view_title);
+        editBody = findViewById(R.id.view_post);
         editBtn = findViewById(R.id.edit_post_btn);
         deleteBtn = findViewById(R.id.delete_post_btn);
+        reportBtn = findViewById(R.id.report_post_btn);
         editBtn.setVisibility(View.INVISIBLE);
         deleteBtn.setVisibility(View.INVISIBLE);
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        pos = getIntent().getExtras().get("Position").toString();
+        String pos = getIntent().getExtras().get("Position").toString();
         postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
         postRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -68,12 +70,17 @@ public class DeleteAndEditPostActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(view -> {
             postRef.removeValue();
             Toast.makeText(this, "Successfully deleted the post", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(DeleteAndEditPostActivity.this, ProfileTemplate.class);
+            Intent intent = new Intent(ViewAPostAndDelete.this, ProfileTemplate.class);
             startActivity(intent);
             finish();
         });
         editBtn.setOnClickListener(view -> {
-
+            Intent intent = new Intent(ViewAPostAndDelete.this, EditPostActivity.class);
+            startActivity(intent);
+        });
+        reportBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(ViewAPostAndDelete.this, ReportPostActivity.class);
+            startActivity(intent);
         });
     }
 }

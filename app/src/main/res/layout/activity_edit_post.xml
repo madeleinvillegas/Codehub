@@ -4,45 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <EditText
         android:layout_margin="15dp"
         android:id="@+id/edit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="@string/hint_title">
-    </TextView>
+        android:hint="Updated Title"
+        android:maxLength="30">
+    </EditText>
 
-    <TextView
+    <EditText
         android:layout_margin="15dp"
-        android:id="@+id/edit_post"
+        android:id="@+id/edit_post_body"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="top|left"
         android:layout_below="@+id/edit_title"
-        android:text="Write Post Here">
-    </TextView>
+        android:hint="Updated Post"
+        android:maxLength="63206">
+    </EditText>
 
     <Button
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/edit_post"
-        android:id="@+id/edit_post_btn"
-        android:text="Edit Post"/>
-    <Button
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/edit_post_btn"
-        android:id="@+id/delete_post_btn"
-        android:text="Delete Post"/>
+        android:layout_below="@+id/edit_post_body"
+        android:id="@+id/edit_the_post_btn"
+        android:text="Update/Edit Post"/>
+
 
 
 </RelativeLayout>

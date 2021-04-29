@@ -1,13 +1,11 @@
 package ph.edu.dlsu.codehub.fragmentClasses;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,12 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import ph.edu.dlsu.codehub.DeleteAndEditPostActivity;
-import ph.edu.dlsu.codehub.LoginActivity;
+import ph.edu.dlsu.codehub.ViewAPostAndDelete;
 import ph.edu.dlsu.codehub.Post;
 import ph.edu.dlsu.codehub.R;
-import ph.edu.dlsu.codehub.RegisterActivity;
 
 
 public class HomeFragment extends Fragment {
@@ -69,7 +64,7 @@ public class HomeFragment extends Fragment {
                 holder.postBody.setText(model.getBody());
                 holder.postTitle.setText(model.getTitle());
                 holder.itemView.setOnClickListener(view -> {
-                    Intent intent = new Intent(getActivity(), DeleteAndEditPostActivity.class);
+                    Intent intent = new Intent(getActivity(), ViewAPostAndDelete.class);
                     intent.putExtra("Position", pos);
                     startActivity(intent);
                 });

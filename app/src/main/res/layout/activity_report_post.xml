@@ -6,23 +6,11 @@
 
     <EditText
         android:layout_margin="15dp"
-        android:id="@+id/input_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:hint="@string/hint_title"
-        android:maxLength="30">
-    </EditText>
-
-    <EditText
-        android:layout_margin="15dp"
-        android:id="@+id/input_post"
+        android:id="@+id/report_reason"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="top|left"
-        android:layout_below="@+id/input_title"
-        android:hint="Write Post Here"
-        android:maxLength="63206">
+        android:hint="Write Reason Here...">
     </EditText>
 
     <Button
@@ -32,9 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/input_post"
-        android:id="@+id/post_btn"
-        android:text="Create Post"/>
+        android:layout_below="@+id/report_reason"
+        android:id="@+id/report_this_post_btn"
+        android:text="Report Post"/>
 
 
 </RelativeLayout>

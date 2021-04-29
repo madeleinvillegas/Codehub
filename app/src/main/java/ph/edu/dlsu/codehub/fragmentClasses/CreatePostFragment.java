@@ -36,14 +36,14 @@ public class CreatePostFragment extends Fragment {
     private EditText title, post;
     private DatabaseReference postsRef, userRef;
     private String currentUserID, post_title, post_body;
-    private FirebaseAuth mAuth;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View views = inflater.inflate(R.layout.fragment_create_post,container,false);
         title = views.findViewById(R.id.input_title);
         post = views.findViewById(R.id.input_post);
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         postsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
         userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
@@ -86,7 +86,7 @@ public class CreatePostFragment extends Fragment {
                     postsMap.put("time", currentTime);
                     postsMap.put("title", post_title);
                     postsMap.put("body", post_body);
-                    postsMap.put("profileimage", userProfileImage);
+                    postsMap.put("profilePic", userProfileImage); // No need na based on figma, let me know if this is a keep
                     postsMap.put("fullname", userFullName);
 
                     postsRef.child(currentUserID + " " + timestamp).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {
@@ -103,14 +103,10 @@ public class CreatePostFragment extends Fragment {
                         }
                     });
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
-
         });
     }
 }

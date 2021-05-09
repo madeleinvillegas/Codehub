@@ -76,6 +76,7 @@ public class SearchActivity extends AppCompatActivity{
             @Override
             public boolean onQueryTextSubmit(String s) {
                 inputString = s;
+                searchPeopleWithFriends(inputString);
                 return true;
             }
 
@@ -105,6 +106,8 @@ public class SearchActivity extends AppCompatActivity{
         }
 
         public void setProfilePicture(String profilePicture) {
+
+            //TODO: Read https://stackoverflow.com/questions/36045522/android-picasso-image-does-not-load
             Picasso.get().load(R.drawable.ic_baseline_person_24).into(profilePic);
             //need to make sure argument is not a null pointer
 //            Picasso.get().load(profilePicture).placeholder.into(profilePic);
@@ -120,6 +123,8 @@ public class SearchActivity extends AppCompatActivity{
     }
 
     private void searchPeopleWithFriends(String query) {
+        //TODO: make searching case sensitive and fix image of results
+        //TODO: make results onclickable
         //should display a list of all users since the order has been omitted
         Query searchPeopleWithFriendsQuery = usersDatabaseReference.orderByChild("fullName").startAt(query).endAt(query + "\uf8ff");
 

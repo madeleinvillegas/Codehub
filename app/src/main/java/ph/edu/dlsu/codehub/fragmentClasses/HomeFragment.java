@@ -29,6 +29,7 @@ import org.w3c.dom.Text;
 
 import java.util.Objects;
 
+import ph.edu.dlsu.codehub.CommentActivity;
 import ph.edu.dlsu.codehub.ViewAPostAndDelete;
 import ph.edu.dlsu.codehub.Post;
 import ph.edu.dlsu.codehub.R;
@@ -44,7 +45,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
-
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
         postList = view.findViewById(R.id.recyclerView);
@@ -81,6 +81,13 @@ public class HomeFragment extends Fragment {
                     startActivity(intent);
                 });
                 holder.setLikeBtnColor(pos);
+
+                holder.commentBtn.setOnClickListener(view -> {
+                    Intent intent = new Intent(getActivity(), CommentActivity.class);
+                    startActivity(intent);
+                });
+
+
                 holder.likeBtn.setOnClickListener(view -> {
                     isLiked = true;
                     likesRef.addValueEventListener(new ValueEventListener() {

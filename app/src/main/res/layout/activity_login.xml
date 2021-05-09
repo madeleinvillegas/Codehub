@@ -24,8 +24,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:textColor="@color/black"
-        android:text="Login">
-    </TextView>
+        android:text="Login" />
 
     <EditText
         android:id="@+id/login_email"

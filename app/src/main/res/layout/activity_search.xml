@@ -55,7 +55,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/recyclerView">
+                android:id="@+id/recyclerView"
+                android:background="@color/white">
 
 
             </androidx.recyclerview.widget.RecyclerView>
@@ -79,31 +80,31 @@
                 android:background="@color/white"
                 >
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/gray" />
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:background="@color/gray" />-->
 
-                <androidx.appcompat.widget.Toolbar
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/toolbar_bottom"
-                    >
+<!--                <androidx.appcompat.widget.Toolbar-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/toolbar_bottom"-->
+<!--                    >-->
 
-                    <!--            android:background="@color/white"-->
-                    <com.google.android.material.tabs.TabLayout
+<!--                    &lt;!&ndash;            android:background="@color/white"&ndash;&gt;-->
+<!--                    <com.google.android.material.tabs.TabLayout-->
 
-                        android:id="@+id/tabs"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
-                        <!--Attribute to change the background color of App bar:
-                        android:background="@color/teal_700"-->
-                    </com.google.android.material.tabs.TabLayout>
+<!--                        android:id="@+id/tabs"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        >-->
+<!--                        &lt;!&ndash;Attribute to change the background color of App bar:-->
+<!--                        android:background="@color/teal_700"&ndash;&gt;-->
+<!--                    </com.google.android.material.tabs.TabLayout>-->
 
 
 
-                </androidx.appcompat.widget.Toolbar>
+<!--                </androidx.appcompat.widget.Toolbar>-->
 
             </com.google.android.material.appbar.AppBarLayout>
 

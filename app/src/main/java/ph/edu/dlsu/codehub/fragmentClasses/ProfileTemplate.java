@@ -1,15 +1,20 @@
 package ph.edu.dlsu.codehub.fragmentClasses;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.widget.SearchView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Bundle;
-import android.view.Menu;
-
 import com.google.android.material.tabs.TabLayout;
 
 import ph.edu.dlsu.codehub.R;
+import ph.edu.dlsu.codehub.SearchActivity;
 import ph.edu.dlsu.codehub.SectionsPagerAdapter;
 
 public class ProfileTemplate extends AppCompatActivity {
@@ -29,7 +34,7 @@ public class ProfileTemplate extends AppCompatActivity {
 
         //set content container
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = findViewById(R.id.container); //not yet made
+        mViewPager = findViewById(R.id.profile_container); //not yet made
         setupViewPager(mViewPager);
 
 
@@ -55,6 +60,24 @@ public class ProfileTemplate extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.top_bar, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("stringQuery", s);
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
         return true;
     }
 

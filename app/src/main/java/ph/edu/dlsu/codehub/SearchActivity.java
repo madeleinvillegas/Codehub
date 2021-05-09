@@ -31,7 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchActivity extends AppCompatActivity{
 
-    //Note: I used activity since it is nearly impossible to convert this into a fragment (a hassle)
+    //Note: I used activity since it is hard  to convert this into a fragment (a hassle)
     private Intent intent;
     private String inputString;
     private RecyclerView searchResults;
@@ -90,40 +90,56 @@ public class SearchActivity extends AppCompatActivity{
 
     public static class FindFriendsViewHolder extends RecyclerView.ViewHolder{
         View mView;
+        CircleImageView profilePic;
+        TextView name, status;
+
         public FindFriendsViewHolder(View itemView)
         {
             super(itemView);
+
+            mView = itemView;
+            name = (TextView) mView.findViewById(R.id.user_display_profile_name);
+            profilePic = (CircleImageView) mView.findViewById(R.id.user_display_profile_image);
+            status = (TextView) mView.findViewById(R.id.user_display_user_status);
             this.mView = itemView;
         }
 
         public void setProfilePicture(String profilePicture) {
-            CircleImageView myImage = (CircleImageView) mView.findViewById(R.id.profile_image);
-            Picasso.get().load(profilePicture).placeholder(R.drawable.ic_baseline_person_24).into(myImage);
+            Picasso.get().load(R.drawable.ic_baseline_person_24).into(profilePic);
+            //need to make sure argument is not a null pointer
+//            Picasso.get().load(profilePicture).placeholder(R.drawable.ic_baseline_person_24).into(profilePic);
         }
 
         public void setName(String fullName) {
-            TextView myName = (TextView) mView.findViewById(R.id.profile_name);
-            myName.setText(fullName);
+            name.setText(fullName);
+        }
+
+        public void setStatus(String statusText) {
+            status.setText(statusText);
         }
     }
 
     private void searchPeopleWithFriends(String query) {
-        Query searchPeopleWithFriendsQuery = usersDatabaseReference.orderByChild("firstName").startAt(query).endAt(query +"\uf8ff");
+        //should display a list of all users since the order has been omitted
+        Query searchPeopleWithFriendsQuery = usersDatabaseReference.orderByChild("fullName").startAt(query).endAt(query + "\uf8ff");
+
+
 
         FirebaseRecyclerOptions<User> options =
                 new FirebaseRecyclerOptions.Builder<User>()
-                        .setQuery(searchPeopleWithFriendsQuery, User.class)
+                        .setQuery(usersDatabaseReference, User.class)
                         .build();
 
         FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<User, FindFriendsViewHolder>(options) {
+
             @Override
             protected void onBindViewHolder(@NonNull @NotNull FindFriendsViewHolder holder, int position, @NonNull @NotNull User model) {
-                String name = model.getFirstName() + " "+ model.getLastName();
+                String name = model.getFullName();
                 holder.setName(name);
                 holder.setProfilePicture(model.getProfilePicture());
 
-                Log.d("Name: ", name);
-                Log.d("Profile Picture: ", model.getProfilePicture());
+                Log.d("Debug Name: ", name);
+                Log.d("Debug Profile Picture: ", model.getProfilePicture());
 
 
             }
@@ -138,5 +154,6 @@ public class SearchActivity extends AppCompatActivity{
 
         };
         searchResults.setAdapter(adapter);
+        adapter.startListening();
     }
 }

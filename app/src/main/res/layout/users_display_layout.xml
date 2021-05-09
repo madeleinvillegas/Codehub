@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:background="@color/cardview_dark_background"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/bottom_line_border_posts">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="85dp"
         android:layout_height="85dp"
-        android:id="@+id/profile_image"
-        android:layout_marginStart="10dp"
-        android:src="@drawable/ic_baseline_person_24"/>
+        android:id="@+id/user_display_profile_image"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/ic_baseline_person_24"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/cardview_dark_background"        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,22 +23,22 @@
         android:layout_margin="5dp">
 
         <TextView
-            android:id="@+id/profile_name"
+            android:id="@+id/user_display_profile_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="User Full Name"
             android:textAlignment="textStart"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="@dimen/subheading"/>
 
         <TextView
-            android:id="@+id/user_status"
+            android:id="@+id/user_display_user_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="User Status"
             android:textAlignment="textStart"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="@dimen/sub_body"/>
 
     </LinearLayout>

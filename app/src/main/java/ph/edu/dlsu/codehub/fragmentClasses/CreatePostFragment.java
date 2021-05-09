@@ -22,8 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -76,8 +74,7 @@ public class CreatePostFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    String userFullName = dataSnapshot.child("firstName").getValue().toString()
-                            + " " + dataSnapshot.child("lastName").getValue().toString();
+                    String userFullName = dataSnapshot.child("fullName").toString();
                     String userProfileImage = dataSnapshot.child("profilePicture").getValue().toString();
 
                     HashMap postsMap = new HashMap();
@@ -87,7 +84,7 @@ public class CreatePostFragment extends Fragment {
                     postsMap.put("title", post_title);
                     postsMap.put("body", post_body);
                     postsMap.put("profilePic", userProfileImage); // No need na based on figma, let me know if this is a keep
-                    postsMap.put("fullname", userFullName);
+                    postsMap.put("fullName", userFullName);
 
                     postsRef.child(currentUserID + " " + timestamp).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override

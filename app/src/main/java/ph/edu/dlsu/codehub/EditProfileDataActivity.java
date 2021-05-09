@@ -43,6 +43,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private DatabaseReference UsersDatabaseReference;
     private String currentUserId;
 
+    private String picType;
     private final static int gallery_pick = 1;
 
 //    private ProgressBar progressBar;
@@ -83,6 +84,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
+                picType = "profile_image";
                 startActivityForResult(galleryIntent, gallery_pick);
             }
         });
@@ -92,6 +94,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
+                picType = "background_image";
                 startActivityForResult(galleryIntent, gallery_pick);
             }
         });
@@ -113,7 +116,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
         if (requestCode == gallery_pick && resultCode == RESULT_OK && data.getData()  != null)
         {
             Uri ImageUri = data.getData();
-            StorageReference profilePic = userProfileImageRef.child("profile_image" + ".jpg");
+            StorageReference profilePic = userProfileImageRef.child(picType + ImageUri.toString().substring(ImageUri.toString().lastIndexOf(".")));
             profilePic.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -185,7 +188,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private void saveAccountInformation(){
         Log.d(TAG, "Calling Save Account Information");
 
-        String profilePictureText, backgroundPictureText, fullNameText, currentUserNameText, currentAddressText, currentOccupationText;
+        String fullNameText, currentUserNameText, currentAddressText, currentOccupationText;
 
         //assumption is that every field is mandatory
 
@@ -230,8 +233,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
             userMap.put("fullName", fullNameText);
             userMap.put("address", currentAddressText);
             userMap.put("occupation", currentOccupationText);
-            userMap.put("profilePicture", "");
-            userMap.put("backgroundImage", "");
+
 
 
             //I noticed that theis doesn't check if there are duplicates

@@ -3,28 +3,18 @@ package ph.edu.dlsu.codehub;
 public class User {
     public String address;
     public String backgroundImage;
-    public String firstName;
-    public String lastName;
+    public String fullName;
     public String occupation;
     public String profilePicture;
     public String username;
+    public String status;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String name;
-
-    public User()
-    {
-
-    }
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getBackgroundImage() {
@@ -35,20 +25,12 @@ public class User {
         this.backgroundImage = backgroundImage;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getOccupation() {
@@ -75,7 +57,11 @@ public class User {
         this.username = username;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

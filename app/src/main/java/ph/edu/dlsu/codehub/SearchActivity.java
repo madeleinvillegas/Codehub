@@ -107,7 +107,7 @@ public class SearchActivity extends AppCompatActivity{
         public void setProfilePicture(String profilePicture) {
             Picasso.get().load(R.drawable.ic_baseline_person_24).into(profilePic);
             //need to make sure argument is not a null pointer
-//            Picasso.get().load(profilePicture).placeholder(R.drawable.ic_baseline_person_24).into(profilePic);
+//            Picasso.get().load(profilePicture).placeholder.into(profilePic);
         }
 
         public void setName(String fullName) {
@@ -124,10 +124,9 @@ public class SearchActivity extends AppCompatActivity{
         Query searchPeopleWithFriendsQuery = usersDatabaseReference.orderByChild("fullName").startAt(query).endAt(query + "\uf8ff");
 
 
-
         FirebaseRecyclerOptions<User> options =
                 new FirebaseRecyclerOptions.Builder<User>()
-                        .setQuery(usersDatabaseReference, User.class)
+                        .setQuery(searchPeopleWithFriendsQuery, User.class)
                         .build();
 
         FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<User, FindFriendsViewHolder>(options) {

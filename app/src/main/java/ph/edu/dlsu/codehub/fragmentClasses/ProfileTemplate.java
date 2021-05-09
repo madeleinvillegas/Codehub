@@ -24,17 +24,17 @@ public class ProfileTemplate extends AppCompatActivity {
 
 
         //top banner
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.top_banner);
+        Toolbar myToolbar = findViewById(R.id.top_banner);
         setSupportActionBar(myToolbar);
 
         //set content container
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container); //not yet made
+        mViewPager = findViewById(R.id.container); //not yet made
         setupViewPager(mViewPager);
 
 
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);//not yet referenced
+        TabLayout tabLayout = findViewById(R.id.tabs);//not yet referenced
         tabLayout.setupWithViewPager(mViewPager);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_black_24dp);

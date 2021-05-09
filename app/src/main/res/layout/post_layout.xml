@@ -9,8 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_margin="10dp"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,9 +41,9 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-            <!--TODO: Replace button with warning button (see Figma)-->
+            <!--TODO: Replace button with triple dots, option for edit, delete, and report-->
             <Button
-                android:id="@+id/report_post"
+                android:id="@+id/triple_dots"
                 android:layout_width="33dp"
                 android:layout_height="50dp"
                 android:layout_gravity="right" />
@@ -59,6 +58,18 @@
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <!--            TODO: Add like button-->
+
+
+            <!--            TODO: Add comment button-->
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

@@ -8,12 +8,15 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Codehub">
-        <activity android:name=".ReportPostActivity"></activity>
+        <activity android:name=".CommentActivity" />
+        <activity android:name=".ReportPostActivity" />
         <activity android:name=".EditPostActivity" />
         <activity android:name=".ViewAPostAndDelete" />
         <activity android:name=".EditProfileDataActivity">

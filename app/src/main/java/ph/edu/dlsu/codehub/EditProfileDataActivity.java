@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
@@ -37,7 +34,7 @@ import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
 public class EditProfileDataActivity extends AppCompatActivity {
     private TextView editProfilePicture, editBackgroundPicture;
-    private EditText firstName, lastName, currentUserName, currentAddress, currentOccupation;
+    private EditText fullName, currentUserName, currentAddress, currentOccupation;
     private Button saveChanges;
     private ImageView currentBackgroundPicture;
     private CircleImageView currentProfilePicture;
@@ -46,6 +43,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private DatabaseReference UsersDatabaseReference;
     private String currentUserId;
 
+    private String picType;
     private final static int gallery_pick = 1;
 
 //    private ProgressBar progressBar;
@@ -67,15 +65,14 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         //ID references
         editProfilePicture = (TextView) findViewById(R.id.edit_profile_picture);
-//        editBackgroundPicture = (TextView) findViewById(R.id.edit_background_image);
-        firstName = (EditText) findViewById(R.id.first_name);
-        lastName = (EditText) findViewById(R.id.last_name);
+        editBackgroundPicture = (TextView) findViewById(R.id.edit_background_image);
+        fullName = (EditText) findViewById(R.id.full_name);
         currentUserName = (EditText) findViewById(R.id.current_user_name);
         currentAddress = (EditText) findViewById(R.id.current_address);
         currentOccupation = (EditText) findViewById(R.id.current_occupation);
         saveChanges = findViewById(R.id.save_changes_button);
         currentProfilePicture = (CircleImageView) findViewById(R.id.profile_picture) ;
-//        currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
+        currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
 
         saveChanges.setOnClickListener(view -> {
             saveAccountInformation();
@@ -87,18 +84,20 @@ public class EditProfileDataActivity extends AppCompatActivity {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
+                picType = "profile_image";
                 startActivityForResult(galleryIntent, gallery_pick);
             }
         });
-//        editBackgroundPicture.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent galleryIntent = new Intent();
-//                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-//                galleryIntent.setType("image/*");
-//                startActivityForResult(galleryIntent, gallery_pick);
-//            }
-//        });
+        editBackgroundPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                picType = "background_image";
+                startActivityForResult(galleryIntent, gallery_pick);
+            }
+        });
 
 
     }
@@ -117,7 +116,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
         if (requestCode == gallery_pick && resultCode == RESULT_OK && data.getData()  != null)
         {
             Uri ImageUri = data.getData();
-            StorageReference profilePic = userProfileImageRef.child("profile_image" + ".jpg");
+            StorageReference profilePic = userProfileImageRef.child(picType + ImageUri.toString().substring(ImageUri.toString().lastIndexOf(".")));
             profilePic.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -189,7 +188,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private void saveAccountInformation(){
         Log.d(TAG, "Calling Save Account Information");
 
-        String profilePictureText, backgroundPictureText, firstNameText, lastNameText, currentUserNameText, currentAddressText, currentOccupationText;
+        String fullNameText, currentUserNameText, currentAddressText, currentOccupationText;
 
         //assumption is that every field is mandatory
 
@@ -198,15 +197,14 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
 
         //non picture related stuff here
-        firstNameText = firstName.getText().toString();
-        lastNameText = lastName.getText().toString();
+        fullNameText = fullName.getText().toString();
         currentUserNameText = currentUserName.getText().toString();
         currentAddressText = currentAddress.getText().toString();
         currentOccupationText = currentOccupation.getText().toString();
 
-        if(TextUtils.isEmpty(firstNameText) || TextUtils.isEmpty(lastNameText))
+        if(TextUtils.isEmpty(fullNameText))
         {
-            Log.d(TAG, "Empty first name or last name");
+            Log.d(TAG, "Empty Name");
             Toast.makeText(this, "Please Input Your Name", Toast.LENGTH_SHORT);
         }
         else if(TextUtils.isEmpty(currentUserNameText))
@@ -232,12 +230,10 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
             HashMap userMap = new HashMap();
             userMap.put("username", currentUserNameText);
-            userMap.put("firstName", firstNameText);
-            userMap.put("lastName", lastNameText);
+            userMap.put("fullName", fullNameText);
             userMap.put("address", currentAddressText);
             userMap.put("occupation", currentOccupationText);
-            userMap.put("profilePicture", "");
-            userMap.put("backgroundImage", "");
+
 
 
             //I noticed that theis doesn't check if there are duplicates

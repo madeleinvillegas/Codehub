@@ -17,6 +17,20 @@
     >
 
 
+    <EditText
+        android:id="@+id/current_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Enter Current Status"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/body"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentStatus_text" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_picture"
         android:layout_width="100dp"
@@ -34,39 +48,18 @@
         />
 
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Enter Name"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/body"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        tools:layout_editor_absoluteX="16dp" />
 
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-        <EditText
-            android:id="@+id/first_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Enter Name"
-            android:inputType="textPersonName"
-            android:textSize="@dimen/body" />
-
-        <EditText
-            android:id="@+id/last_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Enter Name"
-            android:inputType="textPersonName"
-            android:textSize="@dimen/body" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/current_address_label"
@@ -77,19 +70,6 @@
         android:layout_marginTop="588dp"
         android:layout_weight="1"
         android:text="Current Address"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sub_body"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/current_occupation_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginTop="656dp"
-        android:layout_weight="1"
-        android:text="Current Occupation"
         android:textColor="@color/black"
         android:textSize="@dimen/sub_body"
         app:layout_constraintStart_toStartOf="parent"
@@ -225,28 +205,18 @@
         app:layout_constraintTop_toBottomOf="@+id/information_text">
 
         <TextView
-            android:id="@+id/first_name_label"
+            android:id="@+id/full_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="1"
-            android:text="First Name"
+            android:text="Full Name"
             android:textColor="@color/black"
             android:textSize="@dimen/sub_body"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/last_name_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:text="Last Name"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sub_body"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -288,6 +258,18 @@
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/background_image_layout"
+        app:srcCompat="@drawable/background_image" />
+
+
     <EditText
         android:id="@+id/current_occupation"
         android:layout_width="match_parent"
@@ -298,14 +280,42 @@
         android:inputType="textPersonName"
         android:textSize="@dimen/body"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/current_occupation_label" />
+
+    <TextView
+        android:id="@+id/current_occupation_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="664dp"
+        android:layout_weight="1"
+        android:text="Current Occupation"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sub_body"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/currentStatus_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="740dp"
+        android:layout_weight="1"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sub_body"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/save_changes_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
         android:text="Save Changes"
         android:textSize="@dimen/body"
         app:layout_constraintBottom_toBottomOf="parent"

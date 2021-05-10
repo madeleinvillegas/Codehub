@@ -74,7 +74,7 @@ public class CreatePostFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    String userFullName = dataSnapshot.child("fullName").toString();
+                    String userFullName = dataSnapshot.child("fullName").getValue().toString();
                     String userProfileImage = dataSnapshot.child("profilePicture").getValue().toString();
 
                     HashMap postsMap = new HashMap();

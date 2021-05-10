@@ -32,12 +32,15 @@
 
 <!--    TODO: Felix, please fix this-->
     <ImageButton
+        android:id="@+id/post_comment_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/send_comment"
-        android:id="@+id/post_comment_btn"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:padding="15dp" />
+        android:padding="15dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/send_comment"
+        android:background="#0000"
+        />
 
 </RelativeLayout>

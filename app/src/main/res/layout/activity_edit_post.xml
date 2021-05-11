@@ -5,22 +5,29 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:id="@+id/edit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:padding="10dp"
         android:hint="Updated Title"
-        android:maxLength="30">
+        android:textSize="24sp"
+        android:fontFamily="@font/abhaya_libre_bold"
+        android:maxLength="50">
     </EditText>
 
     <EditText
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:id="@+id/edit_post_body"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="top|left"
+        android:padding="10dp"
         android:layout_below="@+id/edit_title"
+        android:textSize="18sp"
+        android:fontFamily="@font/abhaya_libre_regular"
+        android:background="@drawable/login_register_edittext_border"
         android:hint="Updated Post"
         android:maxLength="63206">
     </EditText>
@@ -29,12 +36,14 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/edit_post_body"
         android:id="@+id/edit_the_post_btn"
-        android:text="Update/Edit Post"/>
+        android:fontFamily="@font/abhaya_libre_semi_bold"
+        android:background="@drawable/login_register_rounded_corner_button"
+        android:text="Update Post"/>
 
 
 

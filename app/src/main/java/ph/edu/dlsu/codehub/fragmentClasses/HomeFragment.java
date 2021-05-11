@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
                 });
 
                 holder.optionsBtn.setOnClickListener(view -> {
-                    PostViewHolder.showMenu(view, pos);
+                    PostViewHolder.showMenu(view, pos, model.getTitle(), model.getBody());
                 });
 
                 holder.likeBtn.setOnClickListener(view -> {
@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment {
         }
 
 
-        public static void showMenu(@NonNull View itemView, String pos) {
+        public static void showMenu(@NonNull View itemView, String pos, String title, String body) {
             PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
             popupMenu.inflate(R.menu.triple_dots_menu);
             // TODO: Add edit and delete post stuff
@@ -181,6 +181,8 @@ public class HomeFragment extends Fragment {
                         case R.id.menu1:
                             Intent intent = new Intent(itemView.getContext(), EditPostActivity.class);
                             intent.putExtra("pos", pos);
+                            intent.putExtra("title", title);
+                            intent.putExtra("body", body);
                             itemView.getContext().startActivity(intent);
                             return true;
                         case R.id.menu2:

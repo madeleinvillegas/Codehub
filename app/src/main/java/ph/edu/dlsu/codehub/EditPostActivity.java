@@ -23,10 +23,14 @@ public class EditPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_post);
         String pos = getIntent().getExtras().get("pos").toString();
+        String title = getIntent().getExtras().get("title").toString();
+        String body = getIntent().getExtras().get("body").toString();
         DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
         Button editBtn = findViewById(R.id.edit_the_post_btn);
         updatedTitle = findViewById(R.id.edit_title);
         updatedBody = findViewById(R.id.edit_post_body);
+        updatedBody.setText(body);
+        updatedTitle.setText(title);
         editBtn.setOnClickListener(view -> {
             postRef.child("title").setValue(updatedTitle.getText().toString());
             postRef.child("body").setValue(updatedBody.getText().toString());

@@ -4,9 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root_layout">
-
+    <TextView
+        android:id="@+id/rep"
+        android:textSize="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:fontFamily="@font/abhaya_libre_bold"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:textColor="@color/black"
+        android:text="Report Post" />
     <EditText
+        android:layout_below="@+id/rep"
         android:layout_margin="15dp"
+        android:padding="10dp"
+        android:fontFamily="@font/abhaya_libre_regular"
+        android:background="@drawable/login_register_edittext_border"
         android:id="@+id/report_reason"
         android:layout_width="match_parent"
         android:layout_height="300dp"
@@ -18,11 +33,13 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/report_reason"
         android:id="@+id/report_this_post_btn"
+        android:fontFamily="@font/abhaya_libre_semi_bold"
+        android:background="@drawable/login_register_rounded_corner_button"
         android:text="Report Post"/>
 
 

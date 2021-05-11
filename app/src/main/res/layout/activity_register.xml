@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:textColor="@color/black"
+        android:fontFamily="@font/abhaya_libre_bold"
         android:text="Registration">
     </TextView>
 
@@ -31,9 +32,11 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:inputType="textEmailAddress"
+        android:fontFamily="@font/abhaya_libre_regular"
         android:layout_margin="10dp"
+        android:padding="10dp"
         android:background="@drawable/login_register_edittext_border"
-        android:hint="\t\tEmail address">
+        android:hint="Email address">
     </EditText>
 
 
@@ -42,8 +45,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="10dp"
+        android:padding="10dp"
+        android:fontFamily="@font/abhaya_libre_regular"
         android:background="@drawable/login_register_edittext_border"
-        android:hint="\t\tName">
+        android:hint="Name">
     </EditText>
 
     <EditText
@@ -52,8 +57,10 @@
         android:layout_height="50dp"
         android:inputType="textPassword"
         android:layout_margin="10dp"
+        android:padding="10dp"
+        android:fontFamily="@font/abhaya_libre_regular"
         android:background="@drawable/login_register_edittext_border"
-        android:hint="\t\tCreate Password">
+        android:hint="Create Password">
     </EditText>
 
 
@@ -64,6 +71,7 @@
         android:layout_width="150dp"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/abhaya_libre_semi_bold"
         android:background="@drawable/login_register_rounded_corner_button"
         android:text="Register">
     </Button>
@@ -83,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:textColor="@color/black"
+                android:fontFamily="@font/abhaya_libre_regular"
                 android:text="Already into Codehub?">
             </TextView>
 
@@ -94,6 +103,7 @@
                 android:layout_gravity="right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/abhaya_libre_medium"
                 android:textColor="@color/blue_link"
                 android:orientation="horizontal"
                 android:text="Login">

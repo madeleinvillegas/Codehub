@@ -22,7 +22,7 @@ import java.util.Objects;
 import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
 public class ViewAPostAndDelete extends AppCompatActivity {
-    // TODO: Convert to a fragment
+    // TODO: Delete when done with the triple dots
     private TextView editTitle, editBody;
     private Button editBtn, deleteBtn, reportBtn;
     private String currentUserID;

@@ -14,10 +14,12 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:src="@drawable/logo"
+        android:background="#0000"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:textSize="50sp"
+        android:fontFamily="@font/abhaya_libre_bold"
         android:layout_margin="10dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
@@ -29,25 +31,30 @@
     <EditText
         android:id="@+id/login_email"
         android:background="@drawable/login_register_edittext_border"
+        android:fontFamily="@font/abhaya_libre_regular"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:inputType="textEmailAddress"
         android:layout_margin="10dp"
-        android:hint="\t\tEmail address">
+        android:padding="10dp"
+        android:hint="Email address">
     </EditText>
 
 
     <EditText
         android:id="@+id/login_password"
         android:layout_margin="10dp"
+        android:fontFamily="@font/abhaya_libre_regular"
         android:background="@drawable/login_register_edittext_border"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:inputType="textPassword"
-        android:hint="\t\tCreate Password">
+        android:padding="10dp"
+        android:hint="Create Password">
     </EditText>
 
     <TextView
+        android:fontFamily="@font/abhaya_libre_medium"
         android:id="@+id/forgot_password"
         android:textSize="50px"
         android:layout_margin="10dp"
@@ -62,6 +69,7 @@
 
     <Button
         android:id="@+id/login_btn"
+        android:fontFamily="@font/abhaya_libre_semi_bold"
         android:layout_marginTop="10dp"
         android:textSize="50px"
         android:layout_gravity="center"
@@ -75,6 +83,7 @@
         android:id="@+id/register_here"
         android:layout_marginTop="5dp"
         android:textSize="50px"
+        android:fontFamily="@font/abhaya_libre_semi_bold"
         android:layout_gravity="center"
         android:layout_width="150dp"
         android:layout_height="wrap_content"

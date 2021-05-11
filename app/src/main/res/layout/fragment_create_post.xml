@@ -5,21 +5,27 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:id="@+id/input_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:padding="10dp"
         android:hint="@string/hint_title"
+        android:textSize="24sp"
+        android:fontFamily="@font/abhaya_libre_bold"
         android:maxLength="30">
     </EditText>
 
     <EditText
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
+        android:padding="10dp"
         android:id="@+id/input_post"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="top|left"
+        android:fontFamily="@font/abhaya_libre_regular"
+        android:background="@drawable/login_register_edittext_border"
         android:layout_below="@+id/input_title"
         android:hint="Write Post Here"
         android:maxLength="63206">
@@ -29,11 +35,13 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/input_post"
         android:id="@+id/post_btn"
+        android:fontFamily="@font/abhaya_libre_semi_bold"
+        android:background="@drawable/login_register_rounded_corner_button"
         android:text="Create Post"/>
 
 

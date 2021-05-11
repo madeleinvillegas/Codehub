@@ -1,5 +1,6 @@
                                                                                                                                                                                package ph.edu.dlsu.codehub;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,8 +33,13 @@ import java.util.HashMap;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
+//TODO: if user somehow skips this step, check if so
+
+//TODO: add progress bars
+
 public class EditProfileDataActivity extends AppCompatActivity {
     //TODO: Add button functionality to start this activity class
+
 
     private TextView editProfilePicture, editBackgroundPicture;
     private EditText fullName, currentUserName, currentAddress, currentOccupation;

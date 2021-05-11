@@ -143,7 +143,7 @@ public class SearchActivity extends AppCompatActivity{
                 holder.setProfilePicture(model.getProfilePicture());
 
                 Log.d("Debug Name: ", name);
-                Log.d("Debug Profile Picture: ", model.getProfilePicture());
+//                Log.d("Debug Profile Picture: ", model.getProfilePicture());
 
 
             }

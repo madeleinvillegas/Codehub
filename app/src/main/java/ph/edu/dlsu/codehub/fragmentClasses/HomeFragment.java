@@ -3,11 +3,16 @@ package ph.edu.dlsu.codehub.fragmentClasses;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +35,7 @@ import org.w3c.dom.Text;
 import java.util.Objects;
 
 import ph.edu.dlsu.codehub.CommentActivity;
+import ph.edu.dlsu.codehub.ReportPostActivity;
 import ph.edu.dlsu.codehub.ViewAPostAndDelete;
 import ph.edu.dlsu.codehub.Post;
 import ph.edu.dlsu.codehub.R;
@@ -72,21 +78,41 @@ public class HomeFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull Post model) {
                 String pos = getRef(position).getKey();
+                String arr[] = pos.split(" ");
+                String uidOfThePostAuthor = arr[0];
                 holder.postDetails.setText(model.getFullName() + " | " + model.getDate() + " | " + model.getTime());
                 holder.postBody.setText(model.getBody());
                 holder.postTitle.setText(model.getTitle());
-                holder.itemView.setOnClickListener(view -> {
-                    Intent intent = new Intent(getActivity(), ViewAPostAndDelete.class);
-                    intent.putExtra("Position", pos);
-                    startActivity(intent);
-                });
+//                holder.itemView.setOnClickListener(view -> {
+//                    Intent intent = new Intent(getActivity(), ViewAPostAndDelete.class);
+//                    intent.putExtra("Position", pos);
+//                    startActivity(intent);
+//                });
                 holder.setLikeBtnColor(pos);
+
+
+
+                if (uidOfThePostAuthor.equals(userId)) {
+                    holder.reportBtn.setVisibility(View.INVISIBLE);
+                    holder.optionsBtn.setVisibility(View.VISIBLE);
+                }
+                else {
+                    holder.optionsBtn.setVisibility(View.INVISIBLE);
+                    holder.reportBtn.setVisibility(View.VISIBLE);
+                }
 
                 holder.commentBtn.setOnClickListener(view -> {
                     Intent intent = new Intent(getActivity(), CommentActivity.class);
+                    intent.putExtra("Position", pos);
                     startActivity(intent);
                 });
 
+
+                holder.reportBtn.setOnClickListener(view -> {
+                    Intent intent = new Intent(getActivity(), ReportPostActivity.class);
+                    intent.putExtra("postId", pos);
+                    startActivity(intent);
+                });
 
                 holder.likeBtn.setOnClickListener(view -> {
                     isLiked = true;
@@ -128,11 +154,15 @@ public class HomeFragment extends Fragment {
 
     }
     public static class PostViewHolder extends RecyclerView.ViewHolder {
-        private ImageButton likeBtn, commentBtn;
+        private ImageButton likeBtn, commentBtn, optionsBtn, reportBtn;
         private TextView noOfLikes, postDetails, postBody, postTitle;
         private int numberOfLikes;
         private String userId;
         private DatabaseReference likesRef;
+        private String TAG = "DEBUGGING_TAG";
+
+
+
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             postDetails = itemView.findViewById(R.id.single_post_details);
@@ -140,11 +170,41 @@ public class HomeFragment extends Fragment {
             postTitle = itemView.findViewById(R.id.single_post_title);
             likeBtn = itemView.findViewById(R.id.like_btn);
             commentBtn = itemView.findViewById(R.id.comment_btn);
+            reportBtn = itemView.findViewById(R.id.report_btn);
             noOfLikes = itemView.findViewById(R.id.number_of_likes);
             likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
             userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+
+
+            optionsBtn = itemView.findViewById(R.id.options_btn);
+            optionsBtn.setOnClickListener(view -> {
+                showMenu(itemView);
+            });
         }
 
+        public void showMenu(@NonNull View itemView) {
+            PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
+            popupMenu.inflate(R.menu.triple_dots_menu);
+            // TODO: Add edit and delete post stuff
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menu1:
+                            Log.d(TAG, "onMenuItemClick: edit");
+                            return true;
+                        case R.id.menu2:
+                            Log.d(TAG, "onMenuItemClick: delete");
+//                            pos.removeValue();
+//                            Toast.makeText(this, "Successfully deleted the post", Toast.LENGTH_SHORT).show();
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+            });
+            popupMenu.show();
+        }
         public void setLikeBtnColor(String pos) {
             likesRef.addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")

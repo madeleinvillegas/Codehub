@@ -86,7 +86,7 @@ public class CreatePostFragment extends Fragment {
                     postsMap.put("profilePic", userProfileImage); // No need na based on figma, let me know if this is a keep
                     postsMap.put("fullName", userFullName);
 
-                    postsRef.child(currentUserID + " " + timestamp).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {
+                    postsRef.child(currentUserID).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()) {

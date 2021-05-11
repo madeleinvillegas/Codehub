@@ -48,17 +48,27 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-            <!--TODO: Replace button with triple dots, option for edit, delete, and report-->
+<!--             TODO: Remove space sa end of triple dots -->
             <ImageButton
-                android:id="@+id/triple_dots"
-                android:layout_width="61dp"
-                android:layout_height="22dp"
+                android:id="@+id/options_btn"
+                android:layout_width="22dp"
+                android:layout_height="49dp"
                 android:layout_gravity="right"
                 android:background="#0000"
                 android:scaleType="fitStart"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
                 android:src="@drawable/dots" />
+            <ImageButton
+                android:id="@+id/report_btn"
+                android:layout_width="22dp"
+                android:layout_height="49dp"
+                android:layout_gravity="right"
+                android:background="#0000"
+                android:scaleType="fitStart"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                android:src="@drawable/report" />
         </LinearLayout>
 
         <TextView
@@ -103,7 +113,7 @@
                 android:layout_height="50dp"
                 android:background="#0000"
                 android:scaleType="fitXY"
-                android:src="@drawable/comment" />
+                android:src="@drawable/logo" />
         </LinearLayout>
     </LinearLayout>
 

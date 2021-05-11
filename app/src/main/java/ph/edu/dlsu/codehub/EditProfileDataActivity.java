@@ -33,6 +33,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
 public class EditProfileDataActivity extends AppCompatActivity {
+    //TODO: Add button functionality to start this activity class
+
     private TextView editProfilePicture, editBackgroundPicture;
     private EditText fullName, currentUserName, currentAddress, currentOccupation;
     private Button saveChanges;
@@ -230,6 +232,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
             HashMap userMap = new HashMap();
             userMap.put("username", currentUserNameText);
+            userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
             userMap.put("fullName", fullNameText);
             userMap.put("address", currentAddressText);
             userMap.put("occupation", currentOccupationText);

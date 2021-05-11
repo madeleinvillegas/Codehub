@@ -124,9 +124,9 @@ public class SearchActivity extends AppCompatActivity{
 
     private void searchPeopleWithFriends(String query) {
         //TODO: make searching case sensitive and fix image of results
-        //TODO: make results onclickable
+        //TODO: make results onclickable (felix na)
         //should display a list of all users since the order has been omitted
-        Query searchPeopleWithFriendsQuery = usersDatabaseReference.orderByChild("fullName").startAt(query).endAt(query + "\uf8ff");
+        Query searchPeopleWithFriendsQuery = usersDatabaseReference.orderByChild("fullNameInLowerCase" ).startAt(query).endAt(query + "\uf8ff");
 
 
         FirebaseRecyclerOptions<User> options =

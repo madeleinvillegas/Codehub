@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="top|left"
+        android:textSize="18sp"
         android:fontFamily="@font/abhaya_libre_regular"
         android:background="@drawable/login_register_edittext_border"
         android:layout_below="@+id/input_title"

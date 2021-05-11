@@ -9,28 +9,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
 public class EditPostActivity extends AppCompatActivity {
 
-    // TODO: Convert to a fragment
+    // TODO: Convert to fragment
     private EditText updatedTitle, updatedBody;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_post);
-
+        String pos = getIntent().getExtras().get("pos").toString();
+        DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
         Button editBtn = findViewById(R.id.edit_the_post_btn);
         updatedTitle = findViewById(R.id.edit_title);
         updatedBody = findViewById(R.id.edit_post_body);
         editBtn.setOnClickListener(view -> {
-            ViewAPostAndDelete.postRef.child("title").setValue(updatedTitle.getText().toString());
-            ViewAPostAndDelete.postRef.child("body").setValue(updatedBody.getText().toString());
+            postRef.child("title").setValue(updatedTitle.getText().toString());
+            postRef.child("body").setValue(updatedBody.getText().toString());
             Toast.makeText(this, "Successfully edited the post", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(EditPostActivity.this, ProfileTemplate.class);
             startActivity(intent);
             finish();
         });
-
     }
 }

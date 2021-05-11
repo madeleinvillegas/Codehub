@@ -24,7 +24,6 @@
         </activity>
         <activity android:name=".ReportPostActivity" />
         <activity android:name=".EditPostActivity" />
-        <activity android:name=".ViewAPostAndDelete" />
         <activity android:name=".EditProfileDataActivity">
             <intent-filter>
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -34,13 +33,14 @@
         <activity android:name=".fragmentClasses.ProfileTemplate">
             <intent-filter>
 
-                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

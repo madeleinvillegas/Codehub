@@ -69,7 +69,7 @@ public class CreatePostFragment extends Fragment {
         String currentDate = currDate.format(calendar.getTime());
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currTime = new SimpleDateFormat("HH:mm");
         String currentTime = currTime.format(calendar.getTime());
-        String timestamp = currentDate + " " + currentTime;
+        String timestamp = " " + currentDate + " " + currentTime;
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -86,7 +86,7 @@ public class CreatePostFragment extends Fragment {
                     postsMap.put("profilePic", userProfileImage); // No need na based on figma, let me know if this is a keep
                     postsMap.put("fullName", userFullName);
 
-                    postsRef.child(currentUserID).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {
+                    postsRef.child(currentUserID + timestamp).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()) {

@@ -54,7 +54,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
-//    api 'com.theartofdev.edmodo:android-image-cropper:'
+    api 'com.theartofdev.edmodo:android-image-cropper:'
     // FirebaseUI for Firebase Realtime Database
     implementation 'com.firebaseui:firebase-ui-database:7.1.1'
 

@@ -141,7 +141,7 @@ public class SearchActivity extends AppCompatActivity{
                 String name = model.getFullName();
                 holder.setName(name);
                 holder.setProfilePicture(model.getProfilePicture());
-
+                holder.setStatus(model.getStatus());
                 Log.d("Debug Name: ", name);
 //                Log.d("Debug Profile Picture: ", model.getProfilePicture());
 

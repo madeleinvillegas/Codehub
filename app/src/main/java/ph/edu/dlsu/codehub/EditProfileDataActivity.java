@@ -1,4 +1,4 @@
-                                                                                                                                                                               package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -31,6 +31,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
 //TODO: if user somehow skips this step, check if so

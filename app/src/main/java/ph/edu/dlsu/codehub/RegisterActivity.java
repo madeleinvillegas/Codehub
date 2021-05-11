@@ -77,6 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                         userMap.put("fullName", name);
                         userMap.put("address", "");
                         userMap.put("occupation", "");
+
                         UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {

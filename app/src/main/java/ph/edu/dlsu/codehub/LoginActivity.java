@@ -64,8 +64,16 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
-                        startActivity(intent);
+                        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                        if (userId.equals("4RPCxj0Pe6ZEnNoPlRwYIU726pd2")) {
+                            Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
+                            startActivity(intent);
+                        }
+
                     }
                     else {
                         String message = Objects.requireNonNull(task.getException()).toString();
@@ -83,8 +91,14 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-            Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
-            startActivity(intent);
+            if (currentUser.getUid().equals("4RPCxj0Pe6ZEnNoPlRwYIU726pd2")) {
+                Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
+                startActivity(intent);
+            }
         }
     }
 }

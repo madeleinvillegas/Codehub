@@ -85,6 +85,7 @@ public class ReportPostActivity extends AppCompatActivity {
         postReported.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // This will not work properly
                 for (DataSnapshot child: snapshot.getChildren())
                 {
                     data.put(child.getKey(), child.getValue());
@@ -96,9 +97,11 @@ public class ReportPostActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "User Already Reported", Toast.LENGTH_LONG).show();
                 }
+                // Until here
                 else
                 {
-                    data.put(userId, reason);
+                    data.put("reporter", userId);
+                    data.put("reason", reason);
                     progressBar.setVisibility(View.VISIBLE);
 
                     postReported.updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {

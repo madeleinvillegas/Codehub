@@ -55,10 +55,12 @@ public class HomeFragment extends Fragment {
         postList = view.findViewById(R.id.recyclerView);
         postList.setHasFixedSize(true);
         likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         postList.setLayoutManager(linearLayoutManager);
+
         return view;
     }
 
@@ -78,6 +80,7 @@ public class HomeFragment extends Fragment {
                 String pos = getRef(position).getKey();
                 String[] arr = pos.split(" ");
                 String uidOfThePostAuthor = arr[0];
+
                 holder.postDetails.setText(model.getFullName() + " | " + model.getDate() + " | " + model.getTime());
                 holder.postBody.setText(model.getBody());
                 holder.postTitle.setText(model.getTitle());
@@ -109,7 +112,6 @@ public class HomeFragment extends Fragment {
                 });
 
                 holder.likeBtn.setOnClickListener(view -> {
-                    Log.d(TAG, "Position after clicking like: " + pos);
                     isLiked = true;
                     likesRef.addValueEventListener(new ValueEventListener() {
                         @Override

@@ -6,8 +6,10 @@
     tools:context=".CommentActivity">
     <TextView
         android:id="@+id/comment"
-        android:textSize="50sp"
-        android:layout_margin="10dp"
+        android:textSize="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:fontFamily="@font/abhaya_libre_bold"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CommentActivity" />
-        <activity android:name=".SearchActivity">
+        <activity android:name=".ViewProfileActivity" />
+        <activity android:name=".SearchActivity" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

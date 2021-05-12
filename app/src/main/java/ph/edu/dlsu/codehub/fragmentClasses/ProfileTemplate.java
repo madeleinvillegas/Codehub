@@ -1,5 +1,6 @@
 package ph.edu.dlsu.codehub.fragmentClasses;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +17,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import ph.edu.dlsu.codehub.CommentActivity;
 import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.SearchActivity;
 import ph.edu.dlsu.codehub.SectionsPagerAdapter;
+import ph.edu.dlsu.codehub.ViewProfileActivity;
 
 public class ProfileTemplate extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -84,16 +87,28 @@ public class ProfileTemplate extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+//        TextView displayTextView = (TextView) findViewById(R.id.displayText);
         switch (item.getItemId())
         {
             case R.id.action_favorite:
-                Log.d("TAG", "Person Icon was clicked");
+//                displayTextView.setText("Fav");
+                Intent intent = new Intent(getApplicationContext(), ViewProfileActivity.class);
+                startActivity(intent);
+
+                Log.d("enter function","entered function");
+
+
+
                 return true;
+//            case R.id.action_settings:
+//                displayTextView.setText("Settings");
+//                return true;
             default:
-                return false;
+                return super.onOptionsItemSelected(item);
         }
 
     }

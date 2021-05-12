@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +56,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private String picType;
     private final static int gallery_pick = 1;
 
-//    private ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     private StorageReference userProfileImageRef;
 
@@ -235,7 +236,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
         }
         else
         {
-//            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
 
             HashMap userMap = new HashMap();
             userMap.put("username", currentUserNameText);
@@ -258,7 +259,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
                         Log.d(TAG, "Data Change Successful");
 
                         Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
-//                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
 
                     }
                     else
@@ -267,7 +268,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
                         String errorMessage = task.getException().getMessage();
                         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
-//                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
 
 
                     }

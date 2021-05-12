@@ -4,8 +4,11 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -81,21 +84,17 @@ public class ProfileTemplate extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        TextView displayTextView = (TextView) findViewById(R.id.displayText);
-//        switch (item.getItemId())
-//        {
-//            case R.id.action_favorite:
-//                displayTextView.setText("Fav");
-//                return true;
-//            case R.id.action_settings:
-//                displayTextView.setText("Settings");
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.action_favorite:
+                Log.d("TAG", "Person Icon was clicked");
+                return true;
+            default:
+                return false;
+        }
+
+    }
 }

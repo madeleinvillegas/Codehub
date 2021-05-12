@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -36,7 +38,8 @@ import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
 //TODO: if user somehow skips this step, check if so
-
+//TODO: disable functionality while progress bar loads
+//TODO: if user skips this, make sure user is not yet registered
 //TODO: add progress bars
 
 public class EditProfileDataActivity extends AppCompatActivity {
@@ -44,7 +47,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
 
     private TextView editProfilePicture, editBackgroundPicture;
-    private EditText fullName, currentUserName, currentAddress, currentOccupation;
+    private EditText fullName, currentUserName, currentAddress, currentOccupation, status;
     private Button saveChanges;
     private ImageView currentBackgroundPicture;
     private CircleImageView currentProfilePicture;
@@ -57,7 +60,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private final static int gallery_pick = 1;
 
     private ProgressBar progressBar;
-
+    private RelativeLayout rootLayout;
     private StorageReference userProfileImageRef;
 
     private String TAG = "DEBUGGING_TAG";
@@ -70,10 +73,19 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         //file structure would be currentUserId/
         userProfileImageRef = FirebaseStorage.getInstance().getReference().child(currentUserId.toString());
-
         UsersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
+        rootLayout = (RelativeLayout) findViewById(R.id.root_layout);
+
+        progressBar = new ProgressBar(EditProfileDataActivity.this, null, android.R.attr.progressBarStyleLarge);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100, 100);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        rootLayout.addView(progressBar, params);
+        progressBar.setVisibility(View.GONE);
+
+
         //ID references
+        status = (EditText) findViewById(R.id.current_status);
         editProfilePicture = (TextView) findViewById(R.id.edit_profile_picture);
         editBackgroundPicture = (TextView) findViewById(R.id.edit_background_image);
         fullName = (EditText) findViewById(R.id.full_name);
@@ -112,16 +124,11 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
     }
 
-    private void choose_image(){
-        Intent intent = new Intent();
-        intent.setType("image/");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivity(intent);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        progressBar.setVisibility(View.VISIBLE);
 
         if (requestCode == gallery_pick && resultCode == RESULT_OK && data.getData()  != null)
         {
@@ -130,15 +137,24 @@ public class EditProfileDataActivity extends AppCompatActivity {
             profilePic.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "Upload completed");
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
+                public void onFailure(@NonNull Exception e)
+                {
+                    progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "Upload Failed");
                 }
-            });
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("Upload Speed", String.format("onProgress: %5.2f MB transferred",
+                            taskSnapshot.getBytesTransferred()/1024.0/1024.0));
+                }
+            });;
 
 //            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(this);
 
@@ -198,7 +214,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private void saveAccountInformation(){
         Log.d(TAG, "Calling Save Account Information");
 
-        String fullNameText, currentUserNameText, currentAddressText, currentOccupationText;
+        String fullNameText, currentUserNameText, currentAddressText, currentOccupationText, statusText;
 
         //assumption is that every field is mandatory
 
@@ -211,6 +227,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
         currentUserNameText = currentUserName.getText().toString();
         currentAddressText = currentAddress.getText().toString();
         currentOccupationText = currentOccupation.getText().toString();
+        statusText = status.getText().toString();
 
         if(TextUtils.isEmpty(fullNameText))
         {
@@ -234,6 +251,12 @@ public class EditProfileDataActivity extends AppCompatActivity {
             Log.d(TAG, "Empty Occupation");
             Toast.makeText(this, "Please Input Your Current Occupation", Toast.LENGTH_SHORT);
         }
+        else if (TextUtils.isEmpty(statusText))
+        {
+            Log.d(TAG, "Empty Status");
+            Toast.makeText(this, "Please Input Your Current Status", Toast.LENGTH_SHORT);
+
+        }
         else
         {
             progressBar.setVisibility(View.VISIBLE);
@@ -244,6 +267,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
             userMap.put("fullName", fullNameText);
             userMap.put("address", currentAddressText);
             userMap.put("occupation", currentOccupationText);
+            userMap.put("occupation", statusText);
 
 
 
@@ -285,7 +309,5 @@ public class EditProfileDataActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
-
-        //what does this function do exactly will google later
     }
 }

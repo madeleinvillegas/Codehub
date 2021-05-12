@@ -9,6 +9,16 @@ public class User {
     public String username;
     public String status;
 
+    public String getFullNameInLowerCase() {
+        return fullNameInLowerCase;
+    }
+
+    public void setFullNameInLowerCase(String fullNameInLowerCase) {
+        this.fullNameInLowerCase = fullNameInLowerCase;
+    }
+
+    public String fullNameInLowerCase;
+
     public String getAddress() {
         return address;
     }

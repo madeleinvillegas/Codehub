@@ -15,26 +15,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Codehub">
+        <activity android:name=".AdminActivity">
+            <intent-filter>
+<!--                <action android:name="android.intent.action.MAIN" />-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".CommentActivity" />
         <activity android:name=".ViewProfileActivity" />
         <activity android:name=".SearchActivity" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".ReportPostActivity" />
         <activity android:name=".EditPostActivity" />
         <activity android:name=".EditProfileDataActivity">
             <intent-filter>
-<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                 <action android:name="android.intent.action.MAIN" />-->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".fragmentClasses.ProfileTemplate">
             <intent-filter>
-
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -47,6 +51,8 @@
         </activity>
         <activity android:name=".RegisterActivity">
             <intent-filter>
+
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

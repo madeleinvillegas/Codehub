@@ -1,0 +1,16 @@
+General Notes:
+There are some activities you do not want to revert to
+Whenever you revert, there is a chance that you could revert to a previous user that just logged out
+Whenever you delete an account as admin, you
+
+Login/ Register:
+Even if you don't register, it automatically logs you in (maybe because of session cookies)
+- there's a chunk of code sa loginactivity that automatically logs you in but you should be registered
+Also by pressing back, you could go back to login page
+- yes kasi main yung login page
+Also input name sa registration doesn't put stuff sa firebase database
+- just added it
+
+Edit Profile:
+When back is pressed in this activity and you try logging in again, it would do "your account has not been created due to it being in use to another account or smth"
+

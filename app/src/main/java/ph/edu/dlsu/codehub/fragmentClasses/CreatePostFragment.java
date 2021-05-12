@@ -75,7 +75,7 @@ public class CreatePostFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     String userFullName = dataSnapshot.child("fullName").getValue().toString();
-                    String userProfileImage = dataSnapshot.child("profilePicture").getValue().toString();
+//                    String userProfileImage = dataSnapshot.child("profilePicture").getValue().toString();
 
                     HashMap postsMap = new HashMap();
                     postsMap.put("uid", currentUserID);
@@ -83,7 +83,7 @@ public class CreatePostFragment extends Fragment {
                     postsMap.put("time", currentTime);
                     postsMap.put("title", post_title);
                     postsMap.put("body", post_body);
-                    postsMap.put("profilePic", userProfileImage); // No need na based on figma, let me know if this is a keep
+//                    postsMap.put("profilePic", userProfileImage); // No need na based on figma, let me know if this is a keep
                     postsMap.put("fullName", userFullName);
 
                     postsRef.child(currentUserID + timestamp).updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener() {

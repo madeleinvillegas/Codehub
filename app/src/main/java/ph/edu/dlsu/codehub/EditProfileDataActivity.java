@@ -1,12 +1,15 @@
 package ph.edu.dlsu.codehub;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,6 +34,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -72,7 +76,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
         currentUserId = mAuth.getCurrentUser().getUid();
 
         //file structure would be currentUserId/
-        userProfileImageRef = FirebaseStorage.getInstance().getReference().child(currentUserId.toString());
+        userProfileImageRef = FirebaseStorage.getInstance().getReference();
         UsersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
         rootLayout = (RelativeLayout) findViewById(R.id.root_layout);
@@ -103,21 +107,15 @@ public class EditProfileDataActivity extends AppCompatActivity {
         editProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
                 picType = "profile_image";
-                startActivityForResult(galleryIntent, gallery_pick);
+                startActivityForResult(choose_image(), gallery_pick);
             }
         });
         editBackgroundPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
                 picType = "background_image";
-                startActivityForResult(galleryIntent, gallery_pick);
+                startActivityForResult(choose_image(), gallery_pick);
             }
         });
 
@@ -125,40 +123,76 @@ public class EditProfileDataActivity extends AppCompatActivity {
     }
 
 
+    private Intent choose_image()
+    {
+        Intent galleryIntent = new Intent();
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        return galleryIntent;
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        progressBar.setVisibility(View.VISIBLE);
 
         if (requestCode == gallery_pick && resultCode == RESULT_OK && data.getData()  != null)
         {
             Uri ImageUri = data.getData();
-            StorageReference profilePic = userProfileImageRef.child(picType + ImageUri.toString().substring(ImageUri.toString().lastIndexOf(".")));
-            profilePic.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressBar.setVisibility(View.GONE);
-                    Log.d(TAG, "Upload completed");
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e)
-                {
-                    progressBar.setVisibility(View.GONE);
-                    Log.d(TAG, "Upload Failed");
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("Upload Speed", String.format("onProgress: %5.2f MB transferred",
-                            taskSnapshot.getBytesTransferred()/1024.0/1024.0));
-                }
-            });;
+            if(picType.equals("background_image"))
+            {
+                currentBackgroundPicture.setImageURI(ImageUri);
+                currentBackgroundPicture.setTag(ImageUri);
+            }
+            else if(picType.equals("profile_image"))
+            {
+                currentProfilePicture.setImageURI(ImageUri);
+                currentProfilePicture.setTag(ImageUri);
+            }
+        }
+    }
+    private String getMimeType(Context context, Uri uri) {
+        String extension;
 
-//            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(this);
+        //Check uri format to avoid null
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            //If scheme is a content
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            extension = mime.getExtensionFromMimeType(context.getContentResolver().getType(uri));
+        } else {
+            //If scheme is a File
+            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
+            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
 
         }
+
+        return extension;
+    }
+    private String uploadImage(Uri ImageUri, String filename){
+        String extension = getMimeType(getApplicationContext(), ImageUri);
+        filename = filename + "." + extension;
+        StorageReference storageReference = userProfileImageRef.child(currentUserId + "/" + filename);
+
+        storageReference.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                progressBar.setVisibility(View.GONE);
+                Log.d(TAG, "Upload completed");
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                progressBar.setVisibility(View.GONE);
+                Log.d(TAG, "Upload Failed ");
+            }
+        });
+        Log.d(TAG, filename);
+        return storageReference.getDownloadUrl().toString();
+//            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(this);
+
 
 //        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
 //        {
@@ -211,18 +245,15 @@ public class EditProfileDataActivity extends AppCompatActivity {
 //        }
     }
 
+
+
     private void saveAccountInformation(){
-        Log.d(TAG, "Calling Save Account Information");
+//        Log.d(TAG, "Calling Save Account Information");
 
-        String fullNameText, currentUserNameText, currentAddressText, currentOccupationText, statusText;
+        String fullNameText, currentUserNameText,
+                currentAddressText, currentOccupationText,
+                statusText, profileImageUrl, backgroundImageUrl;
 
-        //assumption is that every field is mandatory
-
-        //picture related stuff here: (get the source of image)
-
-
-
-        //non picture related stuff here
         fullNameText = fullName.getText().toString();
         currentUserNameText = currentUserName.getText().toString();
         currentAddressText = currentAddress.getText().toString();
@@ -231,44 +262,52 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(fullNameText))
         {
-            Log.d(TAG, "Empty Name");
-            Toast.makeText(this, "Please Input Your Name", Toast.LENGTH_SHORT);
+//            Log.d(TAG, "Empty Name");
+            Toast.makeText(this, "Please Input Your Name", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(currentUserNameText))
         {
-            Log.d(TAG, "Empty username");
+//            Log.d(TAG, "Empty username");
 
-            Toast.makeText(this, "Please Input Current Username", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Please Input Current Username", Toast.LENGTH_SHORT).show();;
         }
         else if (TextUtils.isEmpty(currentAddressText))
         {
-            Log.d(TAG, "Empty Address");
+//            Log.d(TAG, "Empty Address");
 
-            Toast.makeText(this, "Please Input An Address", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Please Input An Address", Toast.LENGTH_SHORT).show();;
         }
         else if(TextUtils.isEmpty(currentOccupationText))
         {
-            Log.d(TAG, "Empty Occupation");
-            Toast.makeText(this, "Please Input Your Current Occupation", Toast.LENGTH_SHORT);
+//            Log.d(TAG, "Empty Occupation");
+            Toast.makeText(this, "Please Input Your Current Occupation", Toast.LENGTH_SHORT).show();;
         }
         else if (TextUtils.isEmpty(statusText))
         {
-            Log.d(TAG, "Empty Status");
-            Toast.makeText(this, "Please Input Your Current Status", Toast.LENGTH_SHORT);
+//            Log.d(TAG, "Empty Status");
+            Toast.makeText(this, "Please Input Your Current Status", Toast.LENGTH_SHORT).show();;
 
         }
-        else
+        else if (currentProfilePicture.getTag() == null || currentBackgroundPicture.getTag() == null)
         {
+//            Log.d(TAG, "User didn't choose an image for profile picture and background picture");
+            Toast.makeText(this, "Please choose an Image", Toast.LENGTH_SHORT).show();
+
+
+        } else {
             progressBar.setVisibility(View.VISIBLE);
 
+            profileImageUrl = uploadImage((Uri) currentProfilePicture.getTag(), "profile_image");
+            backgroundImageUrl = uploadImage((Uri) currentBackgroundPicture.getTag(), "background_image");
             HashMap userMap = new HashMap();
             userMap.put("username", currentUserNameText);
             userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
             userMap.put("fullName", fullNameText);
             userMap.put("address", currentAddressText);
             userMap.put("occupation", currentOccupationText);
-            userMap.put("occupation", statusText);
-
+            userMap.put("status", statusText);
+            userMap.put("profileImageLink", profileImageUrl);
+            userMap.put("backgroundImageLink", backgroundImageUrl);
 
 
             //I noticed that theis doesn't check if there are duplicates
@@ -277,18 +316,15 @@ public class EditProfileDataActivity extends AppCompatActivity {
             UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
-                    if (task.isSuccessful())
-                    {
+                    if (task.isSuccessful()) {
                         sendUserToHomePage();  // send user to main activity
-                        Log.d(TAG, "Data Change Successful");
+//                        Log.d(TAG, "Data Change Successful");
 
                         Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
                         progressBar.setVisibility(View.GONE);
 
-                    }
-                    else
-                    {
-                        Log.d(TAG, "Data Change Failed");
+                    } else {
+//                        Log.d(TAG, "Data Change Failed");
 
                         String errorMessage = task.getException().getMessage();
                         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
@@ -300,7 +336,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
             });
         }
 
-        Log.d(TAG, "Finished calling save account information");
+//        Log.d(TAG, "Finished calling save account information");
 
     }
 

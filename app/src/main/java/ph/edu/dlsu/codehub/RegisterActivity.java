@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,7 +14,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -64,9 +68,32 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
-                        Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterActivity.this, EditProfileDataActivity.class);
-                        startActivity(intent);
+                        String currentUserId = mAuth.getCurrentUser().getUid();
+                        DatabaseReference UsersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
+
+                        HashMap userMap = new HashMap();
+                        userMap.put("username", "");
+                        userMap.put("fullNameInLowerCase", name.toLowerCase());
+                        userMap.put("fullName", name);
+                        userMap.put("address", "");
+                        userMap.put("occupation", "");
+
+                        UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    String errorMessage = task.getException().getMessage();
+                                    Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                                }
+                            }
+                        });
+
+
                     }
                     else {
                         String message = Objects.requireNonNull(task.getException()).getMessage();

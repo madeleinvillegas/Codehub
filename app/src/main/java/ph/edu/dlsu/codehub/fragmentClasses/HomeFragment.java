@@ -98,6 +98,9 @@ public class HomeFragment extends Fragment {
                     startActivity(intent);
                 });
 
+
+
+
                 holder.reportBtn.setOnClickListener(view -> {
                     Intent intent = new Intent(getActivity(), ReportPostActivity.class);
                     intent.putExtra("postId", pos);

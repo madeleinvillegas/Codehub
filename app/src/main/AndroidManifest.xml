@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Codehub">
         <activity android:name=".CommentActivity" />
+        <activity android:name=".ViewProfileActivity" />
         <activity android:name=".SearchActivity" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

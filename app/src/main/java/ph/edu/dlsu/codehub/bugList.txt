@@ -14,3 +14,6 @@ Also input name sa registration doesn't put stuff sa firebase database
 Edit Profile:
 When back is pressed in this activity and you try logging in again, it would do "your account has not been created due to it being in use to another account or smth"
 
+Admin:
+Program crashes when deleting a post. Only the first delete works (either postRef or reportsRef)
+It has something to do with displaying the posts on recyclerview

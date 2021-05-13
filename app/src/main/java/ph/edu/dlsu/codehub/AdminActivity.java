@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Tag;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +38,6 @@ import static ph.edu.dlsu.codehub.R.layout.comment_layout;
 public class AdminActivity extends AppCompatActivity {
     private RecyclerView reportedPosts;
     private DatabaseReference userRef, postsRef, reportsRef;
-    private String userIdOfPoster, userIdOfReporter;
 
     String TAG = "DEBUGGING MESSAGE ";
     @Override
@@ -82,7 +82,7 @@ public class AdminActivity extends AppCompatActivity {
                                 snapshot.child(pos).child("date").getValue().toString() + " | " +
                                 snapshot.child(pos).child("time").getValue().toString();
                         Log.d(TAG, "Deets: " + deets);
-//                        holder.posterDetails.setText(deets);
+                        holder.posterDetails.setText(deets);
                     }
 
                     @Override
@@ -95,7 +95,8 @@ public class AdminActivity extends AppCompatActivity {
                 userRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        holder.reporterDetails.setText("Reported by: " + snapshot.child(model.getReporter()).child("fullName").getValue().toString());
+                        holder.reporterDetails.setText("Reported by: " +
+                                snapshot.child(model.getReporter()).child("fullName").getValue().toString());
                     }
 
                     @Override
@@ -107,7 +108,7 @@ public class AdminActivity extends AppCompatActivity {
 
 
                 holder.optionsBtn.setOnClickListener(view -> {
-                    Log.d(TAG, "Options btn was clicked" );
+                    ReportViewHolder.showMenu(view, pos);
                 });
             }
 
@@ -125,7 +126,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
 
-    public class ReportViewHolder extends RecyclerView.ViewHolder {
+    public static class ReportViewHolder extends RecyclerView.ViewHolder {
         private TextView postTitle, postBody, posterDetails, reporterDetails, reporterReason;
         private ImageButton optionsBtn;
         public ReportViewHolder(@NonNull @NotNull View itemView) {
@@ -137,5 +138,38 @@ public class AdminActivity extends AppCompatActivity {
             reporterReason = itemView.findViewById(R.id.reason_for_reporting);
             optionsBtn = itemView.findViewById(R.id.report_options_btn);
         }
+
+        public static void showMenu(@NonNull View itemView, String pos) {
+            String TAG = "Debugging message:";
+            PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
+            popupMenu.inflate(R.menu.admin_options_menu);
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.delete:
+                            // Only the first one works
+                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
+                            reportsRef.removeValue();
+                            Log.d(TAG, "pos: " + pos);
+                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
+                            postRef.removeValue();
+
+
+
+                            Toast.makeText(itemView.getContext(), "Successfully deleted the post", Toast.LENGTH_SHORT).show();
+                            return true;
+                        case R.id.keep:
+                            DatabaseReference reportRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
+                            reportRef.removeValue();
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+            });
+            popupMenu.show();
+        }
+
     }
 }

@@ -38,11 +38,13 @@ public class LoginActivity extends AppCompatActivity {
         registerHere.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
+            finish();
         });
 
         forgotPassword.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             startActivity(intent);
+            finish();
         });
         loginBtn.setOnClickListener(view -> {
             login();
@@ -67,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                         String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                        if (userId.equals("4RPCxj0Pe6ZEnNoPlRwYIU726pd2")) {
+                        if (userId.equals("the admin's user ID")) {
                             Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
                             startActivity(intent);
                         }

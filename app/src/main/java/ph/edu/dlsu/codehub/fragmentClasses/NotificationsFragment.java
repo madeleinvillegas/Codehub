@@ -42,6 +42,9 @@ import ph.edu.dlsu.codehub.User;
 // 3: You Followed Someone
 
 
+//TODO: Make Event Notifications On Clickable
+
+
 
 public class NotificationsFragment extends Fragment {
 

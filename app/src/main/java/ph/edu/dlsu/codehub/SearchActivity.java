@@ -23,6 +23,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.squareup.picasso.Picasso;
 //import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -106,6 +107,11 @@ public class SearchActivity extends AppCompatActivity{
         }
 
         public void setProfilePicture(String profilePicture) {
+            Picasso.get()
+                    .load(profilePicture)
+                    .placeholder(R.drawable.ic_baseline_event_seat_24)
+                    .into(profilePic);
+
 
             //TODO: Read https://stackoverflow.com/questions/36045522/android-picasso-image-does-not-load
 //            Picasso.get().load(R.drawable.ic_baseline_person_24).into(profilePic);

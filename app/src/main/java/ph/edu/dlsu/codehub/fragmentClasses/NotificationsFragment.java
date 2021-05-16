@@ -32,6 +32,8 @@ import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.User;
 //The function of this class is to read and display whatever notifications there are:
 
+//TODO: Read further https://stackoverflow.com/questions/24471109/recyclerview-onclick
+//TODO: Focus on the general functionalities
 
 
 //EVENT TYPES:
@@ -112,6 +114,19 @@ public class NotificationsFragment extends Fragment {
         public void setTimeStamp(String date, String time)
         {
             timeStamp.setText(date + " | " + time);
+        }
+
+
+        //method to make tab on clickable and redirect it depending on the notification code
+        public void redirect(int code)
+        {
+            switch(code)
+            {
+                case 1:
+                    break;
+                default:
+                    break;
+            }
         }
 
     }

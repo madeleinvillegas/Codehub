@@ -130,8 +130,18 @@ public class CommentActivity extends AppCompatActivity {
                                                 notification.setNotificationType(1);
                                                 notification.setTime(currentTime);
 
+                                                FirebaseDatabase.getInstance().getReference().child("Posts").child(pos).child("uid").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                                        String authorUID = Objects.requireNonNull(snapshot.getValue()).toString();
+                                                        notificationRef.child(authorUID).child(timestamp).setValue(notification);
+                                                    }
 
-                                                notificationRef.child(userId).child(timestamp).setValue(notification);
+                                                    @Override
+                                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                                    }
+                                                });
 
 
                                                 commentInput.setText("");

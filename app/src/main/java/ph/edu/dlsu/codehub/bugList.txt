@@ -1,3 +1,5 @@
+
+
 IMPORTANT:
 Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed.
 
@@ -5,7 +7,7 @@ General Notes:
 There are some activities you do not want to revert to
 Whenever you revert, there is a chance that you could revert to a previous user that just logged out
 Whenever you delete an account as admin, you
-
+Fuck code efficiency. Do this last after general functionalities have been achieved.
 
 
 Login/ Register:

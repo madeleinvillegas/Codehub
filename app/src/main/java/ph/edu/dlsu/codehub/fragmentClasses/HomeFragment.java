@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -127,7 +128,15 @@ public class HomeFragment extends Fragment {
                                 }
                                 // Post will be liked
                                 else {
-                                    likesRef.child(pos).child(userId).setValue(true);
+                                    likesRef.child(pos).child(userId).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            //put code to display on notification on like here
+                                            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+//                                            notificationRef.child(userId).child()
+
+                                        }
+                                    });
                                     // Stops the infinite loop
                                     isLiked = false;
                                 }
@@ -153,6 +162,8 @@ public class HomeFragment extends Fragment {
         firebaseRecyclerAdapter.startListening();
 
     }
+
+
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         private ImageButton likeBtn, commentBtn, optionsBtn, reportBtn;
         private TextView noOfLikes, postDetails, postBody, postTitle;

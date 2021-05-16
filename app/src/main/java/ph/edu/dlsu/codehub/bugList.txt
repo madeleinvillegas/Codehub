@@ -8,6 +8,8 @@ There are some activities you do not want to revert to
 Whenever you revert, there is a chance that you could revert to a previous user that just logged out
 Whenever you delete an account as admin, you
 Fuck code efficiency. Do this last after general functionalities have been achieved.
+Also, most of the stuff are hard coded. I suggest making it more dynamic for easier debugging.
+For Some Reason, profile image is not loading in picasso. Will fix soon.
 
 
 Login/ Register:

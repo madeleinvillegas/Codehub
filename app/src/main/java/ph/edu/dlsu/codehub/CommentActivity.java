@@ -127,7 +127,7 @@ public class CommentActivity extends AppCompatActivity {
                                                 notification.setImage(userRef.child(userId).child("profileImageLink").toString());
                                                 notification.setLinkUID(pos);
                                                 notification.setNotificationContent(notificationContent);
-                                                notification.setNotificationType(1);
+                                                notification.setNotificationType(0);
                                                 notification.setTime(currentTime);
 
                                                 FirebaseDatabase.getInstance().getReference().child("Posts").child(pos).child("uid").addListenerForSingleValueEvent(new ValueEventListener() {

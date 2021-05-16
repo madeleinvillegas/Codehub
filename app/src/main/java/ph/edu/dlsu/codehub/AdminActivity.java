@@ -148,11 +148,8 @@ public class AdminActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.delete:
-                            // Only the first one works
-                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
+                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);                    DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
                             reportsRef.removeValue();
-                            Log.d(TAG, "pos: " + pos);
-                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
                             postRef.removeValue();
 
 

@@ -1,6 +1,7 @@
 package ph.edu.dlsu.codehub.fragmentClasses;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,10 +32,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Objects;
 
 import ph.edu.dlsu.codehub.CommentActivity;
 import ph.edu.dlsu.codehub.EditPostActivity;
+import ph.edu.dlsu.codehub.Notifications;
 import ph.edu.dlsu.codehub.ReportPostActivity;
 import ph.edu.dlsu.codehub.Post;
 import ph.edu.dlsu.codehub.R;
@@ -46,7 +50,7 @@ public class HomeFragment extends Fragment {
     private Boolean isLiked = false;
     private String userId;
     private String TAG = "DEBUGGING_TAG";
-
+    private String uidOfThePostAuthor;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,7 +84,7 @@ public class HomeFragment extends Fragment {
             protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull Post model) {
                 String pos = getRef(position).getKey();
                 String[] arr = pos.split(" ");
-                String uidOfThePostAuthor = arr[0];
+                uidOfThePostAuthor = arr[0];
 
                 holder.postDetails.setText(model.getFullName() + " | " + model.getDate() + " | " + model.getTime());
                 holder.postBody.setText(model.getBody());
@@ -132,9 +136,7 @@ public class HomeFragment extends Fragment {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             //put code to display on notification on like here
-                                            DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
-//                                            notificationRef.child(userId).child()
-
+                                            putLikeNotification(pos);
                                         }
                                     });
                                     // Stops the infinite loop
@@ -163,7 +165,45 @@ public class HomeFragment extends Fragment {
 
     }
 
+    public void putLikeNotification(String postID)
+    {
+        DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
+
+        //Format: "AUTHOR | PERSON WHO LIKED"
+        String NotificationID =uidOfThePostAuthor + " | " + userId;
+
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currTime = new SimpleDateFormat("HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currDate = new SimpleDateFormat("dd MMMM yyyy");
+        String currentTime = currTime.format(calendar.getTime());
+        String currentDate = currDate.format(calendar.getTime());
+
+
+        Notifications notification = new Notifications();
+        notification.setCreationDate(currentDate);
+        notification.setImage(FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("profileImageLink").toString());
+        notification.setLinkUID(postID);
+        notification.setNotificationType(0);
+        notification.setTime(currentTime);
+
+        //some complicated stuff
+        //As of 2:22AM, I am feeling delirious
+        usersRef.child(uidOfThePostAuthor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                String notificationContent = snapshot.getValue().toString() + " liked your post";
+                notification.setNotificationContent(notificationContent);
+                notificationRef.child(uidOfThePostAuthor).child(NotificationID).setValue(notification);
+
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
+
+    }
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         private ImageButton likeBtn, commentBtn, optionsBtn, reportBtn;
         private TextView noOfLikes, postDetails, postBody, postTitle;

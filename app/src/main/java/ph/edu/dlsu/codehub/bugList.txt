@@ -1,8 +1,8 @@
 
 
 IMPORTANT:
-Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed.
-
+Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed. This has bad implications.
+For example, I change my name to 'Madelein' then post something atrocious. Then, I change my name to 'Eugene'. Normal people won't know the difference.
 General Notes:
 There are some activities you do not want to revert to
 Whenever you revert, there is a chance that you could revert to a previous user that just logged out
@@ -11,12 +11,19 @@ Fuck code efficiency. Do this last after general functionalities have been achie
 Also, most of the stuff are hard coded. I suggest making it more dynamic for easier debugging.
 For Some Reason, profile image is not loading in picasso. Will fix soon.
 
+Notifications:
+Doesn't work for follow and unfollow yet, because felix not finished yet
+Doesn't display profile pics properly for some reason (same reason sa search)
+Notifications doesn't link or isn't clickable yet
+
+
 
 Login/ Register:
 Also by pressing back, you could go back to login page
 - yes kasi main yung login page
 
 Edit Profile:
+I need to place the gui for edit profile
 When back is pressed in this activity and you try logging in again, it would do "your account has not been created due to it being in use to another account or smth"
 
 Admin:

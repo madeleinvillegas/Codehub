@@ -3,7 +3,7 @@
 IMPORTANT:
 Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed. This has bad implications.
 For example, I change my name to 'Madelein' then post something atrocious. Then, I change my name to 'Eugene'. Normal people won't know the difference.
-
+I think we need to add a settings button for users to log out, change their details, etc
 
 General Notes:
 There are some activities you do not want to revert to

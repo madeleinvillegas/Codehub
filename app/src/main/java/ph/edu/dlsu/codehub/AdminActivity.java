@@ -76,10 +76,9 @@ public class AdminActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull @NotNull ReportViewHolder holder, int position, @NonNull @NotNull Report model) {
                 String pos = model.getPostId();
                 holder.setReporterReason(model.getReason());
-                Log.d("DEBUGGING", pos);
 
 
-                postsRef.addValueEventListener(new ValueEventListener() {
+                postsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         //Something wrong with the code below
@@ -90,7 +89,11 @@ public class AdminActivity extends AppCompatActivity {
                         String deets =  snapshot.child(pos).child("fullName").getValue().toString() + " | " +
                                 snapshot.child(pos).child("date").getValue().toString() + " | " +
                                 snapshot.child(pos).child("time").getValue().toString();
+
+                        String title = snapshot.child(pos).child("title").getValue().toString();
                         Log.d(TAG, "Deets: " + deets);
+                        Log.d(TAG, "Title: " + title);
+
                         holder.posterDetails.setText(deets);
                     }
                     @Override
@@ -164,7 +167,7 @@ public class AdminActivity extends AppCompatActivity {
         }
 
         public static void showMenu(@NonNull View itemView, String pos) {
-            String TAG = "Debugging message:";
+            Log.d("DEBUGGING", pos);
             PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
             popupMenu.inflate(R.menu.admin_options_menu);
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -172,12 +175,10 @@ public class AdminActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.delete:
-                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);                    DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
+                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
+                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
                             reportsRef.removeValue();
                             postRef.removeValue();
-
-
-
                             Toast.makeText(itemView.getContext(), "Successfully deleted the post", Toast.LENGTH_SHORT).show();
                             return true;
                         case R.id.keep:

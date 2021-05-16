@@ -51,6 +51,7 @@ public class AdminActivity extends AppCompatActivity {
 
         reportedPosts = findViewById(R.id.adminRecyclerView);
         reportedPosts.setHasFixedSize(true);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -66,28 +67,34 @@ public class AdminActivity extends AppCompatActivity {
 
     public void displayReportedPosts() {
         FirebaseRecyclerOptions<Report> options =
-                new FirebaseRecyclerOptions.Builder<Report>().setQuery(reportsRef, Report.class).build();
-        FirebaseRecyclerAdapter<Report, AdminActivity.ReportViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Report, ReportViewHolder>(options) {
+                new FirebaseRecyclerOptions.Builder<Report>().setQuery(reportsRef, Report.class)
+                        .build();
+
+
+        FirebaseRecyclerAdapter<Report, ReportViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Report, ReportViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull @NotNull ReportViewHolder holder, int position, @NonNull @NotNull Report model) {
-                String pos = getRef(position).getKey();
-                holder.reporterReason.setText(model.getReason());
+                String pos = model.getPostId();
+                holder.setReporterReason(model.getReason());
+                Log.d("DEBUGGING", pos);
+
 
                 postsRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        holder.postTitle.setText(snapshot.child(pos).child("title").getValue().toString());
-                        holder.postBody.setText(snapshot.child(pos).child("body").getValue().toString());
+                        //Something wrong with the code below
+                        holder.setPostTitle(snapshot.child(pos).child("title").getValue().toString());
+                        holder.setPostBody(snapshot.child(pos).child("body").getValue().toString());
+
+                        //NOTE: deets = details
                         String deets =  snapshot.child(pos).child("fullName").getValue().toString() + " | " +
                                 snapshot.child(pos).child("date").getValue().toString() + " | " +
                                 snapshot.child(pos).child("time").getValue().toString();
                         Log.d(TAG, "Deets: " + deets);
                         holder.posterDetails.setText(deets);
                     }
-
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
                     }
                 });
 
@@ -95,17 +102,14 @@ public class AdminActivity extends AppCompatActivity {
                 userRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        holder.reporterDetails.setText("Reported by: " +
+                        holder.setReporterDetails("Reported by: " +
                                 snapshot.child(model.getReporter()).child("fullName").getValue().toString());
                     }
 
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
                     }
                 });
-                holder.reporterDetails.setText(model.getReporter());
-
 
                 holder.optionsBtn.setOnClickListener(view -> {
                     ReportViewHolder.showMenu(view, pos);
@@ -137,6 +141,26 @@ public class AdminActivity extends AppCompatActivity {
             reporterDetails = itemView.findViewById(R.id.reporter);
             reporterReason = itemView.findViewById(R.id.reason_for_reporting);
             optionsBtn = itemView.findViewById(R.id.report_options_btn);
+        }
+
+        public void setPostTitle(String postTitle) {
+            this.postTitle.setText(postTitle);
+        }
+
+        public void setPostBody(String postBody) {
+            this.postBody.setText(postBody);
+        }
+
+        public void setPosterDetails(String posterDetails) {
+            this.posterDetails.setText(posterDetails);
+        }
+
+        public void setReporterDetails(String reporterDetails) {
+            this.reporterDetails.setText(reporterDetails);
+        }
+
+        public void setReporterReason(String reporterReason) {
+            this.reporterReason.setText(reporterReason);
         }
 
         public static void showMenu(@NonNull View itemView, String pos) {

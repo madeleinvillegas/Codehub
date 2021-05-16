@@ -3,6 +3,8 @@
 IMPORTANT:
 Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed. This has bad implications.
 For example, I change my name to 'Madelein' then post something atrocious. Then, I change my name to 'Eugene'. Normal people won't know the difference.
+
+
 General Notes:
 There are some activities you do not want to revert to
 Whenever you revert, there is a chance that you could revert to a previous user that just logged out
@@ -16,7 +18,11 @@ Doesn't work for follow and unfollow yet, because felix not finished yet
 Doesn't display profile pics properly for some reason (same reason sa search)
 Notifications doesn't link or isn't clickable yet
 
+Post Activity:
+Posting multiple times all at once would be considered as one post
 
+Report Post:
+(Not sure if it's a bug) You can't report on your own post
 
 Login/ Register:
 Also by pressing back, you could go back to login page
@@ -29,6 +35,3 @@ When back is pressed in this activity and you try logging in again, it would do 
 Admin:
 Program crashes when deleting a post. Only the first delete works (either postRef or reportsRef)
 It has something to do with displaying the posts on recyclerview
-
-Regarding Recycler Views:
-Why do we use object classes when we could use hashmaps? It's kinda repetitive.

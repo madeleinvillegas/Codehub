@@ -102,6 +102,8 @@ public class ReportPostActivity extends AppCompatActivity {
                 {
                     data.put("reporter", userId);
                     data.put("reason", reason);
+                    data.put("postId", postId);
+
                     progressBar.setVisibility(View.VISIBLE);
 
                     postReported.updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {

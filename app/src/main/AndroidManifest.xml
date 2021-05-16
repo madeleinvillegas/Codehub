@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Codehub">
         <activity android:name=".AdminActivity">
             <intent-filter>
-<!--                <action android:name="android.intent.action.MAIN" />-->
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,7 +44,6 @@
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

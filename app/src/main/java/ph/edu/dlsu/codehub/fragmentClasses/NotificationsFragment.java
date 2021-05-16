@@ -2,6 +2,7 @@ package ph.edu.dlsu.codehub.fragmentClasses;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,8 @@ public class NotificationsFragment extends Fragment {
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         userNotificationsDatabase = FirebaseDatabase.getInstance().getReference().child("Notifications").child(userId);
 
+        Log.d("Notifications: ", "USERID: " + userId);
+
         //ID INITIALIZATIONS
         notificationsList = view.findViewById(R.id.notifications_list);
         notificationsList.setHasFixedSize(true);
@@ -108,6 +111,12 @@ public class NotificationsFragment extends Fragment {
             timeStamp.setText(date + " | " + time);
         }
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        displayNotifications();
     }
 
     public void displayNotifications()

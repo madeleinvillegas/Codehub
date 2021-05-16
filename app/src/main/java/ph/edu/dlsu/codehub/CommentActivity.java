@@ -131,9 +131,7 @@ public class CommentActivity extends AppCompatActivity {
                                                 notification.setTime(currentTime);
 
 
-                                                String thisPostID = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos).child("uid").toString();
-                                                notificationRef.setValue(notification);
-                                                notificationRef.child(userId);
+                                                notificationRef.child(userId).child(timestamp).setValue(notification);
 
 
                                                 commentInput.setText("");

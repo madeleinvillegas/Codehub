@@ -17,3 +17,6 @@ When back is pressed in this activity and you try logging in again, it would do 
 Admin:
 Program crashes when deleting a post. Only the first delete works (either postRef or reportsRef)
 It has something to do with displaying the posts on recyclerview
+
+Regarding Recycler Views:
+Why do we use object classes when we could use hashmaps? It's kinda repetitive.

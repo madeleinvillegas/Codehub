@@ -1,35 +1,41 @@
+//EVENT TYPES:
+//Event Codes:
+// 0: Someone Liked Your Post
+// 1: Someone Commented On Your Post
+// 2: Someone Followed You
+// 3: You Followed Someone
+// 4?: Someone Replied To Your Comment (HIGHLY QUESTIONABLE)
+
+//NOTIFICATION CODE is needed to properly link stuff sa firebase app and database
+
+//Instead of Person A and B liked your post do:
+//Person A liked your post
+//Person B liked your post
+//Delete Notification After 1 month
+
+
+
 package ph.edu.dlsu.codehub;
 
 public class Notifications {
+    //Honestly, why go for this when we can just use hashmaps sa recycler view
+    //go for a naive notification system (since school proj lang)
     //linkUID is the id for node being referred
-    public int notificationType, numberOfPeopleThatLikedYourPost, numberOfPeopleWhoFollowedYou;
-    public String content, notificationContent, creationDate, time, linkUID, mostRecentPersonWhoLikedYourPost, personYouFollowed, personWhoFollowedYou, image;
+
+    public int notificationType;
+    public String notificationContent, creationDate, time, linkUID, image;
 
     public Notifications()
     {
 
     }
 
-    public Notifications(int notificationType, int numberOfPeopleThatLikedYourPost, int numberOfPeopleWhoFollowedYou, String content, String notificationContent, String creationDate, String time, String linkUID, String mostRecentPersonWhoLikedYourPost, String personYouFollowed, String personWhoFollowedYou, String image) {
+    public Notifications(int notificationType, String notificationContent, String creationDate, String time, String linkUID, String image) {
         this.notificationType = notificationType;
-        this.numberOfPeopleThatLikedYourPost = numberOfPeopleThatLikedYourPost;
-        this.numberOfPeopleWhoFollowedYou = numberOfPeopleWhoFollowedYou;
-        this.content = content;
         this.notificationContent = notificationContent;
         this.creationDate = creationDate;
         this.time = time;
         this.linkUID = linkUID;
-        this.mostRecentPersonWhoLikedYourPost = mostRecentPersonWhoLikedYourPost;
-        this.personYouFollowed = personYouFollowed;
-        this.personWhoFollowedYou = personWhoFollowedYou;
-        this.image = image;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
         this.image = image;
     }
 
@@ -39,30 +45,6 @@ public class Notifications {
 
     public void setNotificationType(int notificationType) {
         this.notificationType = notificationType;
-    }
-
-    public int getNumberOfPeopleThatLikedYourPost() {
-        return numberOfPeopleThatLikedYourPost;
-    }
-
-    public void setNumberOfPeopleThatLikedYourPost(int numberOfPeopleThatLikedYourPost) {
-        this.numberOfPeopleThatLikedYourPost = numberOfPeopleThatLikedYourPost;
-    }
-
-    public int getNumberOfPeopleWhoFollowedYou() {
-        return numberOfPeopleWhoFollowedYou;
-    }
-
-    public void setNumberOfPeopleWhoFollowedYou(int numberOfPeopleWhoFollowedYou) {
-        this.numberOfPeopleWhoFollowedYou = numberOfPeopleWhoFollowedYou;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public String getNotificationContent() {
@@ -97,27 +79,11 @@ public class Notifications {
         this.linkUID = linkUID;
     }
 
-    public String getMostRecentPersonWhoLikedYourPost() {
-        return mostRecentPersonWhoLikedYourPost;
+    public String getImage() {
+        return image;
     }
 
-    public void setMostRecentPersonWhoLikedYourPost(String mostRecentPersonWhoLikedYourPost) {
-        this.mostRecentPersonWhoLikedYourPost = mostRecentPersonWhoLikedYourPost;
-    }
-
-    public String getPersonYouFollowed() {
-        return personYouFollowed;
-    }
-
-    public void setPersonYouFollowed(String personYouFollowed) {
-        this.personYouFollowed = personYouFollowed;
-    }
-
-    public String getPersonWhoFollowedYou() {
-        return personWhoFollowedYou;
-    }
-
-    public void setPersonWhoFollowedYou(String personWhoFollowedYou) {
-        this.personWhoFollowedYou = personWhoFollowedYou;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

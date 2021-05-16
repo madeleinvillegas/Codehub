@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ktx.Firebase;
 
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Comment;
@@ -46,7 +47,7 @@ public class CommentActivity extends AppCompatActivity {
     private RecyclerView comments;
     private EditText commentInput;
     private String comment;
-    private DatabaseReference userRef, postsRef;
+    private DatabaseReference userRef, postsRef, notificationRef;
     private String userId;
 
     @Override
@@ -65,10 +66,19 @@ public class CommentActivity extends AppCompatActivity {
 
         String pos = getIntent().getExtras().get("Position").toString();
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         postsRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos).child("Comments");
 
+        //Pass in the post id
+        //Fudge I wasn't trained for this shit
+
+
+        userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+
+        notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+
+
         commentBtn.setOnClickListener(view -> {
+
             userRef.child(userId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -91,11 +101,16 @@ public class CommentActivity extends AppCompatActivity {
                                     String userFullName = dataSnapshot.child(userId).child("fullName").getValue().toString();
 
                                     HashMap commentsMap = new HashMap();
+
+                                    //just for clarity's sake: uid of the one who commented
                                     commentsMap.put("uid", userId);
+
+
                                     commentsMap.put("comment", comment);
                                     commentsMap.put("date", currentDate);
                                     commentsMap.put("time", currentTime);
                                     commentsMap.put("fullName", userFullName);
+
 
 
                                     postsRef.child(timestamp).updateChildren(commentsMap).addOnCompleteListener(new OnCompleteListener() {
@@ -103,7 +118,26 @@ public class CommentActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task task) {
                                             if(task.isSuccessful()) {
                                                 Toast.makeText(getApplication(), "Successfully created comment", Toast.LENGTH_SHORT).show();
+
+                                                String notificationContent = userFullName+ " commented on your post";
+
+                                                //Will use an object since I already made an object
+                                                Notifications notification = new Notifications();
+                                                notification.setCreationDate(currentDate);
+                                                notification.setImage(userRef.child(userId).child("profileImageLink").toString());
+                                                notification.setLinkUID(pos);
+                                                notification.setNotificationContent(notificationContent);
+                                                notification.setNotificationType(1);
+                                                notification.setTime(currentTime);
+
+
+                                                String thisPostID = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos).child("uid").toString();
+                                                notificationRef.setValue(notification);
+                                                notificationRef.child(userId);
+
+
                                                 commentInput.setText("");
+
                                             }
                                             else {
                                                 Toast.makeText(getApplication(), "Error occurred while updating your comment.", Toast.LENGTH_SHORT).show();

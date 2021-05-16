@@ -1,5 +1,6 @@
 package ph.edu.dlsu.codehub.fragmentClasses;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,8 @@ public class NotificationsFragment extends Fragment {
         notificationsList = view.findViewById(R.id.notifications_list);
         notificationsList.setHasFixedSize(true);
 
+
+        //Set Linear Layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -73,13 +76,14 @@ public class NotificationsFragment extends Fragment {
 
     public static class notificationsViewHolder extends RecyclerView.ViewHolder{
         CircleImageView notificationImage;
-        TextView notificationContent;
+        TextView notificationContent, timeStamp;
 
         public notificationsViewHolder(View itemView)
         {
             super(itemView);
             notificationContent = (TextView) itemView.findViewById(R.id.notification_description);
             notificationImage = (CircleImageView) itemView.findViewById(R.id.notification_image);
+            timeStamp = (TextView) itemView.findViewById(R.id.time_stamp);
         }
 
         //Add class methods here
@@ -98,6 +102,11 @@ public class NotificationsFragment extends Fragment {
                     .into(notificationImage);
         }
 
+        @SuppressLint("SetTextI18n")
+        public void setTimeStamp(String date, String time)
+        {
+            timeStamp.setText(date + " | " + time);
+        }
 
     }
 
@@ -122,13 +131,15 @@ public class NotificationsFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull @NotNull notificationsViewHolder holder, int position, @NonNull @NotNull Notifications model) {
-                String content, image;
-                content = model.getContent();
+                String content, image, time, date;
+                content = model.getNotificationContent();
                 image = model.getImage();
+                date = model.getCreationDate();
+                time = model.getTime();
 
                 holder.setContent(content);
                 holder.setImage(image);
-
+                holder.setTimeStamp(date, time);
             }
         };
         notificationsList.setAdapter(adapter);

@@ -51,6 +51,7 @@ public class AdminActivity extends AppCompatActivity {
 
         reportedPosts = findViewById(R.id.adminRecyclerView);
         reportedPosts.setHasFixedSize(true);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -66,28 +67,37 @@ public class AdminActivity extends AppCompatActivity {
 
     public void displayReportedPosts() {
         FirebaseRecyclerOptions<Report> options =
-                new FirebaseRecyclerOptions.Builder<Report>().setQuery(reportsRef, Report.class).build();
-        FirebaseRecyclerAdapter<Report, AdminActivity.ReportViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Report, ReportViewHolder>(options) {
+                new FirebaseRecyclerOptions.Builder<Report>().setQuery(reportsRef, Report.class)
+                        .build();
+
+
+        FirebaseRecyclerAdapter<Report, ReportViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Report, ReportViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull @NotNull ReportViewHolder holder, int position, @NonNull @NotNull Report model) {
-                String pos = getRef(position).getKey();
-                holder.reporterReason.setText(model.getReason());
+                String pos = model.getPostId();
+                holder.setReporterReason(model.getReason());
 
-                postsRef.addValueEventListener(new ValueEventListener() {
+
+                postsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        holder.postTitle.setText(snapshot.child(pos).child("title").getValue().toString());
-                        holder.postBody.setText(snapshot.child(pos).child("body").getValue().toString());
+                        //Something wrong with the code below
+                        holder.setPostTitle(snapshot.child(pos).child("title").getValue().toString());
+                        holder.setPostBody(snapshot.child(pos).child("body").getValue().toString());
+
+                        //NOTE: deets = details
                         String deets =  snapshot.child(pos).child("fullName").getValue().toString() + " | " +
                                 snapshot.child(pos).child("date").getValue().toString() + " | " +
                                 snapshot.child(pos).child("time").getValue().toString();
+
+                        String title = snapshot.child(pos).child("title").getValue().toString();
                         Log.d(TAG, "Deets: " + deets);
+                        Log.d(TAG, "Title: " + title);
+
                         holder.posterDetails.setText(deets);
                     }
-
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
                     }
                 });
 
@@ -95,17 +105,14 @@ public class AdminActivity extends AppCompatActivity {
                 userRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        holder.reporterDetails.setText("Reported by: " +
+                        holder.setReporterDetails("Reported by: " +
                                 snapshot.child(model.getReporter()).child("fullName").getValue().toString());
                     }
 
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
                     }
                 });
-                holder.reporterDetails.setText(model.getReporter());
-
 
                 holder.optionsBtn.setOnClickListener(view -> {
                     ReportViewHolder.showMenu(view, pos);
@@ -139,8 +146,28 @@ public class AdminActivity extends AppCompatActivity {
             optionsBtn = itemView.findViewById(R.id.report_options_btn);
         }
 
+        public void setPostTitle(String postTitle) {
+            this.postTitle.setText(postTitle);
+        }
+
+        public void setPostBody(String postBody) {
+            this.postBody.setText(postBody);
+        }
+
+        public void setPosterDetails(String posterDetails) {
+            this.posterDetails.setText(posterDetails);
+        }
+
+        public void setReporterDetails(String reporterDetails) {
+            this.reporterDetails.setText(reporterDetails);
+        }
+
+        public void setReporterReason(String reporterReason) {
+            this.reporterReason.setText(reporterReason);
+        }
+
         public static void showMenu(@NonNull View itemView, String pos) {
-            String TAG = "Debugging message:";
+            Log.d("DEBUGGING", pos);
             PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
             popupMenu.inflate(R.menu.admin_options_menu);
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -148,12 +175,10 @@ public class AdminActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.delete:
-                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);                    DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
+                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
+                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
                             reportsRef.removeValue();
                             postRef.removeValue();
-
-
-
                             Toast.makeText(itemView.getContext(), "Successfully deleted the post", Toast.LENGTH_SHORT).show();
                             return true;
                         case R.id.keep:

@@ -189,7 +189,7 @@ public class HomeFragment extends Fragment {
         notification.setTime(currentTime);
 
         //some complicated stuff
-        //As of 2:22AM, I am feeling delirious
+
         usersRef.child(uidOfThePostAuthor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {

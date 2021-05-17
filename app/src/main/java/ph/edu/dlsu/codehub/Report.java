@@ -1,13 +1,25 @@
 package ph.edu.dlsu.codehub;
 
 public class Report {
-    public Report(String reporter, String reason) {
+    private String reporter, reason, postId;
+
+    private Report()
+    {
+
+    }
+    public Report(String reporter, String reason, String postId) {
         this.reporter = reporter;
         this.reason = reason;
+        this.postId = postId;
     }
 
-    public Report(){}
-    private String reporter, reason;
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
 
     public String getReason() {
         return reason;

@@ -1,3 +1,9 @@
+TODO:
+Add milliseconds to create post
+Remove Status sa edit profile
+Fix bugs below
+
+
 
 
 IMPORTANT:
@@ -7,7 +13,15 @@ Our database is not dynamic. Meaning, if I change my name, then the name of post
 For example, I change my name to 'Madelein' then post something atrocious. Then, I change my name to 'Eugene'. Normal people won't know the difference.
 I think we need to add a settings button for users to log out, change their details, etc
 
+Feature Related Stuff:
+Make Buttons looks more like buttons. I don't think the user would recognize our buttons.
+
 General Notes:
+When using progress dialog, disable user functionality
+
+Register Activity:
+Email authentication would be needed I think
+
 There are some activities you do not want to revert to
 Whenever you revert, there is a chance that you could revert to a previous user that just logged out
 Whenever you delete an account as admin, you

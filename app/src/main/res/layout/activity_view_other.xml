@@ -67,17 +67,11 @@
 
     <ImageButton
         android:id="@+id/editProfileBtn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="47dp"
+        android:layout_height="50dp"
         android:layout_marginStart="350dp"
         android:layout_marginTop="225dp"
         android:background="#0000"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/edit" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProfile"
-        android:layout_width="match_parent"
-        android:layout_height="303dp"
-        android:layout_marginTop="350dp" />
+        app:srcCompat="@drawable/follow" />
 </android.widget.RelativeLayout>

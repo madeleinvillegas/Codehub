@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import ph.edu.dlsu.codehub.fragmentClasses.HomeFragment;
 
 import static ph.edu.dlsu.codehub.R.layout.comment_layout;
@@ -50,7 +52,8 @@ public class ViewProfileActivity extends AppCompatActivity {
     private String TAG = "DEBUGGING_TAG";
     private TextView name, address, work, followers, following;
     private ImageButton edit;
-    private ImageView profilepic, bgpic;
+    private ImageView bgpic;
+    private CircleImageView profilepic;
     private String uidOfThePostAuthor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,41 @@ public class ViewProfileActivity extends AppCompatActivity {
         likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
 
         userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
+
+        userRef.child("profileImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                Picasso.get()
+                        .load(snapshot.getValue().toString())
+                        .placeholder(R.drawable.boy_avatar)
+                        .into(profilepic);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+        userRef.child("backgroundImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                Picasso.get()
+                        .load(snapshot.getValue().toString())
+                        .placeholder(R.drawable.background_image)
+                        .into(bgpic);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {

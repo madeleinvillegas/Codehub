@@ -28,12 +28,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.HashMap;
@@ -95,6 +101,40 @@ public class EditProfileDataActivity extends AppCompatActivity {
         saveChanges = findViewById(R.id.save_changes_button);
         currentProfilePicture = (CircleImageView) findViewById(R.id.profile_picture) ;
         currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
+
+        UsersDatabaseReference.child("profileImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                Picasso.get()
+                        .load(snapshot.getValue().toString())
+                        .placeholder(R.drawable.boy_avatar)
+                        .into(currentProfilePicture);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+        UsersDatabaseReference.child("backgroundImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                Picasso.get()
+                        .load(snapshot.getValue().toString())
+                        .placeholder(R.drawable.background_image)
+                        .into(currentBackgroundPicture);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
 
         saveChanges.setOnClickListener(view -> {
             saveAccountInformation();
@@ -165,7 +205,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         return extension;
     }
-//    private String uploadImage(Uri ImageUri, String filename){
+//    private StorageReference uploadImage(Uri ImageUri, String filename){
 //        String extension = getMimeType(getApplicationContext(), ImageUri);
 //        filename = filename + "." + extension;
 //        StorageReference storageReference = userProfileImageRef.child(currentUserId + "/" + filename);
@@ -188,7 +228,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 //            }
 //        });
 //        Log.d(TAG, filename);
-//        return storageReference.getDownloadUrl().toString();
+//        return storageReference;
 //    }
 
 
@@ -246,60 +286,71 @@ public class EditProfileDataActivity extends AppCompatActivity {
             profileImageStorageReference.putFile(profileImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot profileImageTask) {
-                    String profileImageLink = profileImageStorageReference.getDownloadUrl().toString();
                     backgroundImageStorageReference.putFile(backgroundImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            String backgroundImageLink = backgroundImageStorageReference.getDownloadUrl().toString();
-
-                            HashMap userMap = new HashMap();
-                            userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
-                            userMap.put("fullName", fullNameText);
-                            userMap.put("address", currentAddressText);
-                            userMap.put("occupation", currentOccupationText);
-                            userMap.put("profileImageLink", profileImageLink);
-                            userMap.put("backgroundImageLink", backgroundImageLink);
-
-                            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                            profileImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
-                                public void onComplete(@NonNull Task task) {
-                                    if (task.isSuccessful()) {
-                                        sendUserToHomePage();  // send user to main activity
+                                public void onSuccess(Uri uri) {
+                                    String profileImageLink =  uri.toString();
+                                    backgroundImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            String backgroundImageLink = uri.toString();
+                                            HashMap userMap = new HashMap();
+                                            userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
+                                            userMap.put("fullName", fullNameText);
+                                            userMap.put("address", currentAddressText);
+                                            userMap.put("occupation", currentOccupationText);
+                                            userMap.put("profileImageLink", profileImageLink);
+                                            userMap.put("backgroundImageLink", backgroundImageLink);
 
-                                        Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
-                                        progressBar.setVisibility(View.GONE);
-                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                                                @Override
+                                                public void onComplete(@NonNull Task task) {
+                                                    if (task.isSuccessful()) {
+                                                        sendUserToHomePage();  // send user to main activity
 
-                                    } else {
-                                        String errorMessage = task.getException().getMessage();
-                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
-                                        progressBar.setVisibility(View.GONE);
-                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                                        Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
+                                                        progressBar.setVisibility(View.GONE);
+                                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                                    } else {
+                                                        String errorMessage = task.getException().getMessage();
+                                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                                                        progressBar.setVisibility(View.GONE);
+                                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
-                                    }
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e)
+                                        {
+                                            progressBar.setVisibility(View.GONE);
+                                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                            Log.d(TAG, "Upload Failed ");
+                                        }
+                                    });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e)
+                                {
+                                    progressBar.setVisibility(View.GONE);
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    Log.d(TAG, "Upload Failed ");
+                                }});
+                                        }
+                                    });
                                 }
                             });
-                        }
 
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            progressBar.setVisibility(View.GONE);
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            Log.d(TAG, "Upload Failed ");
-                        }
-                    });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e)
-                {
-                    progressBar.setVisibility(View.GONE);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    Log.d(TAG, "Upload Failed ");
-                }});
+;
 
 
         }

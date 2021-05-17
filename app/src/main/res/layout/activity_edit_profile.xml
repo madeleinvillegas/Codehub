@@ -9,270 +9,243 @@
     android:layout_height="match_parent"
     android:id="@+id/root_layout"
     >
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:id="@+id/container"
-        >
+        android:layout_height="match_parent">
 
-
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="56dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/boy_avatar"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FF000000"
-            />
-
-
-        <EditText
-            android:id="@+id/full_name"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Enter Name"
-            android:inputType="textPersonName"
-            android:textSize="@dimen/body"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-            tools:layout_editor_absoluteX="16dp" />
+            android:padding="@dimen/activity_horizontal_margin">
 
 
-        <TextView
-            android:id="@+id/current_address_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="588dp"
-            android:layout_weight="1"
-            android:text="Current Address"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sub_body"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/background_image_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="160dp"
-            android:layout_marginStart="0dp"
-
-            android:layout_marginEnd="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/profile_picture_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_weight="1"
-                android:text="Background Image"
-                android:textColor="@color/black"
-                android:textSize="@dimen/subheading"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/edit_background_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="Edit"
-                android:textColor="@color/blue_link"
-                android:textSize="@dimen/subheading"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
-
-
-        <EditText
-            android:id="@+id/current_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Enter Current Address"
-            android:inputType="textPersonName"
-            android:textSize="@dimen/body"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/current_address_label" />
-
-
-
-        <TextView
-            android:id="@+id/information_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="408dp"
-            android:layout_weight="1"
-            android:text="Basic Information"
-            android:textColor="@color/black"
-            android:textSize="@dimen/subheading"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/information_text">
-
-            <TextView
-                android:id="@+id/full_name_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_weight="1"
-                android:text="Full Name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sub_body"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="56dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/boy_avatar"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/background_image_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="180dp"
 
-        <LinearLayout
-            android:id="@+id/profile_picture_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginEnd="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/profile_picture_text"
+                <TextView
+                    android:fontFamily="@font/abhaya_libre_extra_bold"
+                    android:id="@+id/profile_picture_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:text="Background Image"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/subheading"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:fontFamily="@font/abhaya_libre_extra_bold"
+                    android:id="@+id/edit_background_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Edit"
+                    android:textColor="@color/blue_link"
+                    android:textSize="@dimen/subheading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/profile_picture_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:fontFamily="@font/abhaya_libre_extra_bold"
+                    android:id="@+id/profile_picture_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:text="Profile Picture"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/subheading"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:fontFamily="@font/abhaya_libre_extra_bold"
+                    android:id="@+id/edit_profile_picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Edit"
+                    android:textColor="@color/blue_link"
+                    android:textSize="@dimen/subheading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/background_image"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/background_image_layout"
+                app:srcCompat="@drawable/background_image" />
+
+
+            <Button
+                android:id="@+id/save_changes_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_weight="1"
-                android:text="Profile Picture"
-                android:textColor="@color/black"
-                android:textSize="@dimen/subheading"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="50dp"
+                android:text="Save Changes"
+                android:textSize="@dimen/body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-            <TextView
-                android:id="@+id/edit_profile_picture"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="Edit"
-                android:textColor="@color/blue_link"
-                android:textSize="@dimen/subheading"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/background_image">
 
-        <ImageView
-            android:id="@+id/background_image"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/background_image_layout"
-            app:srcCompat="@drawable/background_image" />
+                <TextView
+                    android:fontFamily="@font/abhaya_libre_extra_bold"
+                    android:id="@+id/information_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="30dp"
+                    android:text="Basic Information"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/subheading"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:fontFamily="@font/abhaya_libre_bold"
+                    android:id="@+id/full_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:text="Full Name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sub_body" />
 
-        <EditText
-            android:id="@+id/current_occupation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Enter Current Occupation"
-            android:inputType="textPersonName"
-            android:textSize="@dimen/body"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/current_occupation_label" />
+                <EditText
+                    android:fontFamily="@font/abhaya_libre_regular"
+                    android:id="@+id/full_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:layout_marginBottom="20dp"
+                    android:hint="Enter Name"
+                    android:inputType="textPersonName"
+                    android:textSize="@dimen/body" />
 
-        <TextView
-            android:id="@+id/current_occupation_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="664dp"
-            android:layout_weight="1"
-            android:text="Current Occupation"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sub_body"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:fontFamily="@font/abhaya_libre_bold"
+                    android:id="@+id/current_address_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:text="Current Address"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sub_body" />
 
+                <EditText
+                    android:fontFamily="@font/abhaya_libre_regular"
+                    android:id="@+id/current_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:layout_marginBottom="20dp"
+                    android:hint="Enter Current Address"
+                    android:inputType="textPersonName"
+                    android:textSize="@dimen/body" />
 
-        <Button
-            android:id="@+id/save_changes_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="16dp"
-            android:text="Save Changes"
-            android:textSize="@dimen/body"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/current_occupation" />
+                <TextView
+                    android:fontFamily="@font/abhaya_libre_bold"
+                    android:id="@+id/current_occupation_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:text="Current Occupation"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sub_body" />
 
-        <!--    <ImageView-->
-        <!--        android:id="@+id/background_image"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="150dp"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/background_image_layout"-->
-        <!--        android:layout_marginTop="10dp"-->
-        <!--        app:srcCompat="@drawable/background_image" />-->
+                <EditText
+                    android:fontFamily="@font/abhaya_libre_regular"
+                    android:id="@+id/current_occupation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Enter Current Occupation"
+                    android:inputType="textPersonName"
+                    android:textSize="@dimen/body" />
+            </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!--    <ImageView-->
+            <!--        android:id="@+id/background_image"-->
+            <!--        android:layout_width="match_parent"-->
+            <!--        android:layout_height="150dp"-->
+            <!--        app:layout_constraintEnd_toEndOf="parent"-->
+            <!--        app:layout_constraintStart_toStartOf="parent"-->
+            <!--        app:layout_constraintTop_toBottomOf="@+id/background_image_layout"-->
+            <!--        android:layout_marginTop="10dp"-->
+            <!--        app:srcCompat="@drawable/background_image" />-->
 
-</ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </RelativeLayout>

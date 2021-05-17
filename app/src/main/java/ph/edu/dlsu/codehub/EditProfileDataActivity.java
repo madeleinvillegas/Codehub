@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,11 +45,8 @@ import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 //TODO: if user somehow skips this step, check if so
 //TODO: disable functionality while progress bar loads
 //TODO: if user skips this, make sure user is not yet registered
-//TODO: add progress bars
 
 public class EditProfileDataActivity extends AppCompatActivity {
-    //TODO: Add button functionality to start this activity class
-
 
     private TextView editProfilePicture, editBackgroundPicture;
     private EditText fullName, currentUserName, currentAddress, currentOccupation, status;
@@ -176,6 +174,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Log.d(TAG, "Upload completed");
 
             }
@@ -184,6 +183,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e)
             {
                 progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Log.d(TAG, "Upload Failed ");
             }
         });
@@ -283,6 +283,11 @@ public class EditProfileDataActivity extends AppCompatActivity {
         } else {
             progressBar.setVisibility(View.VISIBLE);
 
+            //disables the progress bar
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+
             profileImageUrl = uploadImage((Uri) currentProfilePicture.getTag(), "profile_image");
             backgroundImageUrl = uploadImage((Uri) currentBackgroundPicture.getTag(), "background_image");
             HashMap userMap = new HashMap();
@@ -306,6 +311,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
                         progressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                     } else {
 //                        Log.d(TAG, "Data Change Failed");
@@ -313,6 +319,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
                         String errorMessage = task.getException().getMessage();
                         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
                         progressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
                     }

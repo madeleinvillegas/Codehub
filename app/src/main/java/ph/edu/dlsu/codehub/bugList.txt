@@ -2,7 +2,7 @@ TODO:
 Add milliseconds to create post
 Fix Layout of edit profile
 Fix bugs below
-
+Logout button
 
 
 
@@ -35,22 +35,22 @@ Doesn't display profile pics properly for some reason (same reason sa search)
     - Madelein: I don't think the profile pics are necessary for displaying notifications
 Notifications doesn't link or isn't clickable yet
 
-
-Post Activity:
-Posting multiple times all at once would be considered as one post
-
-Report Post:
-(Not sure if it's a bug) You can't report on your own post
-    - Madelein: Not a bug, I made it like that. Why would I report my own post?
-
-Login/ Register (fixed):
-Also by pressing back, you could go back to login page
-
 Edit Profile:
 I need to place the gui for edit profile
 When back is pressed in this activity and you try logging in again, it would do "your account has not been created due to it being in use to another account or smth"
-    - Madelein: back button is disabled, pressing back would exit you out of the app
 
-Admin (fixed):
-Program crashes when deleting a post. Only the first delete works (either postRef or reportsRef)
-It has something to do with displaying the posts on recyclerview
+
+Resolved:
+    Admin:
+    Program crashes when deleting a post. Only the first delete works (either postRef or reportsRef)
+    It has something to do with displaying the posts on recyclerview
+
+    Report Post:
+    (Not sure if it's a bug) You can't report on your own post
+
+    Login/ Register:
+    Also by pressing back, you could go back to login page
+    - yes kasi main yung login page
+
+    Post Activity:
+    Posting multiple times all at once would be considered as one post

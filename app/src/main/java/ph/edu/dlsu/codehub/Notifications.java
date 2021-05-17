@@ -18,7 +18,6 @@
 package ph.edu.dlsu.codehub;
 
 public class Notifications {
-    //Honestly, why go for this when we can just use hashmaps sa recycler view
     //go for a naive notification system (since school proj lang)
     //linkUID is the id for node being referred
 

@@ -16,7 +16,6 @@ import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
 public class EditPostActivity extends AppCompatActivity {
 
-    // TODO: Convert to fragment
     private EditText updatedTitle, updatedBody;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

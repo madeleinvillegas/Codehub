@@ -2,6 +2,8 @@ package ph.edu.dlsu.codehub;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,7 +23,6 @@ import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 public class LoginActivity extends AppCompatActivity {
     private EditText loginEmail, loginPassword;
     private FirebaseAuth mAuth;
-
 
 
     @Override

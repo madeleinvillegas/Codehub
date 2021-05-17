@@ -2,6 +2,7 @@ package ph.edu.dlsu.codehub;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -11,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,45 +37,155 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
+import ph.edu.dlsu.codehub.fragmentClasses.HomeFragment;
+
+import static ph.edu.dlsu.codehub.R.layout.comment_layout;
+
 
 public class ViewProfileActivity extends AppCompatActivity {
-    private DatabaseReference postRef, likesRef;
+    private DatabaseReference postRef, likesRef, userRef;
     private RecyclerView postList;
     private Boolean isLiked = false;
     private String userId;
     private String TAG = "DEBUGGING_TAG";
+    private TextView name, address, work, followers, following;
+    private ImageButton edit;
+    private ImageView profilepic, bgpic;
     private String uidOfThePostAuthor;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
+        name = findViewById(R.id.textView);
+        address = findViewById(R.id.textView2);
+        work = findViewById(R.id.textView3);
+        followers = findViewById(R.id.textView4);
+        following = findViewById(R.id.textView5);
+        edit = findViewById(R.id.editProfileBtn);
+        profilepic = findViewById(R.id.profilePic);
+        bgpic = findViewById(R.id.bgPhoto);
+        edit.setOnClickListener(view-> {
+            Intent intent = new Intent(this, EditProfileDataActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
-
+        postList = findViewById(R.id.recyclerViewProfile);
+        postList.setHasFixedSize(true);
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
-
-
         likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
 
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                name.setText(snapshot.child("fullName").getValue().toString());
+                address.setText(snapshot.child("address").getValue().toString());
+                work.setText(snapshot.child("occupation").getValue().toString());
+//                followers.setText(snapshot.child("fullName").toString());
+//                following.setText(snapshot.child("fullName").toString());
+//                set the profile and bg pic
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        postList.setLayoutManager(linearLayoutManager);
     }
+
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        viewPosts();
+        Query query = postRef.orderByChild("uid").equalTo(userId);
+        FirebaseRecyclerOptions<Post> options =
+                new FirebaseRecyclerOptions.Builder<Post>().setQuery(query, Post.class).build();
+        FirebaseRecyclerAdapter<Post, ViewProfileViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Post, ViewProfileViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull @NotNull ViewProfileViewHolder holder, int position, @NonNull @NotNull Post model) {
+                String pos = getRef(position).getKey();
+                String[] arr = pos.split(" ");
+                uidOfThePostAuthor = arr[0];
+
+                holder.postDetails.setText(model.getFullName() + " | " + model.getDate() + " | " + model.getTime());
+                holder.postBody.setText(model.getBody());
+                holder.postTitle.setText(model.getTitle());
+                holder.setLikeBtnColor(pos);
+
+                holder.reportBtn.setVisibility(View.INVISIBLE);
+                holder.commentBtn.setOnClickListener(view -> {
+                    Intent intent = new Intent(ViewProfileActivity.this, CommentActivity.class);
+                    intent.putExtra("Position", pos);
+                    startActivity(intent);
+                });
+
+                holder.optionsBtn.setOnClickListener(view -> {
+                    HomeFragment.PostViewHolder.showMenu(view, pos, model.getTitle(), model.getBody());
+                });
+
+                holder.likeBtn.setOnClickListener(view -> {
+                    isLiked = true;
+                    likesRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            // User already liked the post so the post will be unliked
+                            if(isLiked) {
+                                if (snapshot.child(pos).hasChild(userId)) {
+                                    likesRef.child(pos).child(userId).removeValue();
+                                    isLiked = false;
+                                }
+                                // Post will be liked
+                                else {
+                                    likesRef.child(pos).child(userId).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            //put code to display on notification on like here
+                                            putLikeNotification(pos);
+                                        }
+                                    });
+                                    // Stops the infinite loop
+                                    isLiked = false;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+                    });
+                });
+            }
+
+            @NonNull
+            @NotNull
+            @Override
+            public ViewProfileViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(ViewProfileActivity.this).inflate(R.layout.post_layout, parent, false);
+                return new ViewProfileViewHolder(view);
+            }
+        };
+        postList.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
     }
 
-    public static class PostViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewProfileViewHolder extends RecyclerView.ViewHolder {
         private ImageButton likeBtn, commentBtn, optionsBtn, reportBtn;
         private TextView noOfLikes, postDetails, postBody, postTitle;
         private int numberOfLikes;
         private String userId;
         private DatabaseReference likesRef;
-        private RecyclerView postList;
 
-        public PostViewHolder(@NonNull View itemView) {
+        public ViewProfileViewHolder(@NonNull View itemView) {
             super(itemView);
             postDetails = itemView.findViewById(R.id.single_post_details);
             postBody = itemView.findViewById(R.id.single_post_body);
@@ -83,14 +197,13 @@ public class ViewProfileActivity extends AppCompatActivity {
             likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
             userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
             optionsBtn = itemView.findViewById(R.id.options_btn);
-            postList = itemView.findViewById(R.id.recyclerViewProfile);
+
         }
 
 
         public static void showMenu(@NonNull View itemView, String pos, String title, String body) {
             PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
             popupMenu.inflate(R.menu.triple_dots_menu);
-            // TODO: Add edit and delete post stuff
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -139,95 +252,6 @@ public class ViewProfileActivity extends AppCompatActivity {
             });
         }
     }
-    private void viewPosts() {
-        FirebaseRecyclerOptions<Post> options =
-                new FirebaseRecyclerOptions.Builder<Post>().setQuery(postRef, Post.class).build();
-        FirebaseRecyclerAdapter<Post, ViewProfileActivity.PostViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, ViewProfileActivity.PostViewHolder>(options) {
-            @SuppressLint("SetTextI18n")
-            @Override
-            protected void onBindViewHolder(@NonNull ViewProfileActivity.PostViewHolder holder, int position, @NonNull Post model) {
-                String pos = getRef(position).getKey();
-                String[] arr = pos.split(" ");
-                uidOfThePostAuthor = arr[0];
-
-                holder.postDetails.setText(model.getFullName() + " | " + model.getDate() + " | " + model.getTime());
-                holder.postBody.setText(model.getBody());
-                holder.postTitle.setText(model.getTitle());
-                holder.setLikeBtnColor(pos);
-
-                if (uidOfThePostAuthor.equals(userId)) {
-                    holder.reportBtn.setVisibility(View.INVISIBLE);
-                    holder.optionsBtn.setVisibility(View.VISIBLE);
-                }
-                else {
-                    holder.optionsBtn.setVisibility(View.INVISIBLE);
-                    holder.reportBtn.setVisibility(View.VISIBLE);
-                }
-
-                holder.commentBtn.setOnClickListener(view -> {
-                    Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
-                    intent.putExtra("Position", pos);
-                    startActivity(intent);
-                });
-
-
-
-
-                holder.reportBtn.setOnClickListener(view -> {
-                    Intent intent = new Intent(getApplicationContext(), ReportPostActivity.class);
-                    intent.putExtra("postId", pos);
-                    startActivity(intent);
-                });
-
-                holder.optionsBtn.setOnClickListener(view -> {
-                    ViewProfileActivity.PostViewHolder.showMenu(view, pos, model.getTitle(), model.getBody());
-                });
-
-                holder.likeBtn.setOnClickListener(view -> {
-                    isLiked = true;
-                    likesRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                            // User already liked the post so the post will be unliked
-                            if(isLiked) {
-                                if (snapshot.child(pos).hasChild(userId)) {
-                                    likesRef.child(pos).child(userId).removeValue();
-                                    isLiked = false;
-                                }
-                                // Post will be liked
-                                else {
-                                    likesRef.child(pos).child(userId).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            //put code to display on notification on like here
-                                            putLikeNotification(pos);
-                                        }
-                                    });
-                                    // Stops the infinite loop
-                                    isLiked = false;
-                                }
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                        }
-                    });
-                });
-            }
-
-            @NonNull
-            @Override
-            public ViewProfileActivity.PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout, parent, false);
-                return new ViewProfileActivity.PostViewHolder(view);
-            }
-        };
-        postList.setAdapter(firebaseRecyclerAdapter);
-        firebaseRecyclerAdapter.startListening();
-
-    }
-
     public void putLikeNotification(String postID)
     {
         DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
@@ -252,7 +276,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         notification.setTime(currentTime);
 
         //some complicated stuff
-        //As of 2:22AM, I am feeling delirious
+
         usersRef.child(uidOfThePostAuthor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -267,4 +291,5 @@ public class ViewProfileActivity extends AppCompatActivity {
         });
 
     }
+
 }

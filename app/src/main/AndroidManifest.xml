@@ -17,11 +17,17 @@
         android:theme="@style/Theme.Codehub">
         <activity android:name=".AdminActivity">
             <intent-filter>
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".CommentActivity" />
-        <activity android:name=".ViewProfileActivity" />
+        <activity android:name=".ViewProfileActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SearchActivity" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -43,13 +49,12 @@
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
+<!--                 <action android:name="android.intent.action.MAIN" />-->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

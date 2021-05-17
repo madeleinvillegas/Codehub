@@ -67,8 +67,10 @@ public class CreatePostFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currDate = new SimpleDateFormat("dd MMMM yyyy");
         String currentDate = currDate.format(calendar.getTime());
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currTime = new SimpleDateFormat("HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat currTime = new SimpleDateFormat("HH:mm:ss:SS");
         String currentTime = currTime.format(calendar.getTime());
+
+
         String timestamp = " " + currentDate + " " + currentTime;
         userRef.addValueEventListener(new ValueEventListener() {
             @Override

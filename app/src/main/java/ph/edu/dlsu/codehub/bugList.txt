@@ -1,13 +1,21 @@
 TODO:
-Add milliseconds to create post
-Fix Layout of edit profile
 Fix bugs below
 Logout button
 
+double tap creates double posts
 
+
+Registration Related Stuff:
+I think we need to use email authentication, because users could just put dummy emails and get accounts. (ex. my email was user@email.com)
+
+
+Notifications:
+Doesn't work for follow and unfollow yet, because felix not finished yet
+Doesn't display profile pics properly for some reason (same reason sa search)
+    - Madelein: I don't think the profile pics are necessary for displaying notifications
+Notifications doesn't link or isn't clickable yet
 
 IMPORTANT:
-
 ***
 Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed. This has bad implications.
 For example, I change my name to 'Madelein' then post something atrocious. Then, I change my name to 'Eugene'. Normal people won't know the difference.
@@ -21,22 +29,11 @@ Make Buttons looks more like buttons. I don't think the user would recognize our
 General Notes:
 When using progress dialog, disable user functionality
 
-Register Activity:
-Email authentication would be needed I think
-
 There are some activities you do not want to revert to
 Whenever you revert, there is a chance that you could revert to a previous user that just logged out
 Bugger off code efficiency. Do this last after general functionalities have been achieved.
 Also, most of the stuff are hard coded. I suggest making it more modularized for easier debugging.
 
-
-For Some Reason, profile image is not loading in picasso. Will fix soon.
-
-Notifications:
-Doesn't work for follow and unfollow yet, because felix not finished yet
-Doesn't display profile pics properly for some reason (same reason sa search)
-    - Madelein: I don't think the profile pics are necessary for displaying notifications
-Notifications doesn't link or isn't clickable yet
 
 Edit Profile:
 I need to place the gui for edit profile
@@ -57,3 +54,7 @@ Resolved:
 
     Post Activity:
     Posting multiple times all at once would be considered as one post
+
+
+    Add milliseconds to create post
+    Fix Layout of edit profile

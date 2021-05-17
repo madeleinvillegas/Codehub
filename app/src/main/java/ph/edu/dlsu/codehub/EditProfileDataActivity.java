@@ -102,14 +102,20 @@ public class EditProfileDataActivity extends AppCompatActivity {
         currentProfilePicture = (CircleImageView) findViewById(R.id.profile_picture) ;
         currentBackgroundPicture = (ImageView) findViewById(R.id.background_image);
 
+
+
         UsersDatabaseReference.child("profileImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.getValue()!=null)
+                {
+                    Picasso.get()
+                            .load(snapshot.getValue().toString())
+                            .placeholder(R.drawable.boy_avatar)
+                            .into(currentProfilePicture);
+                    currentProfilePicture.setTag(snapshot.getValue().toString());
+                }
 
-                Picasso.get()
-                        .load(snapshot.getValue().toString())
-                        .placeholder(R.drawable.boy_avatar)
-                        .into(currentProfilePicture);
 
             }
 
@@ -122,11 +128,15 @@ public class EditProfileDataActivity extends AppCompatActivity {
         UsersDatabaseReference.child("backgroundImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null)
+                {
+                    Picasso.get()
+                            .load(snapshot.getValue().toString())
+                            .placeholder(R.drawable.background_image)
+                            .into(currentBackgroundPicture);
+                    currentBackgroundPicture.setTag(snapshot.getValue().toString());
+                }
 
-                Picasso.get()
-                        .load(snapshot.getValue().toString())
-                        .placeholder(R.drawable.background_image)
-                        .into(currentBackgroundPicture);
             }
 
             @Override
@@ -275,85 +285,121 @@ public class EditProfileDataActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
-            Uri profileImageUri = (Uri) currentProfilePicture.getTag();
-            Uri backgroundImageUri = (Uri) currentBackgroundPicture.getTag();
-            String profileImageFileName = "profile_image" +  "." + getMimeType(getApplicationContext(), profileImageUri);
-            String backgroundImageFileName = "background_image" +  "." + getMimeType(getApplicationContext(), backgroundImageUri);
+            if(currentProfilePicture.getTag().getClass() == String.class && currentBackgroundPicture.getTag().getClass() == String.class)
+            {
+                HashMap userMap = new HashMap();
+                userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
+                userMap.put("fullName", fullNameText);
+                userMap.put("address", currentAddressText);
+                userMap.put("occupation", currentOccupationText);
+                userMap.put("profileImageLink", (String) currentProfilePicture.getTag());
+                userMap.put("backgroundImageLink", (String) currentBackgroundPicture.getTag());
 
-            StorageReference profileImageStorageReference = userProfileImageRef.child(currentUserId + "/" + profileImageFileName);
-            StorageReference backgroundImageStorageReference = userProfileImageRef.child(currentUserId + "/" + backgroundImageFileName);
+                UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+                            sendUserToHomePage();  // send user to main activity
 
-            profileImageStorageReference.putFile(profileImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot profileImageTask) {
-                    backgroundImageStorageReference.putFile(backgroundImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            profileImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String profileImageLink =  uri.toString();
-                                    backgroundImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            String backgroundImageLink = uri.toString();
-                                            HashMap userMap = new HashMap();
-                                            userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
-                                            userMap.put("fullName", fullNameText);
-                                            userMap.put("address", currentAddressText);
-                                            userMap.put("occupation", currentOccupationText);
-                                            userMap.put("profileImageLink", profileImageLink);
-                                            userMap.put("backgroundImageLink", backgroundImageLink);
+                            Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                                            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
-                                                @Override
-                                                public void onComplete(@NonNull Task task) {
-                                                    if (task.isSuccessful()) {
-                                                        sendUserToHomePage();  // send user to main activity
-
-                                                        Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
-                                                        progressBar.setVisibility(View.GONE);
-                                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                                    } else {
-                                                        String errorMessage = task.getException().getMessage();
-                                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
-                                                        progressBar.setVisibility(View.GONE);
-                                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        } else {
+                            String errorMessage = task.getException().getMessage();
+                            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
+                        }
+                    }
+                });
+
+            }else
+            {
+                Uri profileImageUri = (Uri) currentProfilePicture.getTag();
+                Uri backgroundImageUri = (Uri) currentBackgroundPicture.getTag();
+                String profileImageFileName = "profile_image" +  "." + getMimeType(getApplicationContext(), profileImageUri);
+                String backgroundImageFileName = "background_image" +  "." + getMimeType(getApplicationContext(), backgroundImageUri);
+
+                StorageReference profileImageStorageReference = userProfileImageRef.child(currentUserId + "/" + profileImageFileName);
+                StorageReference backgroundImageStorageReference = userProfileImageRef.child(currentUserId + "/" + backgroundImageFileName);
+
+                profileImageStorageReference.putFile(profileImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot profileImageTask) {
+                        backgroundImageStorageReference.putFile(backgroundImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                profileImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        String profileImageLink =  uri.toString();
+                                        backgroundImageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                String backgroundImageLink = uri.toString();
+                                                HashMap userMap = new HashMap();
+                                                userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
+                                                userMap.put("fullName", fullNameText);
+                                                userMap.put("address", currentAddressText);
+                                                userMap.put("occupation", currentOccupationText);
+                                                userMap.put("profileImageLink", profileImageLink);
+                                                userMap.put("backgroundImageLink", backgroundImageLink);
+
+                                                UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task task) {
+                                                        if (task.isSuccessful()) {
+                                                            sendUserToHomePage();  // send user to main activity
+
+                                                            Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
+                                                            progressBar.setVisibility(View.GONE);
+                                                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                                        } else {
+                                                            String errorMessage = task.getException().getMessage();
+                                                            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                                                            progressBar.setVisibility(View.GONE);
+                                                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+
+                                                        }
                                                     }
-                                                }
-                                            });
-                                        }
+                                                });
+                                            }
 
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e)
-                                        {
-                                            progressBar.setVisibility(View.GONE);
-                                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                            Log.d(TAG, "Upload Failed ");
-                                        }
-                                    });
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e)
-                                {
-                                    progressBar.setVisibility(View.GONE);
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    Log.d(TAG, "Upload Failed ");
-                                }});
-                                        }
-                                    });
-                                }
-                            });
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e)
+                                            {
+                                                progressBar.setVisibility(View.GONE);
+                                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                                Log.d(TAG, "Upload Failed ");
+                                            }
+                                        });
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e)
+                                    {
+                                        progressBar.setVisibility(View.GONE);
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                        Log.d(TAG, "Upload Failed ");
+                                    }});
+                            }
+                        });
+                    }
+                });
 
-;
+                ;
 
 
-        }
+            }
+            }
+
+
     }
 
     private void sendUserToHomePage() {

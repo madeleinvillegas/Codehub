@@ -22,20 +22,13 @@ public class Notifications {
     //linkUID is the id for node being referred
 
     public int notificationType;
-    public String notificationContent, creationDate, time, linkUID, image;
+    public String notificationContent, creationDate, time, linkUID, profileImageLink;
+
+
 
     public Notifications()
     {
 
-    }
-
-    public Notifications(int notificationType, String notificationContent, String creationDate, String time, String linkUID, String image) {
-        this.notificationType = notificationType;
-        this.notificationContent = notificationContent;
-        this.creationDate = creationDate;
-        this.time = time;
-        this.linkUID = linkUID;
-        this.image = image;
     }
 
     public int getNotificationType() {
@@ -78,11 +71,11 @@ public class Notifications {
         this.linkUID = linkUID;
     }
 
-    public String getImage() {
-        return image;
+    public String getProfileImageLink() {
+        return profileImageLink;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setProfileImageLink(String profileImageLink) {
+        this.profileImageLink = profileImageLink;
     }
 }

@@ -183,7 +183,7 @@ public class HomeFragment extends Fragment {
 
         Notifications notification = new Notifications();
         notification.setCreationDate(currentDate);
-        notification.setImage(FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("profileImageLink").toString());
+        notification.setProfileImageLink(FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("profileImageLink").toString());
         notification.setLinkUID(postID);
         notification.setNotificationType(0);
         notification.setTime(currentTime);

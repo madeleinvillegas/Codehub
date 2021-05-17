@@ -102,8 +102,6 @@ public class NotificationsFragment extends Fragment {
         }
 
         public void setImage(String image) {
-            //NOTE: not sure if this function works 100%
-            //TODO: Read https://stackoverflow.com/questions/36045522/android-picasso-image-does-not-load
             Picasso.get()
                     .load(image)
                     .placeholder(R.drawable.ic_baseline_event_seat_24)
@@ -160,7 +158,7 @@ public class NotificationsFragment extends Fragment {
             protected void onBindViewHolder(@NonNull @NotNull notificationsViewHolder holder, int position, @NonNull @NotNull Notifications model) {
                 String content, image, time, date;
                 content = model.getNotificationContent();
-                image = model.getImage();
+                image = model.getProfileImageLink();
                 date = model.getCreationDate();
                 time = model.getTime();
 

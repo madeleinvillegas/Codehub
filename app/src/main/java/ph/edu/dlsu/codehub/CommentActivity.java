@@ -124,7 +124,7 @@ public class CommentActivity extends AppCompatActivity {
                                                 //Will use an object since I already made an object
                                                 Notifications notification = new Notifications();
                                                 notification.setCreationDate(currentDate);
-                                                notification.setImage(userRef.child(userId).child("profileImageLink").toString());
+                                                notification.setProfileImageLink(userRef.child(userId).child("profileImageLink").toString());
                                                 notification.setLinkUID(pos);
                                                 notification.setNotificationContent(notificationContent);
                                                 notification.setNotificationType(0);

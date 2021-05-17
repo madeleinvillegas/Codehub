@@ -72,6 +72,7 @@
         android:layout_marginStart="350dp"
         android:layout_marginTop="225dp"
         android:background="#0000"
+        android:onClick="followUser"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/follow" />
 </android.widget.RelativeLayout>

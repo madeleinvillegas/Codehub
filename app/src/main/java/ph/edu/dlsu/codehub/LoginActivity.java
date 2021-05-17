@@ -91,22 +91,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 //  Allows the user to not login every time they open the app
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        mAuth = FirebaseAuth.getInstance();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if(currentUser != null) {
-//            if (currentUser.getUid().equals("4RPCxj0Pe6ZEnNoPlRwYIU726pd2")) {
-//                Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
-//                startActivity(intent);
-//            }
-//            else {
-//                Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
-//                startActivity(intent);
-//            }
-//        }
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null) {
+            if (currentUser.getUid().equals("p96ZIBEpCZZ7nShNuMZE4aKAhE22")) {
+                Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
+                startActivity(intent);
+            }
+        }
+    }
 }
 
 //    Code for logging out the user

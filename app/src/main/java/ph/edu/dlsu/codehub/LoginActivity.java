@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             startActivity(intent);
-            finish();
         });
         loginBtn.setOnClickListener(view -> {
             login();
@@ -70,13 +69,15 @@ public class LoginActivity extends AppCompatActivity {
                     if(task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                         String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                        if (userId.equals("the admin's user ID")) {
+                        if (userId.equals("p96ZIBEpCZZ7nShNuMZE4aKAhE22")) {
                             Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                         else {
                             Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
                             startActivity(intent);
+                            finish();
                         }
 
                     }
@@ -96,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-            if (currentUser.getUid().equals("4RPCxj0Pe6ZEnNoPlRwYIU726pd2")) {
+            if (currentUser.getUid().equals("p96ZIBEpCZZ7nShNuMZE4aKAhE22")) {
                 Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
                 startActivity(intent);
             }

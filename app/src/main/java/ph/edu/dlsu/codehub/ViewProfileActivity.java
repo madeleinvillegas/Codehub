@@ -81,8 +81,16 @@ public class ViewProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 name.setText(snapshot.child("fullName").getValue().toString());
-                address.setText(snapshot.child("address").getValue().toString());
-                work.setText(snapshot.child("occupation").getValue().toString());
+                String forDisplay = snapshot.child("address").getValue().toString();
+                if (forDisplay.equals("")) {
+                    forDisplay = "Address";
+                }
+                address.setText(forDisplay);
+                forDisplay = snapshot.child("occupation").getValue().toString();
+                if (forDisplay.equals("")) {
+                    forDisplay = "Workplace";
+                }
+                work.setText(forDisplay);
 //                followers.setText(snapshot.child("fullName").toString());
 //                following.setText(snapshot.child("fullName").toString());
 //                set the profile and bg pic

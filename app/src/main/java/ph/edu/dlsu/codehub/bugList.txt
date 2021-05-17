@@ -1,10 +1,13 @@
 TODO:
+Add milliseconds to create post
+Fix Layout of edit profile
 Fix bugs below
-Ikaw na maglagay ng logout button
+Logout button
 
 
 
 IMPORTANT:
+
 ***
 Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed. This has bad implications.
 For example, I change my name to 'Madelein' then post something atrocious. Then, I change my name to 'Eugene'. Normal people won't know the difference.
@@ -32,10 +35,8 @@ For Some Reason, profile image is not loading in picasso. Will fix soon.
 Notifications:
 Doesn't work for follow and unfollow yet, because felix not finished yet
 Doesn't display profile pics properly for some reason (same reason sa search)
+    - Madelein: I don't think the profile pics are necessary for displaying notifications
 Notifications doesn't link or isn't clickable yet
-
-Post Activity:
-Posting multiple times all at once would be considered as one post
 
 Edit Profile:
 I need to place the gui for edit profile
@@ -54,3 +55,5 @@ Resolved:
     Also by pressing back, you could go back to login page
     - yes kasi main yung login page
 
+    Post Activity:
+    Posting multiple times all at once would be considered as one post

@@ -3,6 +3,7 @@ package ph.edu.dlsu.codehub;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -107,10 +108,18 @@ public class SearchActivity extends AppCompatActivity{
         }
 
         public void setProfilePicture(String profilePicture) {
-            Picasso.get()
-                    .load(profilePicture)
-                    .placeholder(R.drawable.ic_baseline_event_seat_24)
-                    .into(profilePic);
+            if(profilePicture != null)
+            {
+                Log.d("DEBUGGING", profilePicture + "");
+//                Uri uri = Uri.parse(profilePicture);
+
+                Picasso.get()
+                        .load(profilePicture)
+                        .placeholder(R.drawable.ic_baseline_event_seat_24)
+                        .into(profilePic);
+            }
+//
+
 
 
             //TODO: Read https://stackoverflow.com/questions/36045522/android-picasso-image-does-not-load
@@ -129,7 +138,8 @@ public class SearchActivity extends AppCompatActivity{
     }
 
     private void searchPeopleWithFriends(String query) {
-        //TODO: make searching case sensitive and fix image of results
+
+        query = query.toLowerCase();
         //TODO: make results onclickable (felix na)
         //should display a list of all users since the order has been omitted
         Query searchPeopleWithFriendsQuery = usersDatabaseReference.orderByChild("fullNameInLowerCase" ).startAt(query).endAt(query + "\uf8ff");
@@ -146,7 +156,7 @@ public class SearchActivity extends AppCompatActivity{
             protected void onBindViewHolder(@NonNull @NotNull FindFriendsViewHolder holder, int position, @NonNull @NotNull User model) {
                 String name = model.getFullName();
                 holder.setName(name);
-                holder.setProfilePicture(model.getProfilePicture());
+                holder.setProfilePicture(model.getprofileImageLink());
                 holder.setStatus(model.getStatus());
                 Log.d("Debug Name: ", name);
 //                Log.d("Debug Profile Picture: ", model.getProfilePicture());

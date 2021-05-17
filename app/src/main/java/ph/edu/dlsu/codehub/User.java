@@ -2,10 +2,10 @@ package ph.edu.dlsu.codehub;
 
 public class User {
     public String address;
-    public String backgroundImage;
+    public String backgroundImageLink;
     public String fullName;
     public String occupation;
-    public String profilePicture;
+    public String profileImageLink;
     public String username;
     public String status;
 
@@ -27,12 +27,12 @@ public class User {
         this.address = address;
     }
 
-    public String getBackgroundImage() {
-        return backgroundImage;
+    public String getbackgroundImageLink() {
+        return backgroundImageLink;
     }
 
-    public void setBackgroundImage(String backgroundImage) {
-        this.backgroundImage = backgroundImage;
+    public void setbackgroundImageLink(String backgroundImageLink) {
+        this.backgroundImageLink = backgroundImageLink;
     }
 
     public String getFullName() {
@@ -51,12 +51,12 @@ public class User {
         this.occupation = occupation;
     }
 
-    public String getProfilePicture() {
-        return profilePicture;
+    public String getprofileImageLink() {
+        return profileImageLink;
     }
 
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setprofileImageLink(String profileImageLink) {
+        this.profileImageLink = profileImageLink;
     }
 
     public String getUsername() {

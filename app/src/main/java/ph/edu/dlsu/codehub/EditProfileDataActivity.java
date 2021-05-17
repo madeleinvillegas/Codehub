@@ -165,83 +165,31 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
         return extension;
     }
-    private String uploadImage(Uri ImageUri, String filename){
-        String extension = getMimeType(getApplicationContext(), ImageUri);
-        filename = filename + "." + extension;
-        StorageReference storageReference = userProfileImageRef.child(currentUserId + "/" + filename);
-
-        storageReference.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                progressBar.setVisibility(View.GONE);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                Log.d(TAG, "Upload completed");
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e)
-            {
-                progressBar.setVisibility(View.GONE);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                Log.d(TAG, "Upload Failed ");
-            }
-        });
-        Log.d(TAG, filename);
-        return storageReference.getDownloadUrl().toString();
-//            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(this);
-
-
-//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
-//        {
-//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-//            if (resultCode == RESULT_OK)
+//    private String uploadImage(Uri ImageUri, String filename){
+//        String extension = getMimeType(getApplicationContext(), ImageUri);
+//        filename = filename + "." + extension;
+//        StorageReference storageReference = userProfileImageRef.child(currentUserId + "/" + filename);
+//
+//        storageReference.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                progressBar.setVisibility(View.GONE);
+//                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+//                Log.d(TAG, "Upload completed");
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e)
 //            {
-//                Uri resultUri = result.getUri();
-//                String extension = resultUri.toString().substring(resultUri.toString().lastIndexOf("."));
-//                //TODO: add code to upload image to firebase, download image and set image attributes in real time data base
-//                //upload profile picture
-//                Log.d(TAG, resultUri.toString());
-//
-//                StorageReference profilePic = userProfileImageRef.child("profile_image" + extension);
-//                UploadTask uploadTask = profilePic.putFile(resultUri);
-//                Log.d(TAG, "Image cropped and Uploading File Here");
-//
-//                uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                        if(task.isSuccessful())
-//                        {
-//                            Log.d(TAG, "Uploading of Image was Successful");
-//                            //get download url (nasty workaround)
-//                            String downloadUrl = profilePic.getDownloadUrl().toString();
-//                            Log.d(TAG, downloadUrl);
-//                            //set database reference in real time data base
-//                            UsersDatabaseReference.child("profileImage").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    //download and set profile picture
-//
-//                                }
-//                            });
-//                        }
-//                        else
-//                        {
-//                            Log.d(TAG, "Uploading of Image Failed: " + task.getException());
-//                        }
-//                    }
-//                });
-//
-//
-//
-//
+//                progressBar.setVisibility(View.GONE);
+//                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+//                Log.d(TAG, "Upload Failed ");
 //            }
-//            else {
-//                Log.d(TAG, "Error. Image cannot be cropped.");
-//            }
-//
-//        }
-    }
+//        });
+//        Log.d(TAG, filename);
+//        return storageReference.getDownloadUrl().toString();
+//    }
 
 
 
@@ -249,8 +197,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 //        Log.d(TAG, "Calling Save Account Information");
 
         String fullNameText,
-                currentAddressText, currentOccupationText,
-                profileImageUrl, backgroundImageUrl;
+                currentAddressText, currentOccupationText;
 
         fullNameText = fullName.getText().toString();
         currentAddressText = currentAddress.getText().toString();
@@ -288,47 +235,74 @@ public class EditProfileDataActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
-            profileImageUrl = uploadImage((Uri) currentProfilePicture.getTag(), "profile_image");
-            backgroundImageUrl = uploadImage((Uri) currentBackgroundPicture.getTag(), "background_image");
-            HashMap userMap = new HashMap();
-            userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
-            userMap.put("fullName", fullNameText);
-            userMap.put("address", currentAddressText);
-            userMap.put("occupation", currentOccupationText);
-            userMap.put("profileImageLink", profileImageUrl);
-            userMap.put("backgroundImageLink", backgroundImageUrl);
+            Uri profileImageUri = (Uri) currentProfilePicture.getTag();
+            Uri backgroundImageUri = (Uri) currentBackgroundPicture.getTag();
+            String profileImageFileName = "profile_image" +  "." + getMimeType(getApplicationContext(), profileImageUri);
+            String backgroundImageFileName = "background_image" +  "." + getMimeType(getApplicationContext(), backgroundImageUri);
 
+            StorageReference profileImageStorageReference = userProfileImageRef.child(currentUserId + "/" + profileImageFileName);
+            StorageReference backgroundImageStorageReference = userProfileImageRef.child(currentUserId + "/" + backgroundImageFileName);
 
-            //I noticed that theis doesn't check if there are duplicates
-
-            //
-            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+            profileImageStorageReference.putFile(profileImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task task) {
-                    if (task.isSuccessful()) {
-                        sendUserToHomePage();  // send user to main activity
-//                        Log.d(TAG, "Data Change Successful");
+                public void onSuccess(UploadTask.TaskSnapshot profileImageTask) {
+                    String profileImageLink = profileImageStorageReference.getDownloadUrl().toString();
+                    backgroundImageStorageReference.putFile(backgroundImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            String backgroundImageLink = backgroundImageStorageReference.getDownloadUrl().toString();
 
-                        Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
-                        progressBar.setVisibility(View.GONE);
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            HashMap userMap = new HashMap();
+                            userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
+                            userMap.put("fullName", fullNameText);
+                            userMap.put("address", currentAddressText);
+                            userMap.put("occupation", currentOccupationText);
+                            userMap.put("profileImageLink", profileImageLink);
+                            userMap.put("backgroundImageLink", backgroundImageLink);
 
-                    } else {
-//                        Log.d(TAG, "Data Change Failed");
+                            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (task.isSuccessful()) {
+                                        sendUserToHomePage();  // send user to main activity
 
-                        String errorMessage = task.getException().getMessage();
-                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
-                        progressBar.setVisibility(View.GONE);
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                        Toast.makeText(getApplicationContext(), "Profile Data Changed Successfully", Toast.LENGTH_LONG);
+                                        progressBar.setVisibility(View.GONE);
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                    } else {
+                                        String errorMessage = task.getException().getMessage();
+                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                                        progressBar.setVisibility(View.GONE);
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
-                    }
+                                    }
+                                }
+                            });
+                        }
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            Log.d(TAG, "Upload Failed ");
+                        }
+                    });
                 }
-            });
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e)
+                {
+                    progressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    Log.d(TAG, "Upload Failed ");
+                }});
+
+
         }
-
-//        Log.d(TAG, "Finished calling save account information");
-
     }
 
     private void sendUserToHomePage() {

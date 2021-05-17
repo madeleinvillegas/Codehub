@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,23 +43,56 @@ import static ph.edu.dlsu.codehub.R.layout.comment_layout;
 
 
 public class ViewProfileActivity extends AppCompatActivity {
-    private DatabaseReference postRef, likesRef;
+    private DatabaseReference postRef, likesRef, userRef;
     private RecyclerView postList;
     private Boolean isLiked = false;
     private String userId;
     private String TAG = "DEBUGGING_TAG";
-
-
+    private TextView name, address, work, followers, following;
+    private ImageButton edit;
+    private ImageView profilepic, bgpic;
     private String uidOfThePostAuthor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
+        name = findViewById(R.id.textView);
+        address = findViewById(R.id.textView2);
+        work = findViewById(R.id.textView3);
+        followers = findViewById(R.id.textView4);
+        following = findViewById(R.id.textView5);
+        edit = findViewById(R.id.editProfileBtn);
+        profilepic = findViewById(R.id.profilePic);
+        bgpic = findViewById(R.id.bgPhoto);
+        edit.setOnClickListener(view-> {
+            Intent intent = new Intent(this, EditProfileDataActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
         postList = findViewById(R.id.recyclerViewProfile);
         postList.setHasFixedSize(true);
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
         likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
+
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                name.setText(snapshot.child("fullName").getValue().toString());
+                address.setText(snapshot.child("address").getValue().toString());
+                work.setText(snapshot.child("occupation").getValue().toString());
+//                followers.setText(snapshot.child("fullName").toString());
+//                following.setText(snapshot.child("fullName").toString());
+//                set the profile and bg pic
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
@@ -69,8 +105,9 @@ public class ViewProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Query query = postRef.orderByChild("uid").equalTo(userId);
         FirebaseRecyclerOptions<Post> options =
-                new FirebaseRecyclerOptions.Builder<Post>().setQuery(postRef, Post.class).build();
+                new FirebaseRecyclerOptions.Builder<Post>().setQuery(query, Post.class).build();
         FirebaseRecyclerAdapter<Post, ViewProfileViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Post, ViewProfileViewHolder>(options) {
             @Override
@@ -84,14 +121,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                 holder.postTitle.setText(model.getTitle());
                 holder.setLikeBtnColor(pos);
 
-                if (uidOfThePostAuthor.equals(userId)) {
-                    holder.reportBtn.setVisibility(View.INVISIBLE);
-                    holder.optionsBtn.setVisibility(View.VISIBLE);
-                }
-                else {
-
-                }
-
+                holder.reportBtn.setVisibility(View.INVISIBLE);
                 holder.commentBtn.setOnClickListener(view -> {
                     Intent intent = new Intent(ViewProfileActivity.this, CommentActivity.class);
                     intent.putExtra("Position", pos);
@@ -167,6 +197,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
             userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
             optionsBtn = itemView.findViewById(R.id.options_btn);
+
         }
 
 

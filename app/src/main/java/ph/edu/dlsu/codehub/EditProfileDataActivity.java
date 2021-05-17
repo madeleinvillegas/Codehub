@@ -89,11 +89,9 @@ public class EditProfileDataActivity extends AppCompatActivity {
 
 
         //ID references
-        status = (EditText) findViewById(R.id.current_status);
         editProfilePicture = (TextView) findViewById(R.id.edit_profile_picture);
         editBackgroundPicture = (TextView) findViewById(R.id.edit_background_image);
         fullName = (EditText) findViewById(R.id.full_name);
-        currentUserName = (EditText) findViewById(R.id.current_user_name);
         currentAddress = (EditText) findViewById(R.id.current_address);
         currentOccupation = (EditText) findViewById(R.id.current_occupation);
         saveChanges = findViewById(R.id.save_changes_button);
@@ -250,26 +248,19 @@ public class EditProfileDataActivity extends AppCompatActivity {
     private void saveAccountInformation(){
 //        Log.d(TAG, "Calling Save Account Information");
 
-        String fullNameText, currentUserNameText,
+        String fullNameText,
                 currentAddressText, currentOccupationText,
-                statusText, profileImageUrl, backgroundImageUrl;
+                profileImageUrl, backgroundImageUrl;
 
         fullNameText = fullName.getText().toString();
-        currentUserNameText = currentUserName.getText().toString();
         currentAddressText = currentAddress.getText().toString();
         currentOccupationText = currentOccupation.getText().toString();
-        statusText = status.getText().toString();
+
 
         if(TextUtils.isEmpty(fullNameText))
         {
 //            Log.d(TAG, "Empty Name");
             Toast.makeText(this, "Please Input Your Name", Toast.LENGTH_SHORT).show();
-        }
-        else if(TextUtils.isEmpty(currentUserNameText))
-        {
-//            Log.d(TAG, "Empty username");
-
-            Toast.makeText(this, "Please Input Current Username", Toast.LENGTH_SHORT).show();;
         }
         else if (TextUtils.isEmpty(currentAddressText))
         {
@@ -282,12 +273,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
 //            Log.d(TAG, "Empty Occupation");
             Toast.makeText(this, "Please Input Your Current Occupation", Toast.LENGTH_SHORT).show();;
         }
-        else if (TextUtils.isEmpty(statusText))
-        {
-//            Log.d(TAG, "Empty Status");
-            Toast.makeText(this, "Please Input Your Current Status", Toast.LENGTH_SHORT).show();;
 
-        }
         else if (currentProfilePicture.getTag() == null || currentBackgroundPicture.getTag() == null)
         {
 //            Log.d(TAG, "User didn't choose an image for profile picture and background picture");
@@ -300,12 +286,10 @@ public class EditProfileDataActivity extends AppCompatActivity {
             profileImageUrl = uploadImage((Uri) currentProfilePicture.getTag(), "profile_image");
             backgroundImageUrl = uploadImage((Uri) currentBackgroundPicture.getTag(), "background_image");
             HashMap userMap = new HashMap();
-            userMap.put("username", currentUserNameText);
             userMap.put("fullNameInLowerCase", fullNameText.toLowerCase());
             userMap.put("fullName", fullNameText);
             userMap.put("address", currentAddressText);
             userMap.put("occupation", currentOccupationText);
-            userMap.put("status", statusText);
             userMap.put("profileImageLink", profileImageUrl);
             userMap.put("backgroundImageLink", backgroundImageUrl);
 

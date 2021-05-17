@@ -21,19 +21,6 @@
         >
 
 
-        <EditText
-            android:id="@+id/current_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Enter Current Status"
-            android:inputType="textPersonName"
-            android:textSize="@dimen/body"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.218"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currentStatus_text" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_picture"
@@ -119,21 +106,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/current_user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Enter Username"
-            android:inputType="textPersonName"
-            android:textSize="@dimen/body"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/current_user_name_label" />
 
         <EditText
             android:id="@+id/current_address"
@@ -151,19 +123,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/current_address_label" />
 
-        <TextView
-            android:id="@+id/current_user_name_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="516dp"
-            android:layout_weight="1"
-            android:text="Current UserName"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sub_body"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/information_text"
@@ -289,18 +249,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/currentStatus_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="740dp"
-            android:layout_weight="1"
-            android:text="Status"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sub_body"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/save_changes_button"

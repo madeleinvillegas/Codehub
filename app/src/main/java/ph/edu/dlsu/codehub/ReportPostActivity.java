@@ -3,6 +3,7 @@ package ph.edu.dlsu.codehub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -39,9 +40,6 @@ public class ReportPostActivity extends AppCompatActivity {
     private RelativeLayout rootLayout;
     private ProgressBar progressBar;
 
-
-    private Intent previousIntent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +65,7 @@ public class ReportPostActivity extends AppCompatActivity {
 
         //Initially hide the progress bar
         progressBar.setVisibility(View.GONE);
-
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         reportBtn.setOnClickListener(view -> {
             report_post();
@@ -78,6 +76,10 @@ public class ReportPostActivity extends AppCompatActivity {
     private void report_post()
     {
         progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+
         DatabaseReference postReported = reportDataBaseReference.child(postId);
         String reason = reportReason.getText().toString();
         HashMap data = new HashMap<String, String>();
@@ -95,6 +97,7 @@ public class ReportPostActivity extends AppCompatActivity {
                 {
                     //if user already reported
                     progressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Toast.makeText(getApplicationContext(), "User Already Reported", Toast.LENGTH_LONG).show();
                 }
                 // Until here
@@ -105,6 +108,9 @@ public class ReportPostActivity extends AppCompatActivity {
                     data.put("postId", postId);
 
                     progressBar.setVisibility(View.VISIBLE);
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
 
                     postReported.updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -113,12 +119,14 @@ public class ReportPostActivity extends AppCompatActivity {
                             {
                                 Toast.makeText(getApplicationContext(), "Report Successful", Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                 finish();
                             }
                             else
                             {
                                 Toast.makeText(getApplicationContext(), "Report Failed. Try Again.", Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             }
                         }
                     });

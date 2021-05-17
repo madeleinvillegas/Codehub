@@ -1,7 +1,6 @@
 TODO:
-Fix Layout of edit profile
 Fix bugs below
-
+Ikaw na maglagay ng logout button
 
 
 

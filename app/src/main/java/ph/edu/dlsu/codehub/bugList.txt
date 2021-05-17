@@ -5,7 +5,6 @@ Ikaw na maglagay ng logout button
 
 
 IMPORTANT:
-
 ***
 Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed. This has bad implications.
 For example, I change my name to 'Madelein' then post something atrocious. Then, I change my name to 'Eugene'. Normal people won't know the difference.
@@ -35,17 +34,20 @@ Notifications doesn't link or isn't clickable yet
 Post Activity:
 Posting multiple times all at once would be considered as one post
 
-Report Post:
-(Not sure if it's a bug) You can't report on your own post
-
-Login/ Register:
-Also by pressing back, you could go back to login page
-- yes kasi main yung login page
-
 Edit Profile:
 I need to place the gui for edit profile
 When back is pressed in this activity and you try logging in again, it would do "your account has not been created due to it being in use to another account or smth"
 
-Admin (fixed):
-Program crashes when deleting a post. Only the first delete works (either postRef or reportsRef)
-It has something to do with displaying the posts on recyclerview
+
+Resolved:
+    Admin:
+    Program crashes when deleting a post. Only the first delete works (either postRef or reportsRef)
+    It has something to do with displaying the posts on recyclerview
+
+    Report Post:
+    (Not sure if it's a bug) You can't report on your own post
+
+    Login/ Register:
+    Also by pressing back, you could go back to login page
+    - yes kasi main yung login page
+

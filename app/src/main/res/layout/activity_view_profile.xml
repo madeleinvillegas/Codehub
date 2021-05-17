@@ -73,7 +73,7 @@
         android:layout_marginTop="225dp"
         android:background="#0000"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/edit" />
+        app:srcCompat="@drawable/ic_baseline_edit_24" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProfile"

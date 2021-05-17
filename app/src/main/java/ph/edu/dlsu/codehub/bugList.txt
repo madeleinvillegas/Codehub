@@ -1,6 +1,7 @@
 TODO:
 Add milliseconds to create post
-Remove Status sa edit profile
+
+Fix Layout of edit profile
 Fix bugs below
 
 

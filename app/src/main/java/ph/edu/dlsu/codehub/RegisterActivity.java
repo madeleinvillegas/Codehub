@@ -45,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         backToLogin.setOnClickListener(view -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
+            finish();
         });
     }
     private void createAccount() {
@@ -87,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(RegisterActivity.this, EditProfileDataActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 else {
                                     String errorMessage = task.getException().getMessage();

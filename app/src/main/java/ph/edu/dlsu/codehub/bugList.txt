@@ -2,6 +2,7 @@ TODO: ENLARGE BUTTONS AND TEXT. I HAVE LARGE FINGERS.
 
 todo:(important) add time sa notifications key (same error sa home fragment )
 
+TODO: Add notifications to view profile and view my own profile
 
 TODO: Consider reading this for getting rid of repetitive code for toolbar:
 TODO: https://stackoverflow.com/questions/28661981/use-toolbar-across-all-activities-android

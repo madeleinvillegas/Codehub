@@ -1,4 +1,4 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.helperClasses;
 
 public class Comments {
     public String comment;

@@ -1,18 +1,16 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.activityClasses;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -25,15 +23,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.Tag;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
-import ph.edu.dlsu.codehub.fragmentClasses.HomeFragment;
-
-import static ph.edu.dlsu.codehub.R.layout.comment_layout;
+import ph.edu.dlsu.codehub.R;
+import ph.edu.dlsu.codehub.helperClasses.Report;
 
 public class AdminActivity extends AppCompatActivity {
     private RecyclerView reportedPosts;

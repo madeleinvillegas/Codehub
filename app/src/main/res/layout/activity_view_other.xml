@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/followers"
-            android:textColor="@color/black"
+            android:textColor="@color/blue_link"
             android:fontFamily="@font/abhaya_libre_regular"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/following"
-            android:textColor="@color/black"
+            android:textColor="@color/blue_link"
             android:fontFamily="@font/abhaya_libre_regular"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>

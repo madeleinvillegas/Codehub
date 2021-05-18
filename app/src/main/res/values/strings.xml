@@ -20,6 +20,6 @@
     <string name="username">Username</string>
     <string name="address">Address</string>
     <string name="workplace">Workplace</string>
-    <string name="followers">Followers</string>
-    <string name="following">Following</string>
+    <string name="followers"><u>Followers</u></string>
+    <string name="following"><u>Following</u></string>
 </resources>

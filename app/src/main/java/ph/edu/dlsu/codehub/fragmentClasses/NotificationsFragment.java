@@ -19,7 +19,6 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,9 +26,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import ph.edu.dlsu.codehub.Notifications;
+import ph.edu.dlsu.codehub.helperClasses.Notifications;
 import ph.edu.dlsu.codehub.R;
-import ph.edu.dlsu.codehub.User;
 //The function of this class is to read and display whatever notifications there are:
 
 //TODO: Read further https://stackoverflow.com/questions/24471109/recyclerview-onclick
@@ -102,9 +100,11 @@ public class NotificationsFragment extends Fragment {
         }
 
         public void setImage(String image) {
+            //TODO: for some reason this code doesn't work
+
             Picasso.get()
                     .load(image)
-                    .placeholder(R.drawable.ic_baseline_event_seat_24)
+                    .placeholder(R.drawable.ic_baseline_person_24)
                     .into(notificationImage);
         }
 
@@ -164,6 +164,7 @@ public class NotificationsFragment extends Fragment {
 
                 holder.setContent(content);
                 holder.setImage(image);
+                Log.d("DEBUGGING", image);
                 holder.setTimeStamp(date, time);
             }
         };

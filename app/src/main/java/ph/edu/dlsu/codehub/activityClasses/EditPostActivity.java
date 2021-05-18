@@ -1,10 +1,9 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.activityClasses;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +11,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
 public class EditPostActivity extends AppCompatActivity {

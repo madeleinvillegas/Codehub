@@ -1,9 +1,8 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.activityClasses;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +32,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ph.edu.dlsu.codehub.R;
+import ph.edu.dlsu.codehub.helperClasses.User;
 
 public class SearchActivity extends AppCompatActivity{
 
@@ -155,6 +156,7 @@ public class SearchActivity extends AppCompatActivity{
 
         FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<User, FindFriendsViewHolder>(options) {
 
+            
             @Override
             protected void onBindViewHolder(@NonNull @NotNull FindFriendsViewHolder holder, int position, @NonNull @NotNull User model) {
                 String name = model.getFullName();

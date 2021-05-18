@@ -1,4 +1,4 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.helperClasses;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

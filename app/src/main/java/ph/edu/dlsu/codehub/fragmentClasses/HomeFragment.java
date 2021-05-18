@@ -1,10 +1,8 @@
 package ph.edu.dlsu.codehub.fragmentClasses;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,11 +34,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
-import ph.edu.dlsu.codehub.CommentActivity;
-import ph.edu.dlsu.codehub.EditPostActivity;
-import ph.edu.dlsu.codehub.Notifications;
-import ph.edu.dlsu.codehub.ReportPostActivity;
-import ph.edu.dlsu.codehub.Post;
+import ph.edu.dlsu.codehub.activityClasses.CommentActivity;
+import ph.edu.dlsu.codehub.activityClasses.EditPostActivity;
+import ph.edu.dlsu.codehub.helperClasses.Notifications;
+import ph.edu.dlsu.codehub.activityClasses.ReportPostActivity;
+import ph.edu.dlsu.codehub.helperClasses.Post;
 import ph.edu.dlsu.codehub.R;
 
 

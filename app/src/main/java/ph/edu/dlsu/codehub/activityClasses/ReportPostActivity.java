@@ -1,6 +1,5 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.activityClasses;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+
+import ph.edu.dlsu.codehub.R;
 
 public class ReportPostActivity extends AppCompatActivity {
     // TODO: Convert to a fragment

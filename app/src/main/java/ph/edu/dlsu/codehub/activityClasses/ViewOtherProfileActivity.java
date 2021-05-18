@@ -1,4 +1,4 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.activityClasses;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ph.edu.dlsu.codehub.R;
 
 public class ViewOtherProfileActivity extends AppCompatActivity {
     private String position;

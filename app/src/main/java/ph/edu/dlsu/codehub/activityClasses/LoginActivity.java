@@ -1,8 +1,7 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.activityClasses;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.Objects;
 
+import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.fragmentClasses.ProfileTemplate;
 
 public class LoginActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.helperClasses;
 
 import android.content.Context;
 import android.util.AttributeSet;

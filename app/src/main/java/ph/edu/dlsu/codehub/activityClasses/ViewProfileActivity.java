@@ -1,4 +1,4 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.activityClasses;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -39,9 +37,10 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ph.edu.dlsu.codehub.helperClasses.Notifications;
+import ph.edu.dlsu.codehub.helperClasses.Post;
+import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.fragmentClasses.HomeFragment;
-
-import static ph.edu.dlsu.codehub.R.layout.comment_layout;
 
 
 public class ViewProfileActivity extends AppCompatActivity {
@@ -55,6 +54,8 @@ public class ViewProfileActivity extends AppCompatActivity {
     private ImageView bgpic;
     private CircleImageView profilepic;
     private String uidOfThePostAuthor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

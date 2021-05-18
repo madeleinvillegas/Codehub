@@ -1,8 +1,10 @@
 TODO:
 Fix bugs below
-Logout button
-
-double tap creates double posts
+Follow and Unfollow Related Stuff
+Logout Button
+Change links to blue sa view profile para clear na that they are links
+double tap creates double posts (for slow nets)
+add time sa notifications key (same error sa home fragment )
 
 
 Registration Related Stuff:
@@ -11,7 +13,7 @@ I think we need to use email authentication, because users could just put dummy 
 
 Notifications:
 Doesn't work for follow and unfollow yet, because felix not finished yet
-Doesn't display profile pics properly for some reason (same reason sa search)
+Doesn't display profile pics properly for some reason
     - Madelein: I don't think the profile pics are necessary for displaying notifications
 Notifications doesn't link or isn't clickable yet
 
@@ -54,7 +56,11 @@ Resolved:
 
     Post Activity:
     Posting multiple times all at once would be considered as one post
-
-
     Add milliseconds to create post
     Fix Layout of edit profile
+
+    Search:
+    Fixed image not displaying sa search
+
+    Edit Profile:
+    I need to place the gui for edit profile

@@ -15,26 +15,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Codehub">
-        <activity android:name=".ViewOtherProfileActivity"></activity>
-        <activity android:name=".AdminActivity">
+        <activity android:name=".activityClasses.ViewOtherProfileActivity"></activity>
+        <activity android:name=".activityClasses.AdminActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CommentActivity" />
-        <activity android:name=".ViewProfileActivity">
+        <activity android:name=".activityClasses.CommentActivity" />
+        <activity android:name=".activityClasses.ViewProfileActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity">
+        <activity android:name=".activityClasses.SearchActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReportPostActivity" />
-        <activity android:name=".EditPostActivity" />
-        <activity android:name=".EditProfileDataActivity">
+        <activity android:name=".activityClasses.ReportPostActivity" />
+        <activity android:name=".activityClasses.EditPostActivity" />
+        <activity android:name=".activityClasses.EditProfileDataActivity">
             <intent-filter>
 
                 <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -46,14 +46,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activityClasses.ForgotPasswordActivity" />
+        <activity android:name=".activityClasses.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".activityClasses.RegisterActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activityClasses.ActivityDisplayFollowers">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

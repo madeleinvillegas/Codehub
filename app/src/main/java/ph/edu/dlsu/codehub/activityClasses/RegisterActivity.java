@@ -1,11 +1,10 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.activityClasses;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,11 +15,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Objects;
+
+import ph.edu.dlsu.codehub.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.helperClasses;
 
 public class Post {
     private String uid, time, date, title, body, profilePic, fullname;

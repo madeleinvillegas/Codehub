@@ -15,7 +15,7 @@
 
 
 
-package ph.edu.dlsu.codehub;
+package ph.edu.dlsu.codehub.helperClasses;
 
 public class Notifications {
     //go for a naive notification system (since school proj lang)

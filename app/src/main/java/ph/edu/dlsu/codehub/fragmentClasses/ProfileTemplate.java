@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,11 +16,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-import ph.edu.dlsu.codehub.CommentActivity;
 import ph.edu.dlsu.codehub.R;
-import ph.edu.dlsu.codehub.SearchActivity;
-import ph.edu.dlsu.codehub.SectionsPagerAdapter;
-import ph.edu.dlsu.codehub.ViewProfileActivity;
+import ph.edu.dlsu.codehub.activityClasses.SearchActivity;
+import ph.edu.dlsu.codehub.helperClasses.SectionsPagerAdapter;
+import ph.edu.dlsu.codehub.activityClasses.ViewProfileActivity;
 
 public class ProfileTemplate extends AppCompatActivity {
     private static final String TAG = "MainActivity";

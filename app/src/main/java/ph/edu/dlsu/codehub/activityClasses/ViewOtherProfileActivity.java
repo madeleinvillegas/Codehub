@@ -40,6 +40,7 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.fragmentClasses.HomeFragment;
+import ph.edu.dlsu.codehub.helperClasses.FirebaseNotificationsApi;
 import ph.edu.dlsu.codehub.helperClasses.Notifications;
 import ph.edu.dlsu.codehub.helperClasses.Post;
 
@@ -175,6 +176,7 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
         });
 
 
+
         //maybe change this to single value listener
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -213,10 +215,23 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
         String currentUser = userId;
 
 
+        FirebaseNotificationsApi firebaseNotificationsApi = new FirebaseNotificationsApi();
+        FirebaseNotificationsApi firebaseNotificationsApi2 = new FirebaseNotificationsApi();
+
+
+
         if(follow.getTag().equals("follow")){
+            firebaseNotificationsApi.setuserIdOfActor(currentUser);
+            firebaseNotificationsApi.setlinkId(userBeingViewed);
+            firebaseNotificationsApi.setMode(3);
+            firebaseNotificationsApi.addFollowedTo(userBeingViewed);
+
+
+            firebaseNotificationsApi2.setuserIdOfActor(userBeingViewed);
+            firebaseNotificationsApi2.setlinkId(currentUser);
+            firebaseNotificationsApi2.setMode(2);
+            firebaseNotificationsApi2.addFollowedBy(currentUser);
             follow.setImageResource(R.drawable.unfollow);
-
-
             //code for adding selected user
             followTo.child(currentUser).child(userBeingViewed).setValue("True");
             followedBy.child(userBeingViewed).child(currentUser).setValue("True");

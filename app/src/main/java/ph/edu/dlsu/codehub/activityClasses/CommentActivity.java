@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import ph.edu.dlsu.codehub.helperClasses.Comments;
+import ph.edu.dlsu.codehub.helperClasses.FirebaseNotificationsApi;
 import ph.edu.dlsu.codehub.helperClasses.Notifications;
 import ph.edu.dlsu.codehub.R;
 
@@ -116,22 +117,14 @@ public class CommentActivity extends AppCompatActivity {
                                             if(task.isSuccessful()) {
                                                 Toast.makeText(getApplication(), "Successfully created comment", Toast.LENGTH_SHORT).show();
 
-                                                String notificationContent = userFullName+ " commented on your post";
 
-                                                //Will use an object since I already made an object
-                                                Notifications notification = new Notifications();
-                                                notification.setCreationDate(currentDate);
-                                                notification.setProfileImageLink(userRef.child(userId).child("profileImageLink").toString());
-                                                notification.setLinkUID(pos);
-                                                notification.setNotificationContent(notificationContent);
-                                                notification.setNotificationType(0);
-                                                notification.setTime(currentTime);
 
                                                 FirebaseDatabase.getInstance().getReference().child("Posts").child(pos).child("uid").addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                                                         String authorUID = Objects.requireNonNull(snapshot.getValue()).toString();
-                                                        notificationRef.child(authorUID).child(timestamp).setValue(notification);
+                                                        FirebaseNotificationsApi firebaseNotificationsApi = new FirebaseNotificationsApi(authorUID, userId, pos, "comment");
+                                                        firebaseNotificationsApi.addCommentNotification();
                                                     }
 
                                                     @Override

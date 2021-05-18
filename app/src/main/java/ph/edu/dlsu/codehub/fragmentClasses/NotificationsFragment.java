@@ -19,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -137,9 +138,14 @@ public class NotificationsFragment extends Fragment {
 
     public void displayNotifications()
     {
+
+
+        Query query = userNotificationsDatabase.orderByKey();
+
+
         FirebaseRecyclerOptions<Notifications> options =
                 new FirebaseRecyclerOptions.Builder<Notifications>()
-                        .setQuery(userNotificationsDatabase, Notifications.class)
+                        .setQuery(query, Notifications.class)
                         .build();
 
 

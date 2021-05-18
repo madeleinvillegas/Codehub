@@ -6,6 +6,8 @@ todo:(important) add time sa notifications key (same error sa home fragment )
 TODO: Consider reading this for getting rid of repetitive code for toolbar:
 TODO: https://stackoverflow.com/questions/28661981/use-toolbar-across-all-activities-android
 TODO: above statement would consider reworking a lot of the xml files
+Fix the sorting of notifications
+
 
 Logout Button
 Suggestion: Use uniform dimensions from dimens.txt

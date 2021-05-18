@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -28,6 +29,8 @@ import com.squareup.picasso.Picasso;
 //import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -163,9 +166,16 @@ public class SearchActivity extends AppCompatActivity{
 //                Log.d("Debug Profile Picture: ", model.getProfilePicture());
 
                 holder.itemView.setOnClickListener(view -> {
-                    Intent intent = new Intent(SearchActivity.this, ViewOtherProfileActivity.class);
-                    intent.putExtra("Position", pos);
-                    startActivity(intent);
+                    String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                    if (userId.equals(pos)) {
+                        Intent intent = new Intent(SearchActivity.this, ViewProfileActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(SearchActivity.this, ViewOtherProfileActivity.class);
+                        intent.putExtra("Position", pos);
+                        startActivity(intent);
+                    }
+
                 });
 
             }

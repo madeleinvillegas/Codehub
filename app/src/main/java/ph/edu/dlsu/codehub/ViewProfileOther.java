@@ -56,14 +56,14 @@ public class ViewProfileOther extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_other);
-        name = findViewById(R.id.userNameOther);
-        address = findViewById(R.id.addressOther);
-        work = findViewById(R.id.workOther);
-        followers = findViewById(R.id.followersOther);
-        following = findViewById(R.id.followingOther);
+        name = findViewById(R.id.other_fullName);
+        address = findViewById(R.id.other_address);
+        work = findViewById(R.id.other_work);
+        followers = findViewById(R.id.other_followers);
+        following = findViewById(R.id.other_following);
         follow = findViewById(R.id.followBtn);
-        profilepic = findViewById(R.id.profilePicOther);
-        bgpic = findViewById(R.id.bgPhotoOther);
+        profilepic = findViewById(R.id.other_profilePic);
+        bgpic = findViewById(R.id.other_bgPhoto);
 /*
         edit.setOnClickListener(view-> {
             Intent intent = new Intent(this, EditProfileDataActivity.class);
@@ -72,7 +72,7 @@ public class ViewProfileOther extends AppCompatActivity {
         });
 */
 
-        postList = findViewById(R.id.recyclerViewProfileOther);
+        postList = findViewById(R.id.recyclerViewOtherProfile);
         postList.setHasFixedSize(true);
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         postRef = FirebaseDatabase.getInstance().getReference().child("Posts");

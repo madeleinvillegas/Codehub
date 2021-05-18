@@ -76,7 +76,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
 
-    <Button
+ <!--   <Button
         android:id="@+id/followBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,12 +85,23 @@
         android:background="@drawable/login_register_rounded_corner_button"
         android:fontFamily="@font/abhaya_libre_semi_bold"
         android:text="Follow/Unfollow"
-        android:textSize="50px" />
+        android:textSize="50px" />-->
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOtherProfile"
         android:layout_width="match_parent"
         android:layout_height="303dp"
-        android:layout_marginTop="350dp" />
+        android:layout_marginTop="350dp"
+        android:onClick="followUser" />
+
+    <ImageButton
+        android:id="@+id/followBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="350dp"
+        android:layout_marginTop="225dp"
+        android:background="#0000"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/follow" />
 </android.widget.RelativeLayout>

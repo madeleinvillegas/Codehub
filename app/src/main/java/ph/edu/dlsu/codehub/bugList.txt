@@ -5,6 +5,12 @@ Logout Button
 Change links to blue sa view profile para clear na that they are links
 double tap creates double posts (for slow nets)
 add time sa notifications key (same error sa home fragment )
+Make the modules more modularized. It's hard to debug if puro copy paste.
+
+
+Followers Related Stuff:
+Doing a separate followers and following is good in terms of time complexity, but bad in terms of space complexity.
+However, I believe that time complexity must be prioritized rather than space complexity.
 
 
 Registration Related Stuff:
@@ -12,6 +18,7 @@ I think we need to use email authentication, because users could just put dummy 
 
 
 Notifications:
+Notifications overlap. Need to add time for it to work properly
 Doesn't work for follow and unfollow yet, because felix not finished yet
 Doesn't display profile pics properly for some reason
     - Madelein: I don't think the profile pics are necessary for displaying notifications

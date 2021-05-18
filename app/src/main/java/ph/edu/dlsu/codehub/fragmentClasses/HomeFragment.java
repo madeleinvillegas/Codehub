@@ -49,7 +49,6 @@ public class HomeFragment extends Fragment {
     private RecyclerView postList;
     private Boolean isLiked = false;
     private String userId;
-    private String TAG = "DEBUGGING_TAG";
     private String uidOfThePostAuthor;
     @Nullable
     @Override
@@ -105,9 +104,6 @@ public class HomeFragment extends Fragment {
                     intent.putExtra("Position", pos);
                     startActivity(intent);
                 });
-
-
-
 
                 holder.reportBtn.setOnClickListener(view -> {
                     Intent intent = new Intent(getActivity(), ReportPostActivity.class);
@@ -229,7 +225,6 @@ public class HomeFragment extends Fragment {
         public static void showMenu(@NonNull View itemView, String pos, String title, String body) {
             PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
             popupMenu.inflate(R.menu.triple_dots_menu);
-            // TODO: Add edit and delete post stuff
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {

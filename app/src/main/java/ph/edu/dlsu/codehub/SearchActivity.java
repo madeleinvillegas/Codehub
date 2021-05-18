@@ -155,12 +155,18 @@ public class SearchActivity extends AppCompatActivity{
             @Override
             protected void onBindViewHolder(@NonNull @NotNull FindFriendsViewHolder holder, int position, @NonNull @NotNull User model) {
                 String name = model.getFullName();
+                String pos = getRef(position).getKey();
                 holder.setName(name);
                 holder.setProfilePicture(model.getprofileImageLink());
                 holder.setStatus(model.getStatus());
                 Log.d("Debug Name: ", name);
 //                Log.d("Debug Profile Picture: ", model.getProfilePicture());
 
+                holder.itemView.setOnClickListener(view -> {
+                    Intent intent = new Intent(SearchActivity.this, ViewOtherProfileActivity.class);
+                    intent.putExtra("Position", pos);
+                    startActivity(intent);
+                });
 
             }
 

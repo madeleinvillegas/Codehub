@@ -4,5 +4,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/other_bgPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="162dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="fitXY"
 
+        app:srcCompat="@drawable/background_image" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/other_profilePic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/boy_avatar" />
+
+    <LinearLayout
+        android:layout_width="239dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="250dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/other_fullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/username"
+            android:textColor="@color/black"
+            android:fontFamily="@font/abhaya_libre_regular"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <TextView
+            android:id="@+id/other_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/address"
+            android:textColor="@color/black"
+            android:fontFamily="@font/abhaya_libre_regular"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <TextView
+            android:id="@+id/other_work"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/workplace"
+            android:textColor="@color/black"
+            android:fontFamily="@font/abhaya_libre_regular"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <TextView
+            android:id="@+id/other_followers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/followers"
+            android:textColor="@color/black"
+            android:fontFamily="@font/abhaya_libre_regular"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <TextView
+            android:id="@+id/other_following"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/following"
+            android:textColor="@color/black"
+            android:fontFamily="@font/abhaya_libre_regular"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/followBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="225dp"
+        android:background="@drawable/login_register_rounded_corner_button"
+        android:fontFamily="@font/abhaya_libre_semi_bold"
+        android:text="Follow/Unfollow"
+        android:textSize="50px" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewOtherProfile"
+        android:layout_width="match_parent"
+        android:layout_height="303dp"
+        android:layout_marginTop="350dp" />
 </android.widget.RelativeLayout>

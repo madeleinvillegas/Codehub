@@ -97,11 +97,11 @@
 
     <ImageButton
         android:id="@+id/followBtn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="350dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="225dp"
-        android:background="#0000"
+        android:background="@color/gray"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/follow" />
 </android.widget.RelativeLayout>

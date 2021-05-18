@@ -49,6 +49,7 @@
             android:id="@+id/rel_layout_middle_bar"
             android:layout_below="@+id/rel_layout_top_bar"
             android:layout_above="@+id/rel_layout_bottom_bar"
+            android:background="@color/white"
             >
 
             <TextView

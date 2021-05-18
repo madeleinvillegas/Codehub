@@ -144,7 +144,6 @@ public class SearchActivity extends AppCompatActivity{
     private void searchPeopleWithFriends(String query) {
 
         query = query.toLowerCase();
-        //TODO: make results onclickable (felix na)
         //should display a list of all users since the order has been omitted
         Query searchPeopleWithFriendsQuery = usersDatabaseReference.orderByChild("fullNameInLowerCase" ).startAt(query).endAt(query + "\uf8ff");
 

@@ -1,17 +1,31 @@
-TODO:
-Fix bugs below
-Follow and Unfollow Related Stuff
+TODO: ENLARGE BUTTONS AND TEXT. I HAVE LARGE FINGERS.
+
+todo:(important) add time sa notifications key (same error sa home fragment )
+
+
+TODO: Consider reading this for getting rid of repetitive code for toolbar:
+TODO: https://stackoverflow.com/questions/28661981/use-toolbar-across-all-activities-android
+TODO: above statement would consider reworking a lot of the xml files
+
 Logout Button
-Change links to blue sa view profile para clear na that they are links
-double tap creates double posts (for slow nets)
-add time sa notifications key (same error sa home fragment )
+Suggestion: Use uniform dimensions from dimens.txt
+
+TODO: Fix bugs below
+
+
+Bug?: double tap creates double posts (for slow nets or when you suddenly dc and click post twice)
+I would also recommend starting a new firebase repo to get rid of dummy emails
+View holder classes are repetitive
 Make the modules more modularized. It's hard to debug if puro copy paste.
+Make a condition to check if the background image and profile image isn't null
+suggest making a general class for notifications and likes for uniformity, and call it like Like.like(postId, User), Like.unlike(postId, User), etc
 
 
-Followers Related Stuff:
-Doing a separate followers and following is good in terms of time complexity, but bad in terms of space complexity.
-However, I believe that time complexity must be prioritized rather than space complexity.
 
+Bugs:
+
+
+Change the pic for comment button. Hindi obvious na comment button.
 
 Registration Related Stuff:
 I think we need to use email authentication, because users could just put dummy emails and get accounts. (ex. my email was user@email.com)
@@ -19,7 +33,6 @@ I think we need to use email authentication, because users could just put dummy 
 
 Notifications:
 Notifications overlap. Need to add time for it to work properly
-Doesn't work for follow and unfollow yet, because felix not finished yet
 Doesn't display profile pics properly for some reason
     - Madelein: I don't think the profile pics are necessary for displaying notifications
 Notifications doesn't link or isn't clickable yet
@@ -71,3 +84,9 @@ Resolved:
 
     Edit Profile:
     I need to place the gui for edit profile
+
+
+    Followers Related Stuff:
+    Doing a separate followers and following is good in terms of time complexity, but bad in terms of space complexity.
+    However, I believe that time complexity must be prioritized rather than space complexity.
+

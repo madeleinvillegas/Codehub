@@ -148,7 +148,6 @@ public class ViewProfileActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onStart() {
         super.onStart();

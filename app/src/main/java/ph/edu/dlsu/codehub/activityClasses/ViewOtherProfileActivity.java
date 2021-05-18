@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -30,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,7 +48,7 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
 
     private String position;
     private TextView name, address, work, followers, following;
-    private Button follow;
+    private ImageButton follow;
     private CircleImageView profilePic;
     private ImageView bgPic;
     private DatabaseReference userRef, postRef, likesRef;
@@ -56,9 +56,9 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
     private String userId;
     private String uidOfThePostAuthor;
     private Boolean isLiked = false;
+    private DatabaseReference followTo, followedBy;
 
 
-    String TAG = "DEBUGGING: ";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +79,48 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
         postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
         likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
 
+
+        followTo = FirebaseDatabase.getInstance().getReference().child("FollowTo");
+        followedBy = FirebaseDatabase.getInstance().getReference().child("FollowedBy");
+
+        uidOfThePostAuthor = position; //ugly code must overcome the compulsion to implement better methods
+
+        userRef.child("profileImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                if(snapshot.getValue() != null){
+                    Picasso.get()
+                            .load(snapshot.getValue().toString())
+                            .placeholder(R.drawable.boy_avatar)
+                            .into(profilePic);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
+
+        userRef.child("backgroundImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                if(snapshot.getValue() != null) {
+                    Picasso.get()
+                            .load(snapshot.getValue().toString())
+                            .placeholder(R.drawable.background_image)
+                            .into(bgPic);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+
         //set the posts
         recyclerView = findViewById(R.id.recyclerViewOtherProfile);
         recyclerView.setHasFixedSize(true);
@@ -87,11 +129,14 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+
         //get a list of followers
         followers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), ActivityDisplayFollows.class);
+                intent.putExtra("mode", "followers");
+                startActivity(intent);
             }
         });
 
@@ -100,9 +145,36 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
         following.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ActivityDisplayFollows.class);
+                intent.putExtra("mode", "following");
+                startActivity(intent);
+            }
+        });
+
+        followedBy.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.child(userId).exists())
+                {
+                    follow.setTag("follow");
+                    follow.setImageResource(R.drawable.follow);
+
+                }
+                else
+                {
+                    follow.setTag("unfollow");
+                    follow.setImageResource(R.drawable.unfollow);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });
+
+
         //maybe change this to single value listener
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -125,12 +197,54 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                followUser();
+            }
+        });
     }
+
+    public void followUser() {
+
+        //naming clarity
+        String userBeingViewed = position;
+        String currentUser = userId;
+
+
+        if(follow.getTag().equals("follow")){
+            follow.setImageResource(R.drawable.unfollow);
+
+
+            //code for adding selected user
+            followTo.child(currentUser).child(userBeingViewed).setValue("True");
+            followedBy.child(userBeingViewed).child(currentUser).setValue("True");
+
+
+            follow.setTag("unfollow");
+            Toast.makeText(ViewOtherProfileActivity.this,"Followed " + name.getText().toString(),Toast.LENGTH_SHORT).show();
+
+
+        } else{
+
+            followTo.child(currentUser).child(userBeingViewed).removeValue();
+            followedBy.child(userBeingViewed).child(currentUser).removeValue();
+
+
+            follow.setImageResource(R.drawable.follow);
+            follow.setTag("follow");
+            Toast.makeText(ViewOtherProfileActivity.this,"Unfollowed " + name.getText().toString(),Toast.LENGTH_SHORT).show();
+        }
+        Log.d("entered function","function is now" + follow.getTag() );
+    }
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        Query query = postRef.orderByChild("uid").equalTo(userId);
+        Query query = postRef.orderByChild("uid").equalTo(uidOfThePostAuthor);
+
         FirebaseRecyclerOptions<Post> options =
                 new FirebaseRecyclerOptions.Builder<Post>().setQuery(query, Post.class).build();
         FirebaseRecyclerAdapter<Post, ViewOtherProfileActivity.ViewProfileViewHolder> firebaseRecyclerAdapter =

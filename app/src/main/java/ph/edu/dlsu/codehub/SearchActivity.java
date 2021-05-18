@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -28,6 +29,8 @@ import com.squareup.picasso.Picasso;
 //import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -155,12 +158,25 @@ public class SearchActivity extends AppCompatActivity{
             @Override
             protected void onBindViewHolder(@NonNull @NotNull FindFriendsViewHolder holder, int position, @NonNull @NotNull User model) {
                 String name = model.getFullName();
+                String pos = getRef(position).getKey();
                 holder.setName(name);
                 holder.setProfilePicture(model.getprofileImageLink());
                 holder.setStatus(model.getStatus());
                 Log.d("Debug Name: ", name);
 //                Log.d("Debug Profile Picture: ", model.getProfilePicture());
 
+                holder.itemView.setOnClickListener(view -> {
+                    String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                    if (userId.equals(pos)) {
+                        Intent intent = new Intent(SearchActivity.this, ViewProfileActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(SearchActivity.this, ViewOtherProfileActivity.class);
+                        intent.putExtra("Position", pos);
+                        startActivity(intent);
+                    }
+
+                });
 
             }
 

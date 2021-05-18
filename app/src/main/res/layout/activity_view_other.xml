@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/bgPhotoOther"
-        android:layout_width="wrap_content"
+        android:id="@+id/other_bgPhoto"
+        android:layout_width="match_parent"
         android:layout_height="162dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="50dp"
@@ -15,13 +15,13 @@
 
         app:srcCompat="@drawable/background_image" />
 
-    <ImageView
-        android:id="@+id/profilePicOther"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/other_profilePic"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="150dp"
-        app:srcCompat="@drawable/boy_avatar" />
+        android:src="@drawable/boy_avatar" />
 
     <LinearLayout
         android:layout_width="239dp"
@@ -31,7 +31,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/userNameOther"
+            android:id="@+id/other_fullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/username"
@@ -40,7 +40,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
-            android:id="@+id/addressOther"
+            android:id="@+id/other_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/address"
@@ -49,7 +49,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
-            android:id="@+id/workOther"
+            android:id="@+id/other_work"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/workplace"
@@ -58,7 +58,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
-            android:id="@+id/followersOther"
+            android:id="@+id/other_followers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/followers"
@@ -67,7 +67,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
-            android:id="@+id/followingOther"
+            android:id="@+id/other_following"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/following"
@@ -76,20 +76,20 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
 
-    <ImageButton
+    <Button
         android:id="@+id/followBtn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="350dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
         android:layout_marginTop="225dp"
-        android:background="#0000"
-        android:onClick="followUser"
-        android:scaleType="fitXY"
-        android:tag="follow"
-        app:srcCompat="@drawable/follow" />
+        android:background="@drawable/login_register_rounded_corner_button"
+        android:fontFamily="@font/abhaya_libre_semi_bold"
+        android:text="Follow/Unfollow"
+        android:textSize="50px" />
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProfileOther"
+        android:id="@+id/recyclerViewOtherProfile"
         android:layout_width="match_parent"
         android:layout_height="303dp"
         android:layout_marginTop="350dp" />

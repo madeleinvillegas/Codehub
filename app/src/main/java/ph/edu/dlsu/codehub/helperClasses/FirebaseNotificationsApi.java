@@ -76,6 +76,7 @@ public class FirebaseNotificationsApi {
         notification.setLinkUID(linkId);
         notification.setNotificationType(mode);
         notification.setTime(currentTime);
+        notification.setActorUid(userIdOfActor);
 
         //some complicated stuff
         usersRef.child(userIdOfActor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -118,6 +119,7 @@ public class FirebaseNotificationsApi {
                 notification.setNotificationContent(notificationContent);
                 notification.setNotificationType(mode);
                 notification.setTime(currentTime);
+                notification.setActorUid(userIdOfActor);
 
                 postsRef.child(linkId).child("uid").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -157,6 +159,7 @@ public class FirebaseNotificationsApi {
                 notification.setLinkUID(someoneThatYouFollowed);
                 notification.setNotificationType(mode);
                 notification.setTime(currentTime);
+                notification.setActorUid(someoneThatYouFollowed);
 
 
                 String notificationContent = "You followed " + snapshot.getValue().toString();
@@ -188,6 +191,7 @@ public class FirebaseNotificationsApi {
                 notification.setLinkUID(someoneThatFollowedYou);
                 notification.setNotificationType(mode);
                 notification.setTime(currentTime);
+                notification.setActorUid(someoneThatFollowedYou);
 
 
                 String notificationContent = snapshot.getValue().toString() + "Followed you ";

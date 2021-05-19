@@ -23,13 +23,21 @@ public class Notifications {
 
     public int notificationType;
     public String notificationContent, creationDate, time, linkUID, profileImageLink;
-
-
+    public String actorUid;
 
     public Notifications()
     {
 
     }
+
+    public String getActorUid() {
+        return actorUid;
+    }
+
+    public void setActorUid(String actorUid) {
+        this.actorUid = actorUid;
+    }
+
 
     public int getNotificationType() {
         return notificationType;

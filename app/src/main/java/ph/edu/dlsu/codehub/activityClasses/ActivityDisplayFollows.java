@@ -93,7 +93,7 @@ public class ActivityDisplayFollows extends AppCompatActivity{
     public static class FollowViewHolder extends RecyclerView.ViewHolder{
         View mView;
         CircleImageView profilePic;
-        TextView name, status;
+        TextView name;
 
         public FollowViewHolder(View itemView)
         {
@@ -102,7 +102,6 @@ public class ActivityDisplayFollows extends AppCompatActivity{
             mView = itemView;
             name = (TextView) mView.findViewById(R.id.user_display_profile_name);
             profilePic = (CircleImageView) mView.findViewById(R.id.user_display_profile_image);
-            status = (TextView) mView.findViewById(R.id.user_display_user_status);
             this.mView = itemView;
         }
 

@@ -169,20 +169,61 @@ public class NotificationsFragment extends Fragment {
                 image = model.getProfileImageLink();
                 date = model.getCreationDate();
                 time = model.getTime();
-
-
-                holder.setContent(content);
                 holder.setImage(image);
                 Log.d("DEBUGGING", image);
                 holder.setTimeStamp(date, time);
 
 
-                int code = model.getNotificationType();
+
+                userRef.child(model.getActorUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+                    int code = model.getNotificationType();
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        if(code == 0)
+                        {
+                            holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " commented on your post");
+                        }
+
+                        else if (code == 1)
+                        {
+                            holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " liked your post");
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
 
 
+                userRef.child(model.getActorUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+                    int code = model.getNotificationType();
+
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        if(code == 2)
+                        {
+                            holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + "followed you");
+                        }
+                        else if (code == 3)
+                        {
+                            holder.setContent("You followed " + Objects.requireNonNull(snapshot.getValue()).toString());
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
 
                 //TODO: DO SOMETHING ABOUT THIS
                 holder.itemView.setOnClickListener(view -> {
+                    int code = model.getNotificationType();
+
                     if (code == 0) {
                         // 0: Someone Liked Your Post
                         Intent intent = new Intent(getActivity(), ViewSinglePostActivity.class);
@@ -203,6 +244,7 @@ public class NotificationsFragment extends Fragment {
                         intent.putExtra("Position", model.getLinkUID());
                         startActivity(intent);
 
+
                     } else if (code == 3)
                     {
                         // 2: Someone Followed You
@@ -211,6 +253,12 @@ public class NotificationsFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
+
+
+
+
+
+
             }
         };
         notificationsList.setAdapter(adapter);

@@ -7,7 +7,6 @@ public class User {
     public String occupation;
     public String profileImageLink;
     public String username;
-    public String status;
 
     public String getFullNameInLowerCase() {
         return fullNameInLowerCase;
@@ -63,15 +62,5 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

@@ -16,32 +16,17 @@
         app:civ_border_width="2dp"
         app:civ_border_color="@color/cardview_dark_background"        />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="5dp"
-        >
-
         <TextView
             android:id="@+id/user_display_profile_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="User Full Name"
-            android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="@dimen/subheading"/>
+            android:textSize="24sp"
+            android:layout_gravity="center_vertical"
+            />
 
-        <TextView
-            android:id="@+id/user_display_user_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="User Status"
-            android:textAlignment="textStart"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sub_body"/>
 
-    </LinearLayout>
 
 </LinearLayout>

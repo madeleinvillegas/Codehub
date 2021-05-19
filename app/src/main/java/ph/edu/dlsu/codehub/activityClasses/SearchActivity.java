@@ -107,7 +107,6 @@ public class SearchActivity extends AppCompatActivity{
             mView = itemView;
             name = (TextView) mView.findViewById(R.id.user_display_profile_name);
             profilePic = (CircleImageView) mView.findViewById(R.id.user_display_profile_image);
-            status = (TextView) mView.findViewById(R.id.user_display_user_status);
             this.mView = itemView;
         }
 
@@ -135,10 +134,6 @@ public class SearchActivity extends AppCompatActivity{
         public void setName(String fullName) {
             name.setText(fullName);
         }
-
-        public void setStatus(String statusText) {
-            status.setText(statusText);
-        }
     }
 
     private void searchPeopleWithFriends(String query) {
@@ -162,7 +157,6 @@ public class SearchActivity extends AppCompatActivity{
                 String pos = getRef(position).getKey();
                 holder.setName(name);
                 holder.setProfilePicture(model.getprofileImageLink());
-                holder.setStatus(model.getStatus());
                 Log.d("Debug Name: ", name);
 //                Log.d("Debug Profile Picture: ", model.getProfilePicture());
 

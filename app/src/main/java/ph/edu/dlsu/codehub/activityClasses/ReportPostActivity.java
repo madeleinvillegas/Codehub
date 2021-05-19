@@ -85,43 +85,20 @@ public class ReportPostActivity extends AppCompatActivity {
         postReported.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String pos = snapshot.child("reporter").getValue().toString();
-                if (pos.equals(userId))
-                {
-                    //if user already reported
-                    progressBar.setVisibility(View.GONE);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    Toast.makeText(getApplicationContext(), "User Already Reported", Toast.LENGTH_LONG).show();
+                if (snapshot.hasChild("reporter")) {
+                    String pos = snapshot.child("reporter").getValue().toString();
+                    if (pos.equals(userId)) {
+                        //if user already reported
+                        progressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        Toast.makeText(getApplicationContext(), "Post Already Reported", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        saveToFirebase();
+                    }
                 }
-                else
-                {
-                    data.put("reporter", userId);
-                    data.put("reason", reason);
-                    data.put("postId", postId);
-
-                    progressBar.setVisibility(View.VISIBLE);
-                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-
-                    postReported.updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful())
-                            {
-                                Toast.makeText(getApplicationContext(), "Report Successful", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                finish();
-                            }
-                            else
-                            {
-                                Toast.makeText(getApplicationContext(), "Report Failed. Try Again.", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            }
-                        }
-                    });
+                else {
+                    saveToFirebase();
                 }
             }
 
@@ -129,6 +106,33 @@ public class ReportPostActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getApplicationContext(), "Pulling of  report database failed", Toast.LENGTH_LONG).show();
 
+            }
+            public void saveToFirebase() {
+                data.put("reporter", userId);
+                data.put("reason", reason);
+                data.put("postId", postId);
+
+                progressBar.setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                postReported.updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful())
+                        {
+                            Toast.makeText(getApplicationContext(), "Report Successful", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "Report Failed. Try Again.", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        }
+                    }
+                });
             }
         });
     }

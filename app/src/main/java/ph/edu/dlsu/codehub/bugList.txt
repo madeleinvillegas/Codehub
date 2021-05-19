@@ -26,8 +26,6 @@ suggest making a general class for notifications and likes for uniformity, and c
 When I'm on the search results, the view profile button doesn't work
 
 Bugs:
-
-
 Change the pic for comment button. Hindi obvious na comment button.
 
 Registration Related Stuff:
@@ -44,8 +42,7 @@ IMPORTANT:
 Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed. This has bad implications.
 For example, I change my name to 'Madelein' then post something atrocious. Then, I change my name to 'Eugene'. Normal people won't know the difference.
 I think we need to add a settings button for users to log out, change their details, etc
-
-
+    - Resolved except for notifications
 
 Feature Related Stuff:
 Make Buttons looks more like buttons. I don't think the user would recognize our buttons.
@@ -58,10 +55,6 @@ Whenever you revert, there is a chance that you could revert to a previous user 
 Bugger off code efficiency. Do this last after general functionalities have been achieved.
 Also, most of the stuff are hard coded. I suggest making it more modularized for easier debugging.
 
-
-Edit Profile:
-I need to place the gui for edit profile
-When back is pressed in this activity and you try logging in again, it would do "your account has not been created due to it being in use to another account or smth"
 
 
 Resolved:
@@ -94,3 +87,7 @@ I would also recommend starting a new firebase repo to get rid of dummy emails
     Doing a separate followers and following is good in terms of time complexity, but bad in terms of space complexity.
     However, I believe that time complexity must be prioritized rather than space complexity.
 
+Edit Profile:
+I need to place the gui for edit profile -done
+When back is pressed in this activity and you try logging in again, it would do "your account has not been created due to it being in use to another account or smth"
+    - account will be created after signing up, if you go back during the edit profile, you will be redirected back to login/home and you can edit you profile by going to your prile and clicking the edit button

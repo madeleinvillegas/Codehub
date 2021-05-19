@@ -60,6 +60,14 @@ public class FirebaseNotificationsApi {
         {
             this.mode = 2;
 
+        }else if (mode.equals("keep"))
+        {
+            this.mode = 6;
+
+        }else if (mode.equals("delete"))
+        {
+            this.mode = 5;
+
         }
     }
 
@@ -245,5 +253,82 @@ public class FirebaseNotificationsApi {
     public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
     }
-    
+
+    public void addDeleteNotification() {
+        String currentTime = currTime.format(calendar.getTime());
+        String currentDate = currDate.format(calendar.getTime());
+        String timestamp = currentDate + " " + currentTime + " " + userIdOfActor + " ";
+
+        usersRef.child(userIdOfActor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Log.d("ID", userIdOfActor);
+                Log.d("ID", snapshot.getValue().toString());
+
+                String notificationContent = "The admin has decided to delete the reported post on the app";
+
+                Notifications notification = new Notifications();
+                notification.setCreationDate(currentDate);
+                notification.setNotificationContent(notificationContent);
+                notification.setNotificationType(mode);
+                notification.setTime(currentTime);
+                notification.setProfileImageLink(usersRef.child(userIdOfActor).child("profileImageLink").toString());
+
+                notificationRef.child(uidOfThePostAuthor).child(timestamp).setValue(notification);
+                notification.setNotificationContent("The admin has decided to delete the post you reported on the app");
+                notificationRef.child(userIdOfActor).child(timestamp).setValue(notification);
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
+    }
+
+    public void addKeepNotification() {
+        String currentTime = currTime.format(calendar.getTime());
+        String currentDate = currDate.format(calendar.getTime());
+        String timestamp = currentDate + " " + currentTime + " " + userIdOfActor + " ";
+
+
+        usersRef.child(userIdOfActor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Log.d("ID", userIdOfActor);
+                Log.d("ID", snapshot.getValue().toString());
+
+                String notificationContent = "The admin has decided to keep the post on the app";
+
+                Notifications notification = new Notifications();
+                notification.setCreationDate(currentDate);
+                notification.setProfileImageLink(usersRef.child(userIdOfActor).child("profileImageLink").toString());
+                notification.setLinkUID(linkId);
+                notification.setNotificationContent(notificationContent);
+                notification.setNotificationType(mode);
+                notification.setTime(currentTime);
+
+                postsRef.child(linkId).child("uid").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        String authorUID = Objects.requireNonNull(snapshot.getValue()).toString();
+                        notificationRef.child(authorUID).child(timestamp).setValue(notification);
+                        notification.setNotificationContent("The admin has decided to keep the post you reported on the app");
+                        notificationRef.child(userIdOfActor).child(timestamp).setValue(notification);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
+
+    }
 }

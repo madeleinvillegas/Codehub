@@ -22,4 +22,6 @@
     <string name="workplace">Workplace</string>
     <string name="followers"><u>Followers</u></string>
     <string name="following"><u>Following</u></string>
+    <string name="logout">Logout</string>
+    <string name="adminview">AdminView</string>
 </resources>

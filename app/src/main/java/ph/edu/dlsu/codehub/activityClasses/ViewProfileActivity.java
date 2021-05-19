@@ -82,6 +82,26 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
+        //get the list of people that you are following
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ActivityDisplayFollows.class);
+                intent.putExtra("mode", "following");
+                startActivity(intent);
+            }
+        });
+
+        //get a list of followers
+        followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ActivityDisplayFollows.class);
+                intent.putExtra("mode", "followers");
+                startActivity(intent);
+            }
+        });
+
 
         userRef.child("profileImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

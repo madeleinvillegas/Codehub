@@ -60,7 +60,7 @@ public class ActivityDisplayFollows extends AppCompatActivity{
         setContentView(R.layout.activity_followers_list);
 
         showWhat = getIntent().getExtras().get("mode").toString();
-
+        Log.d("showWhat", showWhat);
         usersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         title = findViewById(R.id.followersHeadingText);
@@ -73,6 +73,8 @@ public class ActivityDisplayFollows extends AppCompatActivity{
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         followerListRecyclerView.setLayoutManager(linearLayoutManager);
+
+
 
         if ( showWhat.equals("followers") )
         {

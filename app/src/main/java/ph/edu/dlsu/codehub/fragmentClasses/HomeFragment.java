@@ -85,6 +85,16 @@ public class HomeFragment extends Fragment {
                 String pos = getRef(position).getKey();
                 String[] arr = pos.split(" ");
                 uidOfThePostAuthor = arr[0];
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent;
+                        intent = new Intent(getActivity(), ViewSinglePostActivity.class);
+                        intent.putExtra("Position", pos);
+                        startActivity(intent);
+                    }
+                });
                 userRef.child(uidOfThePostAuthor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {

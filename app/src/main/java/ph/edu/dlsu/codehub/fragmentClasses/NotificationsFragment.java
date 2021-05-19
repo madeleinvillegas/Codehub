@@ -1,6 +1,7 @@
 package ph.edu.dlsu.codehub.fragmentClasses;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,6 +59,8 @@ public class NotificationsFragment extends Fragment {
 
     //FIREBASE STUFF HERE:
     private DatabaseReference userNotificationsDatabase;
+    private DatabaseReference userRef;
+
     private String userId;
 
     //ID VARIABLES
@@ -70,6 +73,7 @@ public class NotificationsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notifications,container,false);
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         userNotificationsDatabase = FirebaseDatabase.getInstance().getReference().child("Notifications").child(userId);
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         Log.d("Notifications: ", "USERID: " + userId);
 
@@ -136,7 +140,6 @@ public class NotificationsFragment extends Fragment {
     public void displayNotifications()
     {
 
-
         Query query = userNotificationsDatabase.orderByKey();
 
 
@@ -160,6 +163,8 @@ public class NotificationsFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull @NotNull notificationsViewHolder holder, int position, @NonNull @NotNull Notifications model) {
                 String content, image, time, date;
+
+
                 content = model.getNotificationContent();
                 image = model.getProfileImageLink();
                 date = model.getCreationDate();
@@ -170,47 +175,41 @@ public class NotificationsFragment extends Fragment {
                 holder.setImage(image);
                 Log.d("DEBUGGING", image);
                 holder.setTimeStamp(date, time);
-                int code = model.notificationType;
-                String pos = getRef(position).getKey();
-                final String[] pass = new String[1];
 
+
+                int code = model.getNotificationType();
+
+
+
+                //TODO: DO SOMETHING ABOUT THIS
                 holder.itemView.setOnClickListener(view -> {
-                    DatabaseReference notifsRef = FirebaseDatabase.getInstance().getReference().
-                            child("Notifications").child(userId).child(pos);
-                    notifsRef.child("linkUID").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                            pass[0] = Objects.requireNonNull(snapshot.getValue()).toString();
-                            Intent intent;
-                            // TODO: Eugene, send help
-                            switch(code) {
-                                case 0:
-                                case 1:
-//                                    intent = new Intent(getActivity(), ViewSinglePostActivity.class);
-//                                    intent.putExtra("pos", pass[0]);
-//                                    startActivity(intent);
-                                    break;
+                    if (code == 0) {
+                        // 0: Someone Liked Your Post
+                        Intent intent = new Intent(getActivity(), ViewSinglePostActivity.class);
+                        intent.putExtra("Position", model.getLinkUID());
+                        startActivity(intent);
 
-                                case 2:
-                                case 3:
-//                                    intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
-//                                    intent.putExtra("pos", pass[0]);
-//
-//                                    startActivity(intent);
-                                    break;
-                                default:
+                    } else if (code == 1)
+                    {
+                        // 1: Someone Commented On Your Post
+                        Intent intent = new Intent(getActivity(), ViewSinglePostActivity.class);
+                        intent.putExtra("Position", model.getLinkUID());
+                        startActivity(intent);
 
-                                    break;
-                            }
-                        }
+                    } else if (code == 2)
+                    {
+                        // 2: Someone Followed You
+                        Intent intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
+                        intent.putExtra("Position", model.getLinkUID());
+                        startActivity(intent);
 
-                        @Override
-                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                        }
-                    });
-
-
+                    } else if (code == 3)
+                    {
+                        // 2: Someone Followed You
+                        Intent intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
+                        intent.putExtra("Position", model.getLinkUID());
+                        startActivity(intent);
+                    }
                 });
             }
         };

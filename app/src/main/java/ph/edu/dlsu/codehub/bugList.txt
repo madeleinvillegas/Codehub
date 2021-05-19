@@ -14,6 +14,10 @@ Suggestion: Use uniform dimensions from dimens.txt
 
 TODO: Fix bugs below
 
+todo: some functionalities in search menu are not working aside sa profile template activity.
+todo: Better search algorithm
+todo: Better notifications ordering
+
 
 
 View holder classes are repetitive

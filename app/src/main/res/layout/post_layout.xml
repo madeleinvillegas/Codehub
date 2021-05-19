@@ -118,13 +118,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
+
             <ImageButton
                 android:id="@+id/comment_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="#0000"
                 android:scaleType="fitXY"
-                android:src="@drawable/logo" />
+                android:src="@drawable/comment" />
         </LinearLayout>
     </LinearLayout>
 

@@ -33,46 +33,51 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/username"
-            android:textColor="@color/black"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/username"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/address"
-            android:textColor="@color/black"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/address"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/workplace"
-            android:textColor="@color/black"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/workplace"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/followers"
-            android:textColor="@color/blue_link"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/followers"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/blue_link"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/following"
-            android:textColor="@color/blue_link"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/following"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/blue_link"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <ImageButton
@@ -88,6 +93,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProfile"
         android:layout_width="match_parent"
-        android:layout_height="303dp"
-        android:layout_marginTop="350dp" />
+        android:layout_height="317dp"
+        android:layout_marginTop="375dp" />
 </android.widget.RelativeLayout>

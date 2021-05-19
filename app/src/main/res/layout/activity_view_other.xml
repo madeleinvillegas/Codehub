@@ -34,46 +34,51 @@
             android:id="@+id/other_fullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/username"
-            android:textColor="@color/black"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/username"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/other_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/address"
-            android:textColor="@color/black"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/address"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/other_work"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/workplace"
-            android:textColor="@color/black"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/workplace"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/other_followers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/followers"
-            android:textColor="@color/blue_link"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/followers"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/blue_link"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/other_following"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/following"
-            android:textColor="@color/blue_link"
             android:fontFamily="@font/abhaya_libre_regular"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@string/following"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/blue_link"
+            android:textSize="20sp" />
     </LinearLayout>
 
  <!--   <Button
@@ -92,16 +97,16 @@
         android:id="@+id/recyclerViewOtherProfile"
         android:layout_width="match_parent"
         android:layout_height="303dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="375dp"
         android:onClick="followUser" />
 
     <ImageButton
         android:id="@+id/followBtn"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentEnd="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="350dp"
         android:layout_marginTop="225dp"
-        android:background="@color/gray"
+        android:background="#0000"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/follow" />
 </android.widget.RelativeLayout>

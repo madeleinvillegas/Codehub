@@ -65,18 +65,10 @@ public class CommentActivity extends AppCompatActivity {
         String pos = getIntent().getExtras().get("Position").toString();
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
         postsRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos).child("Comments");
-
-        //Pass in the post id
-        //Fudge I wasn't trained for this shit
-
-
+        notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
-        notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
-
-
         commentBtn.setOnClickListener(view -> {
-
             userRef.child(userId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -97,28 +89,20 @@ public class CommentActivity extends AppCompatActivity {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()) {
                                     String userFullName = dataSnapshot.child(userId).child("fullName").getValue().toString();
-
                                     HashMap commentsMap = new HashMap();
 
                                     //just for clarity's sake: uid of the one who commented
                                     commentsMap.put("uid", userId);
-
-
                                     commentsMap.put("comment", comment);
                                     commentsMap.put("date", currentDate);
                                     commentsMap.put("time", currentTime);
                                     commentsMap.put("fullName", userFullName);
-
-
 
                                     postsRef.child(timestamp).updateChildren(commentsMap).addOnCompleteListener(new OnCompleteListener() {
                                         @Override
                                         public void onComplete(@NonNull Task task) {
                                             if(task.isSuccessful()) {
                                                 Toast.makeText(getApplication(), "Successfully created comment", Toast.LENGTH_SHORT).show();
-
-
-
                                                 FirebaseDatabase.getInstance().getReference().child("Posts").child(pos).child("uid").addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -132,10 +116,7 @@ public class CommentActivity extends AppCompatActivity {
 
                                                     }
                                                 });
-
-
                                                 commentInput.setText("");
-
                                             }
                                             else {
                                                 Toast.makeText(getApplication(), "Error occurred while updating your comment.", Toast.LENGTH_SHORT).show();

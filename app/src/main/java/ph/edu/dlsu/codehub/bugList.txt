@@ -23,7 +23,7 @@ Make the modules more modularized. It's hard to debug if puro copy paste.
 Make a condition to check if the background image and profile image isn't null
 suggest making a general class for notifications and likes for uniformity, and call it like Like.like(postId, User), Like.unlike(postId, User), etc
 
-
+When I'm on the search results, the view profile button doesn't work
 
 Bugs:
 

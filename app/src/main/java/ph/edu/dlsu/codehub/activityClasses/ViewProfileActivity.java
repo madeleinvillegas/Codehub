@@ -162,7 +162,17 @@ public class ViewProfileActivity extends AppCompatActivity {
                 String[] arr = pos.split(" ");
                 uidOfThePostAuthor = arr[0];
 
-                holder.postDetails.setText(model.getFullName() + " | " + model.getDate() + " | " + model.getTime());
+                userRef.child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        holder.postDetails.setText(snapshot.getValue().toString() + " | " + model.getDate() + " | " + model.getTime());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
                 holder.postBody.setText(model.getBody());
                 holder.postTitle.setText(model.getTitle());
                 holder.setLikeBtnColor(pos);

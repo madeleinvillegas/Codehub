@@ -46,7 +46,6 @@ import ph.edu.dlsu.codehub.helperClasses.Post;
 
 public class ViewOtherProfileActivity extends AppCompatActivity {
 
-
     private String position;
     private TextView name, address, work, followers, following;
     private ImageButton follow;
@@ -79,10 +78,9 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(position);
         postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
         likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
-
-
         followTo = FirebaseDatabase.getInstance().getReference().child("FollowTo");
         followedBy = FirebaseDatabase.getInstance().getReference().child("FollowedBy");
+
 
         uidOfThePostAuthor = position; //ugly code must overcome the compulsion to implement better methods
 
@@ -268,8 +266,18 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
                         String pos = getRef(position).getKey();
                         String[] arr = pos.split(" ");
                         uidOfThePostAuthor = arr[0];
+                        userRef.child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                holder.postDetails.setText(snapshot.getValue().toString() + " | " + model.getDate() + " | " + model.getTime());
+                            }
 
-                        holder.postDetails.setText(model.getFullName() + " | " + model.getDate() + " | " + model.getTime());
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                            }
+                        });
+
                         holder.postBody.setText(model.getBody());
                         holder.postTitle.setText(model.getTitle());
                         holder.setLikeBtnColor(pos);
@@ -357,32 +365,6 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
         }
 
 
-        public static void showMenu(@NonNull View itemView, String pos, String title, String body) {
-            PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
-            popupMenu.inflate(R.menu.triple_dots_menu);
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.menu1:
-                            Intent intent = new Intent(itemView.getContext(), EditPostActivity.class);
-                            intent.putExtra("pos", pos);
-                            intent.putExtra("title", title);
-                            intent.putExtra("body", body);
-                            itemView.getContext().startActivity(intent);
-                            return true;
-                        case R.id.menu2:
-                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
-                            postRef.removeValue();
-                            Toast.makeText(itemView.getContext(), "Successfully deleted the post", Toast.LENGTH_SHORT).show();
-                            return true;
-                        default:
-                            return false;
-                    }
-                }
-            });
-            popupMenu.show();
-        }
         public void setLikeBtnColor(String pos) {
             likesRef.addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")

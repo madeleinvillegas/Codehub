@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Codehub">
-        <activity android:name=".activityClasses.ViewOtherProfileActivity"></activity>
+        <activity android:name=".activityClasses.ViewSinglePostActivity"></activity>
+        <activity android:name=".activityClasses.ViewOtherProfileActivity" />
         <activity android:name=".activityClasses.AdminActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -50,6 +51,7 @@
         <activity android:name=".activityClasses.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

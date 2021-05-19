@@ -1,6 +1,7 @@
 package ph.edu.dlsu.codehub.fragmentClasses;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +31,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ph.edu.dlsu.codehub.activityClasses.RegisterActivity;
+import ph.edu.dlsu.codehub.activityClasses.ViewOtherProfileActivity;
+import ph.edu.dlsu.codehub.activityClasses.ViewSinglePostActivity;
 import ph.edu.dlsu.codehub.helperClasses.Notifications;
 import ph.edu.dlsu.codehub.R;
 //The function of this class is to read and display whatever notifications there are:
@@ -116,17 +123,7 @@ public class NotificationsFragment extends Fragment {
         }
 
 
-        //method to make tab on clickable and redirect it depending on the notification code
-        public void redirect(int code)
-        {
-            switch(code)
-            {
-                case 1:
-                    break;
-                default:
-                    break;
-            }
-        }
+
 
     }
 
@@ -168,10 +165,53 @@ public class NotificationsFragment extends Fragment {
                 date = model.getCreationDate();
                 time = model.getTime();
 
+
                 holder.setContent(content);
                 holder.setImage(image);
                 Log.d("DEBUGGING", image);
                 holder.setTimeStamp(date, time);
+                int code = model.notificationType;
+                String pos = getRef(position).getKey();
+                final String[] pass = new String[1];
+
+                holder.itemView.setOnClickListener(view -> {
+                    DatabaseReference notifsRef = FirebaseDatabase.getInstance().getReference().
+                            child("Notifications").child(userId).child(pos);
+                    notifsRef.child("linkUID").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            pass[0] = Objects.requireNonNull(snapshot.getValue()).toString();
+                            Intent intent;
+                            // TODO: Eugene, send help
+                            switch(code) {
+                                case 0:
+                                case 1:
+//                                    intent = new Intent(getActivity(), ViewSinglePostActivity.class);
+//                                    intent.putExtra("pos", pass[0]);
+//                                    startActivity(intent);
+                                    break;
+
+                                case 2:
+                                case 3:
+//                                    intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
+//                                    intent.putExtra("pos", pass[0]);
+//
+//                                    startActivity(intent);
+                                    break;
+                                default:
+
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+                    });
+
+
+                });
             }
         };
         notificationsList.setAdapter(adapter);

@@ -177,8 +177,7 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
 
 
 
-        //maybe change this to single value listener
-        userRef.addValueEventListener(new ValueEventListener() {
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 name.setText(snapshot.child("fullName").getValue().toString());
@@ -275,16 +274,19 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
                         holder.postTitle.setText(model.getTitle());
                         holder.setLikeBtnColor(pos);
 
-                        holder.reportBtn.setVisibility(View.INVISIBLE);
+                        holder.reportBtn.setVisibility(View.VISIBLE);
+                        holder.reportBtn.setOnClickListener(view -> {
+                            Intent intent = new Intent(ViewOtherProfileActivity.this, ReportPostActivity.class);
+                            intent.putExtra("postId", pos);
+                            startActivity(intent);
+                        });
+                        holder.optionsBtn.setVisibility(View.INVISIBLE);
                         holder.commentBtn.setOnClickListener(view -> {
                             Intent intent = new Intent(ViewOtherProfileActivity.this, CommentActivity.class);
                             intent.putExtra("Position", pos);
                             startActivity(intent);
                         });
 
-                        holder.optionsBtn.setOnClickListener(view -> {
-                            HomeFragment.PostViewHolder.showMenu(view, pos, model.getTitle(), model.getBody());
-                        });
 
                         holder.likeBtn.setOnClickListener(view -> {
                             isLiked = true;

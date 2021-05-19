@@ -44,7 +44,7 @@ import ph.edu.dlsu.codehub.R;
 
 
 public class HomeFragment extends Fragment {
-    private DatabaseReference postRef, likesRef;
+    private DatabaseReference postRef, likesRef, userRef;
     private RecyclerView postList;
     private Boolean isLiked = false;
     private String userId;
@@ -58,6 +58,7 @@ public class HomeFragment extends Fragment {
         postList = view.findViewById(R.id.recyclerView);
         postList.setHasFixedSize(true);
         likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
+        userRef  = FirebaseDatabase.getInstance().getReference().child("Users");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
@@ -83,12 +84,22 @@ public class HomeFragment extends Fragment {
                 String pos = getRef(position).getKey();
                 String[] arr = pos.split(" ");
                 uidOfThePostAuthor = arr[0];
+                userRef.child(uidOfThePostAuthor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        String val = snapshot.getValue().toString();
+                        holder.postDetails.setText(val + " | " + model.getDate() + " | " + model.getTime());
+                    }
 
-                holder.postDetails.setText(model.getFullName() + " | " + model.getDate() + " | " + model.getTime());
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
                 holder.postBody.setText(model.getBody());
                 holder.postTitle.setText(model.getTitle());
                 holder.setLikeBtnColor(pos);
-
                 if (uidOfThePostAuthor.equals(userId)) {
                     holder.reportBtn.setVisibility(View.INVISIBLE);
                     holder.optionsBtn.setVisibility(View.VISIBLE);

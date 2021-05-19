@@ -1,6 +1,7 @@
 package ph.edu.dlsu.codehub.fragmentClasses;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -174,17 +175,41 @@ public class NotificationsFragment extends Fragment {
                 holder.setImage(image);
                 Log.d("DEBUGGING", image);
                 holder.setTimeStamp(date, time);
-                int code = model.notificationType;
-                String pos = getRef(position).getKey();
-                final String[] pass = new String[1];
 
+
+                int code = model.getNotificationType();
 
 
 
                 //TODO: DO SOMETHING ABOUT THIS
                 holder.itemView.setOnClickListener(view -> {
+                    if (code == 0) {
+                        // 0: Someone Liked Your Post
+                        Intent intent = new Intent(getActivity(), ViewSinglePostActivity.class);
+                        intent.putExtra("Position", model.getLinkUID());
+                        startActivity(intent);
 
+                    } else if (code == 1)
+                    {
+                        // 1: Someone Commented On Your Post
+                        Intent intent = new Intent(getActivity(), ViewSinglePostActivity.class);
+                        intent.putExtra("Position", model.getLinkUID());
+                        startActivity(intent);
 
+                    } else if (code == 2)
+                    {
+                        // 2: Someone Followed You
+                        Intent intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
+                        intent.putExtra("Position", model.getLinkUID());
+                        startActivity(intent);
+
+                    } else if (code == 3)
+                    {
+                        // 2: Someone Followed You
+                        Intent intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
+                        intent.putExtra("Position", model.getLinkUID());
+                        startActivity(intent);
+                    }
                 });
             }
         };

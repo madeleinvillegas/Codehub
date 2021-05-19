@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,11 +28,13 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import ph.edu.dlsu.codehub.R;
+import ph.edu.dlsu.codehub.helperClasses.FirebaseNotificationsApi;
 import ph.edu.dlsu.codehub.helperClasses.Report;
 
 public class AdminActivity extends AppCompatActivity {
     private RecyclerView reportedPosts;
     private DatabaseReference userRef, postsRef, reportsRef;
+    public static String uidOfThePostAuthor, uidOfTheReporter;
 
     String TAG = "DEBUGGING MESSAGE ";
     @Override
@@ -85,8 +88,8 @@ public class AdminActivity extends AppCompatActivity {
                                 snapshot.child(pos).child("time").getValue().toString();
 
                         String title = snapshot.child(pos).child("title").getValue().toString();
-                        Log.d(TAG, "Deets: " + deets);
-                        Log.d(TAG, "Title: " + title);
+                        uidOfThePostAuthor = snapshot.child(pos).child("uid").getValue().toString();
+
 
                         holder.posterDetails.setText(deets);
                     }
@@ -101,6 +104,7 @@ public class AdminActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         holder.setReporterDetails("Reported by: " +
                                 snapshot.child(model.getReporter()).child("fullName").getValue().toString());
+                        uidOfTheReporter = snapshot.child(model.getReporter()).getKey();
                     }
 
                     @Override
@@ -161,23 +165,31 @@ public class AdminActivity extends AppCompatActivity {
         }
 
         public static void showMenu(@NonNull View itemView, String pos) {
-            Log.d("DEBUGGING", pos);
+            Log.d("POST AUTHOR", uidOfThePostAuthor);
+            Log.d("REPORTER", uidOfTheReporter);
+            Log.d("POS", pos);
             PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
             popupMenu.inflate(R.menu.admin_options_menu);
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
+                    FirebaseNotificationsApi firebaseNotificationsApi;
                     switch (item.getItemId()) {
                         case R.id.delete:
-                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
-                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
-                            reportsRef.removeValue();
-                            postRef.removeValue();
+//                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
+//                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
+//                            reportsRef.removeValue();
+//                            postRef.removeValue();
+                            firebaseNotificationsApi = new FirebaseNotificationsApi(uidOfThePostAuthor, uidOfTheReporter, "", "delete");
+                            firebaseNotificationsApi.addDeleteNotification();
+
                             Toast.makeText(itemView.getContext(), "Successfully deleted the post", Toast.LENGTH_SHORT).show();
                             return true;
                         case R.id.keep:
-                            DatabaseReference reportRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
-                            reportRef.removeValue();
+//                            DatabaseReference reportRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
+//                            reportRef.removeValue();
+                            firebaseNotificationsApi = new FirebaseNotificationsApi(uidOfThePostAuthor, uidOfTheReporter, pos, "keep");
+                            firebaseNotificationsApi.addKeepNotification();
                             return true;
                         default:
                             return false;

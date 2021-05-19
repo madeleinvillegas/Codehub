@@ -1,6 +1,7 @@
 package ph.edu.dlsu.codehub.activityClasses;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -26,10 +27,6 @@ import java.util.HashMap;
 import ph.edu.dlsu.codehub.R;
 
 public class ReportPostActivity extends AppCompatActivity {
-    // TODO: Convert to a fragment
-
-    //FORMAT FOR REPORTED POSTS:
-    //REPORT_POST_DATABASE = {userWhoReported: ReasonForUserReporting}
 
     private Button reportBtn;
     private EditText reportReason;
@@ -88,20 +85,14 @@ public class ReportPostActivity extends AppCompatActivity {
         postReported.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // This will not work properly
-                for (DataSnapshot child: snapshot.getChildren())
-                {
-                    data.put(child.getKey(), child.getValue());
-                }
-                
-                if (data.containsKey(userId))
+                String pos = snapshot.child("reporter").getValue().toString();
+                if (pos.equals(userId))
                 {
                     //if user already reported
                     progressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Toast.makeText(getApplicationContext(), "User Already Reported", Toast.LENGTH_LONG).show();
                 }
-                // Until here
                 else
                 {
                     data.put("reporter", userId);

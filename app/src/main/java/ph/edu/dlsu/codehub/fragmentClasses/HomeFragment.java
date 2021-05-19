@@ -36,6 +36,7 @@ import java.util.Objects;
 
 import ph.edu.dlsu.codehub.activityClasses.CommentActivity;
 import ph.edu.dlsu.codehub.activityClasses.EditPostActivity;
+import ph.edu.dlsu.codehub.activityClasses.ViewSinglePostActivity;
 import ph.edu.dlsu.codehub.helperClasses.FirebaseNotificationsApi;
 import ph.edu.dlsu.codehub.helperClasses.Notifications;
 import ph.edu.dlsu.codehub.activityClasses.ReportPostActivity;

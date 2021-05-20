@@ -176,9 +176,3 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
-
-//    Code for logging out the user
-//    private FirebaseAuth mAuth;
-//    mAuth = FirebaseAuth.getInstance();
-//    mAuth.signOut();
-//    go back to login

@@ -46,30 +46,24 @@ public class FirebaseNotificationsApi {
         this.userIdOfActor = userIdOfActor;
         this.linkId = linkId;
 
-        if(mode.equals("comment"))
-        {
+        if(mode.equals("comment")) {
             this.mode = 0;
 
-        } else if (mode.equals("like"))
-        {
+        } else if (mode.equals("like")) {
             this.mode = 1;
 
-        } else if (mode.equals("followTo"))
-        {
+        } else if (mode.equals("followTo")) {
             this.mode = 3;
 
-        } else if (mode.equals("followedBy"))
-        {
+        } else if (mode.equals("followedBy")) {
             this.mode = 2;
 
-        }else if (mode.equals("keep"))
-        {
+        } else if (mode.equals("keep")) {
             this.mode = 6;
-
-        }else if (mode.equals("delete"))
-        {
+        } else if (mode.equals("delete")) {
             this.mode = 5;
-
+        } else if (mode.equals("report")) {
+            this.mode = 4;
         }
     }
 
@@ -332,5 +326,34 @@ public class FirebaseNotificationsApi {
             }
         });
 
+    }
+
+    public void addReportNotification() {
+        String currentTime = currTime.format(calendar.getTime());
+        String currentDate = currDate.format(calendar.getTime());
+        String timestamp = currentDate + " " + currentTime + " ";
+
+
+        String notificationContent = "Your post has been reported and is pending review from the admins";
+
+        Notifications notification = new Notifications();
+        notification.setCreationDate(currentDate);
+        notification.setLinkUID(linkId);
+        notification.setNotificationContent(notificationContent);
+        notification.setNotificationType(mode);
+        notification.setTime(currentTime);
+
+        postsRef.child(linkId).child("uid").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                String authorUID = snapshot.getValue().toString();
+                notificationRef.child(authorUID).child(timestamp).setValue(notification);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
     }
 }

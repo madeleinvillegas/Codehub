@@ -4,7 +4,9 @@
 // 1: Someone Commented On Your Post
 // 2: Someone Followed You
 // 3: You Followed Someone
-// 4?: Someone Replied To Your Comment (HIGHLY QUESTIONABLE)
+// 4: Your post has been reported
+// 5: The reported post was deleted
+// 6: The reported post was kept
 
 //NOTIFICATION CODE is needed to properly link stuff sa firebase app and database
 

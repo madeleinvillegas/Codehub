@@ -10,14 +10,16 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_favorite"
+        android:id="@+id/my_profile"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="@string/my_profile"
-        app:showAsAction="ifRoom" />
+        android:title="Settings"
+        app:showAsAction="ifRoom">
+    </item>
 
 
-
-
+    <item android:id="@+id/log_out"
+        android:title="Log Out"
+        app:showAsAction="never" />
 
 
 </menu>

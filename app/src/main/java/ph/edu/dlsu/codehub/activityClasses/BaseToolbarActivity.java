@@ -9,6 +9,8 @@ import android.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import ph.edu.dlsu.codehub.R;
 
 
@@ -52,9 +54,16 @@ public class BaseToolbarActivity extends AppCompatActivity {
 
         switch (item.getItemId())
         {
-            case R.id.action_favorite:
+            case R.id.my_profile:
                 Intent intent = new Intent(getApplicationContext(), ViewProfileActivity.class);
                 startActivity(intent);
+                return true;
+
+            case R.id.log_out:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent1 = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent1);
+
                 return true;
 
 

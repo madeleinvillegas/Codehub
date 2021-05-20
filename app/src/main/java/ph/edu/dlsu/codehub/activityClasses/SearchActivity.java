@@ -35,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.helperClasses.User;
 
-public class SearchActivity extends AppCompatActivity{
+public class SearchActivity extends BaseToolbarActivity{
 
     //Note: I used activity since it is hard  to convert this into a fragment (a hassle)
     private Intent intent;
@@ -48,6 +48,7 @@ public class SearchActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        setToolBar();
 
         //init ids
         searchResults = (RecyclerView) findViewById(R.id.recyclerView);
@@ -61,38 +62,9 @@ public class SearchActivity extends AppCompatActivity{
         intent = getIntent();
         inputString = intent.getStringExtra("stringQuery");
 
-        //top banner
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.top_banner);
-        setSupportActionBar(myToolbar);
-
         //search
         searchPeopleWithFriends(inputString);
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.top_bar, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                inputString = s;
-                searchPeopleWithFriends(inputString);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-
-        return true;
     }
 
     public static class FindFriendsViewHolder extends RecyclerView.ViewHolder{

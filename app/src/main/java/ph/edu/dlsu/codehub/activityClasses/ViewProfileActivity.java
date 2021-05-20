@@ -43,12 +43,11 @@ import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.fragmentClasses.HomeFragment;
 
 
-public class ViewProfileActivity extends AppCompatActivity {
+public class ViewProfileActivity extends BaseToolbarActivity {
     private DatabaseReference postRef, likesRef, userRef;
     private RecyclerView postList;
     private Boolean isLiked = false;
     private String userId;
-    private String TAG = "DEBUGGING_TAG";
     private TextView name, address, work, followers, following;
     private ImageButton edit;
     private ImageView bgpic;
@@ -60,6 +59,8 @@ public class ViewProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
+
+        setToolBar();
         name = findViewById(R.id.textView);
         address = findViewById(R.id.textView2);
         work = findViewById(R.id.textView3);
@@ -107,11 +108,13 @@ public class ViewProfileActivity extends AppCompatActivity {
         userRef.child("profileImageLink").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-
-                Picasso.get()
-                        .load(snapshot.getValue().toString())
-                        .placeholder(R.drawable.boy_avatar)
-                        .into(profilepic);
+                if(snapshot.getValue()!=null)
+                {
+                    Picasso.get()
+                            .load(snapshot.getValue().toString())
+                            .placeholder(R.drawable.boy_avatar)
+                            .into(profilepic);
+                }
 
             }
 

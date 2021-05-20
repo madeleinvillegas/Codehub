@@ -44,7 +44,7 @@ import ph.edu.dlsu.codehub.helperClasses.FirebaseNotificationsApi;
 import ph.edu.dlsu.codehub.helperClasses.Notifications;
 import ph.edu.dlsu.codehub.helperClasses.Post;
 
-public class ViewOtherProfileActivity extends AppCompatActivity {
+public class ViewOtherProfileActivity extends BaseToolbarActivity {
 
     private String position;
     private TextView name, address, work, followers, following;
@@ -63,6 +63,8 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_other);
+
+        setToolBar();
         position = getIntent().getExtras().get("Position").toString();
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 

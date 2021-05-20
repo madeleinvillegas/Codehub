@@ -45,7 +45,7 @@ import ph.edu.dlsu.codehub.helperClasses.User;
 //if showWhat == followers, show list of people that the profile is following
 //else if showWhat == followedBy , show list of people being followed by the user
 
-public class ActivityDisplayFollows extends AppCompatActivity{
+public class ActivityDisplayFollows extends BaseToolbarActivity{
 
     private RecyclerView followerListRecyclerView;
     public String showWhat;
@@ -58,6 +58,8 @@ public class ActivityDisplayFollows extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers_list);
+
+        setToolBar();
 
         showWhat = getIntent().getExtras().get("mode").toString();
         Log.d("showWhat", showWhat);
@@ -86,10 +88,6 @@ public class ActivityDisplayFollows extends AppCompatActivity{
             title.setText("Following: ");
         }
 
-
-        //top banner
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.top_banner);
-        setSupportActionBar(myToolbar);
     }
 
     public static class FollowViewHolder extends RecyclerView.ViewHolder{

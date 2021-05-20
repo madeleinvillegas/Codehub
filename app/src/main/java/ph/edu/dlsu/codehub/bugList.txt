@@ -3,8 +3,6 @@ TODO: Enlarge buttons and text. I have large thumbs. Consider going for a mobile
 TODO: Consider reading this for getting rid of repetitive code for toolbar https://stackoverflow.com/questions/28661981/use-toolbar-across-all-activities-android
 TODO: above statement would consider reworking a lot of the xml files
 
-todo: add actorName for database (the tutorial's code wasn't really dynamic)
-
 Fix the sorting of notifications
 Fix the search algorithm of search users
 

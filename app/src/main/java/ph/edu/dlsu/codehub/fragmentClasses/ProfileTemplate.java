@@ -17,40 +17,34 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import ph.edu.dlsu.codehub.R;
+import ph.edu.dlsu.codehub.activityClasses.BaseToolbarActivity;
 import ph.edu.dlsu.codehub.activityClasses.SearchActivity;
 import ph.edu.dlsu.codehub.helperClasses.SectionsPagerAdapter;
 import ph.edu.dlsu.codehub.activityClasses.ViewProfileActivity;
 
-public class ProfileTemplate extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+public class ProfileTemplate extends BaseToolbarActivity {
+    //large application of LBYCPEI ^^:
+
     private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_template);
-
-
-        //top banner
-        Toolbar myToolbar = findViewById(R.id.top_banner);
-        setSupportActionBar(myToolbar);
+        setToolBar();
 
         //set content container
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.profile_container); //not yet made
         setupViewPager(mViewPager);
 
-
-
         TabLayout tabLayout = findViewById(R.id.tabs);//not yet referenced
         tabLayout.setupWithViewPager(mViewPager);
-
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_black_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_baseline_add_24);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_notifications_black_24dp);
-
     }
+
+
     private void setupViewPager(ViewPager viewPager)
     {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());

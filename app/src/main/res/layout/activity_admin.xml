@@ -23,6 +23,7 @@
             android:layout_width="107dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="280dp"
+            android:onClick="logout"
             android:text="@string/logout"
             android:textSize="12sp" />
 

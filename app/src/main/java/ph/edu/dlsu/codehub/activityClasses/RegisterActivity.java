@@ -97,34 +97,34 @@ public class RegisterActivity extends AppCompatActivity {
 
                                             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("default_pics");
 
+                                            storageReference.child("background_image.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    userMap.put("profileImageLink", uri.toString());
+                                                }
+                                            });
+
                                             storageReference.child("profile_image.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                 @Override
                                                 public void onSuccess(Uri uri) {
                                                     userMap.put("backgroundImageLink", uri.toString());
+                                                }
+                                            });
 
-                                                    storageReference.child("background_image.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                        @Override
-                                                        public void onSuccess(Uri uri) {
-                                                            userMap.put("profileImageLink", uri.toString());
-
-                                                            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
-                                                                        Intent intent = new Intent(RegisterActivity.this, EditProfileDataActivity.class);
-                                                                        intent.putExtra("prior", "register");
-                                                                        startActivity(intent);
-                                                                        finish();
-                                                                    }
-                                                                    else {
-                                                                        String errorMessage = task.getException().getMessage();
-                                                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    });
+                                            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                                                @Override
+                                                public void onComplete(@NonNull Task task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(RegisterActivity.this, EditProfileDataActivity.class);
+                                                        intent.putExtra("prior", "register");
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                    else {
+                                                        String errorMessage = task.getException().getMessage();
+                                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                                                    }
                                                 }
                                             });
                                         }

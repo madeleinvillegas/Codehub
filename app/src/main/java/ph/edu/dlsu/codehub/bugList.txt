@@ -1,5 +1,5 @@
 TODO: Enlarge buttons and text. I have large thumbs. Consider going for a mobile friendly design instead.
-TODO: Make a condition to check if the background image and profile image isn't null
+Made a condition to check if the background image and profile image isn't null  (hopefully it works. cannot test due to mobile data)
 
 Fix the sorting of notifications
 Fix the search algorithm of search users (Sorta works. I can't make it return better search results without resorting to a third party service)
@@ -16,13 +16,7 @@ View holder classes are repetitive
 Make the modules more modularized. It's hard to debug if puro copy paste.
 suggest making a general class for notifications and likes for uniformity, and call it like Like.like(postId, User), Like.unlike(postId, User), etc
 
-When I'm on the search results, the view profile button doesn't work
-
-
-
 Notifications:
-Doesn't display profile pics properly for some reason
-    - Madelein: I don't think the profile pics are necessary for displaying notifications
 There's a null error in notifications
 Add notifications for report post and result of admin (if keep or delete)
 

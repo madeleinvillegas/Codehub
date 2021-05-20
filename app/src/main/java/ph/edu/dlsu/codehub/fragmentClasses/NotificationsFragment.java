@@ -162,10 +162,7 @@ public class NotificationsFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull @NotNull notificationsViewHolder holder, int position, @NonNull @NotNull Notifications model) {
-                String content, image, time, date;
-
-
-                content = model.getNotificationContent();
+                String image, time, date;
                 image = model.getProfileImageLink();
                 date = model.getCreationDate();
                 time = model.getTime();

@@ -4,7 +4,7 @@ Made a condition to check if the background image and profile image isn't null  
 Fix the sorting of notifications
 Fix the search algorithm of search users (Sorta works. I can't make it return better search results without resorting to a third party service)
 Suggestion: Use uniform dimensions from dimens.txt
-
+todo: replace all tostrings to Objects.toString()
 TODO: Fix bugs below
 todo: Better notifications ordering (will have to reorder notifications)
 

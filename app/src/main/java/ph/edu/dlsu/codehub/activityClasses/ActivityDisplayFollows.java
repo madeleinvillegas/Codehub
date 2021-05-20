@@ -147,8 +147,9 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         if(snapshot.exists())
                         {
-                            String fullName = snapshot.child("fullName").getValue().toString();
-                            String profileImg = Objects.requireNonNull(snapshot.child("profileImageLink").getValue()).toString();
+
+                            String fullName = snapshot.child("fullName").getValue().toString() ;
+                            String profileImg =  Objects.toString(snapshot.child("profileImageLink").getValue(), "def");
                             holder.setName(fullName);
                             holder.setProfilePicture(profileImg);
 
@@ -214,7 +215,7 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
                         if(snapshot.exists())
                         {
                             String fullName = snapshot.child("fullName").getValue().toString();
-                            String profileImg = snapshot.child("profileImageLink").getValue().toString();
+                            String profileImg =  Objects.toString(snapshot.child("profileImageLink").getValue(), "def");
 
                             holder.setName(fullName);
                             holder.setProfilePicture(profileImg);

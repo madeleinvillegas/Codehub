@@ -10,7 +10,7 @@ todo: some functionalities in search menu are not working aside sa profile templ
 todo: Better search algorithm
 todo: Better notifications ordering
 
-
+todo: something goes wrong when you keep commenting on your own post
 
 View holder classes are repetitive
 Make the modules more modularized. It's hard to debug if puro copy paste.

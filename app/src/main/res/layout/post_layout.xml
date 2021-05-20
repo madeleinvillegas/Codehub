@@ -55,18 +55,19 @@
 <!--             TODO: Remove space sa end of triple dots -->
             <ImageButton
                 android:id="@+id/report_btn"
-                android:layout_width="22dp"
-                android:layout_height="41dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="right"
                 android:background="#0000"
                 android:scaleType="fitStart"
                 android:scaleX="0.9"
                 android:scaleY="0.9"
                 android:src="@drawable/report" />
+
             <ImageButton
                 android:id="@+id/options_btn"
-                android:layout_width="22dp"
-                android:layout_height="49dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="right"
                 android:background="#0000"
                 android:scaleType="fitStart"

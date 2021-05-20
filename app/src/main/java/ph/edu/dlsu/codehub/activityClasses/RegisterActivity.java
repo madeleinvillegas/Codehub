@@ -123,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                     }
                                                     else {
                                                         String errorMessage = task.getException().getMessage();
-                                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                                                     }
                                                 }
                                             });

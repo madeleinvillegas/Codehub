@@ -88,7 +88,7 @@ public class ViewOtherProfileActivity extends BaseToolbarActivity {
 
                 if(snapshot.getValue() != null){
                     Picasso.get()
-                            .load(snapshot.getValue().toString())
+                            .load(Objects.toString(snapshot.getValue(), "nullValue"))
                             .placeholder(R.drawable.profile_image)
                             .into(profilePic);
                 }
@@ -105,7 +105,7 @@ public class ViewOtherProfileActivity extends BaseToolbarActivity {
 
                 if(snapshot.getValue() != null) {
                     Picasso.get()
-                            .load(snapshot.getValue().toString())
+                            .load(Objects.toString(snapshot.getValue(), "nullValue"))
                             .placeholder(R.drawable.background_image)
                             .into(bgPic);
                 }
@@ -176,13 +176,13 @@ public class ViewOtherProfileActivity extends BaseToolbarActivity {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                name.setText(snapshot.child("fullName").getValue().toString());
-                String forDisplay = snapshot.child("address").getValue().toString();
+                name.setText(Objects.toString(snapshot.child("fullName").getValue(), "nullValue"));
+                String forDisplay = Objects.toString(snapshot.child("address").getValue(), "nullValue");
                 if (forDisplay.equals("")) {
                     forDisplay = "Address";
                 }
                 address.setText(forDisplay);
-                forDisplay = snapshot.child("occupation").getValue().toString();
+                forDisplay = Objects.toString(snapshot.child("occupation").getValue(), "nullValue");
                 if (forDisplay.equals("")) {
                     forDisplay = "Workplace";
                 }
@@ -265,9 +265,10 @@ public class ViewOtherProfileActivity extends BaseToolbarActivity {
                         String[] arr = pos.split(" ");
                         uidOfThePostAuthor = arr[0];
                         userRef.child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @SuppressLint("SetTextI18n")
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                holder.postDetails.setText(snapshot.getValue().toString() + " | " + model.getDate() + " | " + model.getTime());
+                                holder.postDetails.setText(Objects.toString(snapshot.getValue(), "nullValue") + " | " + model.getDate() + " | " + model.getTime());
                             }
 
                             @Override
@@ -416,7 +417,7 @@ public class ViewOtherProfileActivity extends BaseToolbarActivity {
         usersRef.child(uidOfThePostAuthor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                String notificationContent = snapshot.getValue().toString() + " liked your post";
+                String notificationContent = Objects.toString(snapshot.getValue(), "nullValue") + " liked your post";
                 notification.setNotificationContent(notificationContent);
                 notificationRef.child(uidOfThePostAuthor).child(NotificationID).setValue(notification);
 

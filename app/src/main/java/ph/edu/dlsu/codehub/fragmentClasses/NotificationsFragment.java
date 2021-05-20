@@ -140,7 +140,7 @@ public class NotificationsFragment extends Fragment {
     public void displayNotifications()
     {
 
-        Query query = userNotificationsDatabase.orderByPriority(); //ideally order by child but will have to revise
+        Query query = userNotificationsDatabase.orderByKey();
 
 
         FirebaseRecyclerOptions<Notifications> options =

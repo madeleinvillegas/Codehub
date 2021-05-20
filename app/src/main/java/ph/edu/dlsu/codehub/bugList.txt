@@ -1,20 +1,19 @@
 TODO: Enlarge buttons and text. I have large thumbs. Consider going for a mobile friendly design instead.
 Made a condition to check if the background image and profile image isn't null  (hopefully it works. cannot test due to mobile data)
 
-Fix the sorting of notifications
+Fix the sorting of notifications (resolved)
 Fix the search algorithm of search users (Sorta works. I can't make it return better search results without resorting to a third party service)
 Suggestion: Use uniform dimensions from dimens.txt
-todo: replace all tostrings to Objects.toString()
-TODO: Fix bugs below
-todo: Better notifications ordering (will have to reorder notifications)
 
+wrong messages regarding login and registration (resolved some for clarity)
+todo: (suggestion) replace all tostrings to Objects.toString( , "default null value")
+TODO: Fix bugs below
 todo: something goes wrong when you keep commenting on your own post. it doesn't work if you comment at the same minute.
 
-View holder classes are repetitive
-Make the modules more modularized. It's hard to debug if puro copy paste.
-suggest making a general class for notifications and likes for uniformity, and call it like Like.like(postId, User), Like.unlike(postId, User), etc
+Make the modules more modularized. It's hard to debug if puro copy paste. (no more of this please)
 
-Notifications:
+Notifications:View holder classes are repetitive
+
 There's a null error in notifications
 Add notifications for report post and result of admin (if keep or delete)
 
@@ -23,7 +22,7 @@ IMPORTANT:
 Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed. This has bad implications.
 For example, I change my name to 'Madelein' then post something atrocious. Then, I change my name to 'Eugene'. Normal people won't know the difference.
 I think we need to add a settings button for users to log out, change their details, etc
-    - Resolved except for notifications
+    - Resolved except for notifications (resolved na for notifications)
 
 Feature Related Stuff:
 Make Buttons looks more like buttons. I don't think the user would recognize our buttons.
@@ -81,3 +80,5 @@ Change the pic for comment button. Hindi obvious na comment button.
 
 Registration Related Stuff:
 I think we need to use email authentication, because users could just put dummy emails and get accounts. (ex. my email was user@email.com)
+
+suggest making a general class for notifications and likes for uniformity, and call it like Like.like(postId, User), Like.unlike(postId, User), etc (been there done that)

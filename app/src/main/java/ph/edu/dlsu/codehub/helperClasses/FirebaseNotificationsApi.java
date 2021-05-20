@@ -25,13 +25,15 @@ public class FirebaseNotificationsApi {
     private String uidOfThePostAuthor, userIdOfActor, linkId;
     private int mode;
     private Calendar calendar;
-    private  SimpleDateFormat currTime, currDate;
+    private  SimpleDateFormat currTime, currDate, keyFormat;
 
 
     @SuppressLint("SimpleDateFormat")
     public FirebaseNotificationsApi() {
         currTime = new SimpleDateFormat("HH:mm:ss:SS");
         currDate = new SimpleDateFormat("dd MMMM yyyy");
+        keyFormat = new SimpleDateFormat("MM dd yyyy HH:mm:ss:SS");
+
         notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         postsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
@@ -76,7 +78,7 @@ public class FirebaseNotificationsApi {
     {
         String currentTime = currTime.format(calendar.getTime());
         String currentDate = currDate.format(calendar.getTime());
-        String NotificationID = currentDate + " | " + currentTime + " | " + uidOfThePostAuthor + " | " + userIdOfActor ;
+        String NotificationID =keyFormat.format(calendar.getTime());
 
         Notifications notification = new Notifications();
         notification.setCreationDate(currentDate);
@@ -109,7 +111,7 @@ public class FirebaseNotificationsApi {
     {
         String currentTime = currTime.format(calendar.getTime());
         String currentDate = currDate.format(calendar.getTime());
-        String timestamp = currentDate + " " + currentTime + userIdOfActor + " ";
+        String timestamp = keyFormat.format(calendar.getTime());
         
         
         usersRef.child(userIdOfActor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -155,7 +157,7 @@ public class FirebaseNotificationsApi {
     {
         String currentTime = currTime.format(calendar.getTime());
         String currentDate = currDate.format(calendar.getTime());
-        String NotificationID = currentDate + " | " + currentTime + " | " + someoneThatYouFollowed + " | " + userIdOfActor ;
+        String NotificationID = keyFormat.format(calendar.getTime());
 
         //some complicated stuff
         usersRef.child(someoneThatYouFollowed).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -187,7 +189,7 @@ public class FirebaseNotificationsApi {
     {
         String currentTime = currTime.format(calendar.getTime());
         String currentDate = currDate.format(calendar.getTime());
-        String NotificationID = currentDate + " | " + currentTime + " | " + someoneThatFollowedYou + " | " + userIdOfActor ;
+        String NotificationID = keyFormat.format(calendar.getTime());
 
         //some complicated stuff
         usersRef.child(someoneThatFollowedYou).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {

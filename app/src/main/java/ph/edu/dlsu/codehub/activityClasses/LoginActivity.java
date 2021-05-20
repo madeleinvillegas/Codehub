@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,6 +16,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 import ph.edu.dlsu.codehub.R;
@@ -76,12 +85,22 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else {
                             if (mAuth.getCurrentUser().isEmailVerified()) {
-                                Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
-                                startActivity(intent);
-                                finish();
+                                DatabaseReference dataBase = FirebaseDatabase.getInstance().getReference().child("Users").child(Objects.requireNonNull(mAuth.getUid()));
+                                dataBase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        checkForNullValue();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                    }
+                                });
+
                             } else {
                                 mAuth.getCurrentUser().sendEmailVerification();
-                                Toast.makeText(LoginActivity.this, "Please check your email and verify your account", Toast.LENGTH_SHORT);
+                                Toast.makeText(LoginActivity.this, "Please check your email and verify your account", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -95,7 +114,46 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-//  Allows the user to not login every time they open the app
+
+    private void checkForNullValue(){
+        Log.d("mAuth", mAuth.getUid());
+
+
+        DatabaseReference dataBase = FirebaseDatabase.getInstance().getReference().child("Users").child(Objects.requireNonNull(mAuth.getUid()));
+        dataBase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                boolean nullValue = false;
+
+                for(DataSnapshot attribute: snapshot.getChildren())
+                {
+                    if(attribute.getValue() == null || Objects.toString(attribute.getValue(), "").isEmpty() || !snapshot.exists())
+                    {
+                        nullValue = true;
+                    }
+                }
+                Intent intent;
+                if(nullValue)
+                {
+                    Toast.makeText(getApplicationContext(), "You didn't properly fill out your data last time.", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(getApplicationContext(), EditProfileDataActivity.class);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Logged In", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(getApplicationContext(), ProfileTemplate.class);
+                }
+                startActivity(intent);
+                finish(); //this would prevent any loose ends
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -108,11 +166,10 @@ public class LoginActivity extends AppCompatActivity {
             }
             else {
                 if (currentUser.isEmailVerified()) {
-                    Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
-                    startActivity(intent);
+                    checkForNullValue();
                 } else {
                     mAuth.getCurrentUser().sendEmailVerification();
-                    Toast.makeText(this, "Please check your email and verify your account", Toast.LENGTH_SHORT);
+                    Toast.makeText(this, "Please check your email and verify your account", Toast.LENGTH_SHORT).show();
                 }
 
             }

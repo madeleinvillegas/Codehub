@@ -6,11 +6,9 @@ Fix the search algorithm of search users (Sorta works. I can't make it return be
 Suggestion: Use uniform dimensions from dimens.txt
 
 TODO: Fix bugs below
-todo: some functionalities in search menu are not working aside sa profile template activity.
-todo: Better search algorithm
-todo: Better notifications ordering
+todo: Better notifications ordering (will have to reorder notifications)
 
-todo: something goes wrong when you keep commenting on your own post
+todo: something goes wrong when you keep commenting on your own post. it doesn't work if you comment at the same minute.
 
 View holder classes are repetitive
 Make the modules more modularized. It's hard to debug if puro copy paste.

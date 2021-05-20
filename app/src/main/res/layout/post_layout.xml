@@ -55,8 +55,8 @@
 <!--             TODO: Remove space sa end of triple dots -->
             <ImageButton
                 android:id="@+id/report_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="right"
                 android:background="#0000"
                 android:scaleType="fitStart"
@@ -66,8 +66,8 @@
 
             <ImageButton
                 android:id="@+id/options_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="right"
                 android:background="#0000"
                 android:scaleType="fitStart"

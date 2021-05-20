@@ -401,9 +401,18 @@ public class EditProfileDataActivity extends AppCompatActivity {
     }
 
     private void sendUserToHomePage() {
-        Intent intent = new Intent(getApplicationContext(), ProfileTemplate.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        String where = getIntent().getExtras().get("prior").toString();
+        if (where.equals("viewProfile")) {
+            Intent intent = new Intent(getApplicationContext(), ProfileTemplate.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else {
+            mAuth.getCurrentUser().sendEmailVerification();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
     }
 }

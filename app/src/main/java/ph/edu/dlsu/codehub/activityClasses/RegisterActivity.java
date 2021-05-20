@@ -11,8 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -71,32 +74,41 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
                         String currentUserId = mAuth.getCurrentUser().getUid();
-                        DatabaseReference UsersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(name).build();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            DatabaseReference UsersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
-                        HashMap userMap = new HashMap();
-                        userMap.put("username", "");
-                        userMap.put("fullNameInLowerCase", name.toLowerCase());
-                        userMap.put("fullName", name);
-                        userMap.put("address", "");
-                        userMap.put("occupation", "");
+                                            HashMap userMap = new HashMap();
+                                            userMap.put("fullNameInLowerCase", name.toLowerCase());
+                                            userMap.put("fullName", name);
+                                            userMap.put("address", "");
+                                            userMap.put("occupation", "");
 
-                        UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
-                            @Override
-                            public void onComplete(@NonNull Task task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(RegisterActivity.this, EditProfileDataActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                else {
-                                    String errorMessage = task.getException().getMessage();
-                                    Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
-                                }
-                            }
-                        });
-
-
+                                            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                                                @Override
+                                                public void onComplete(@NonNull Task task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(RegisterActivity.this, EditProfileDataActivity.class);
+                                                        intent.putExtra("prior", "register");
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                    else {
+                                                        String errorMessage = task.getException().getMessage();
+                                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
                     }
                     else {
                         String message = Objects.requireNonNull(task.getException()).getMessage();

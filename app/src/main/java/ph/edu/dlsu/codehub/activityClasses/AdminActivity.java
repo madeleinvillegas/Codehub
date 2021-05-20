@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,7 +80,6 @@ public class AdminActivity extends AppCompatActivity {
                 postsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        //Something wrong with the code below
                         holder.setPostTitle(snapshot.child(pos).child("title").getValue().toString());
                         holder.setPostBody(snapshot.child(pos).child("body").getValue().toString());
 
@@ -132,9 +132,9 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     public void logout(View view) {
-        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
+        FirebaseAuth.getInstance().signOut();
         startActivity(intent);
-        Log.d("Entered login","function is logout");
     }
 
 
@@ -183,18 +183,18 @@ public class AdminActivity extends AppCompatActivity {
                     FirebaseNotificationsApi firebaseNotificationsApi;
                     switch (item.getItemId()) {
                         case R.id.delete:
-//                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
-//                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
-//                            reportsRef.removeValue();
-//                            postRef.removeValue();
+                            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
+                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
+                            reportsRef.removeValue();
+                            postRef.removeValue();
                             firebaseNotificationsApi = new FirebaseNotificationsApi(uidOfThePostAuthor, uidOfTheReporter, "", "delete");
                             firebaseNotificationsApi.addDeleteNotification();
 
                             Toast.makeText(itemView.getContext(), "Successfully deleted the post", Toast.LENGTH_SHORT).show();
                             return true;
                         case R.id.keep:
-//                            DatabaseReference reportRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
-//                            reportRef.removeValue();
+                            DatabaseReference reportRef = FirebaseDatabase.getInstance().getReference().child("Reported_Posts").child(pos);
+                            reportRef.removeValue();
                             firebaseNotificationsApi = new FirebaseNotificationsApi(uidOfThePostAuthor, uidOfTheReporter, pos, "keep");
                             firebaseNotificationsApi.addKeepNotification();
                             return true;

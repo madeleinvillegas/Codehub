@@ -70,6 +70,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         bgpic = findViewById(R.id.bgPhoto);
         edit.setOnClickListener(view-> {
             Intent intent = new Intent(this, EditProfileDataActivity.class);
+            intent.putExtra("prior", "viewProfile");
             startActivity(intent);
             finish();
         });
@@ -150,9 +151,6 @@ public class ViewProfileActivity extends AppCompatActivity {
                     forDisplay = "Workplace";
                 }
                 work.setText(forDisplay);
-//                followers.setText(snapshot.child("fullName").toString());
-//                following.setText(snapshot.child("fullName").toString());
-//                set the profile and bg pic
             }
 
             @Override

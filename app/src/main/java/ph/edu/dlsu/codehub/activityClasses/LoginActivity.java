@@ -75,9 +75,14 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         }
                         else {
-                            Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
-                            startActivity(intent);
-                            finish();
+                            if (mAuth.getCurrentUser().isEmailVerified()) {
+                                Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                mAuth.getCurrentUser().sendEmailVerification();
+                                Toast.makeText(LoginActivity.this, "Please check your email and verify your account", Toast.LENGTH_SHORT);
+                            }
                         }
 
                     }
@@ -102,8 +107,14 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
             else {
-                Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
-                startActivity(intent);
+                if (currentUser.isEmailVerified()) {
+                    Intent intent = new Intent(LoginActivity.this, ProfileTemplate.class);
+                    startActivity(intent);
+                } else {
+                    mAuth.getCurrentUser().sendEmailVerification();
+                    Toast.makeText(this, "Please check your email and verify your account", Toast.LENGTH_SHORT);
+                }
+
             }
         }
     }

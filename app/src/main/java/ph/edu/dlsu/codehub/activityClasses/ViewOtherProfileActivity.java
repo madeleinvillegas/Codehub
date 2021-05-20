@@ -1,7 +1,6 @@
 package ph.edu.dlsu.codehub.activityClasses;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,12 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +36,6 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ph.edu.dlsu.codehub.R;
-import ph.edu.dlsu.codehub.fragmentClasses.HomeFragment;
 import ph.edu.dlsu.codehub.helperClasses.FirebaseNotificationsApi;
 import ph.edu.dlsu.codehub.helperClasses.Notifications;
 import ph.edu.dlsu.codehub.helperClasses.Post;
@@ -93,7 +89,7 @@ public class ViewOtherProfileActivity extends BaseToolbarActivity {
                 if(snapshot.getValue() != null){
                     Picasso.get()
                             .load(snapshot.getValue().toString())
-                            .placeholder(R.drawable.boy_avatar)
+                            .placeholder(R.drawable.profile_image)
                             .into(profilePic);
                 }
             }

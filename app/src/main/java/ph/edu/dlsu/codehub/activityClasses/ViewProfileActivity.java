@@ -1,7 +1,6 @@
 package ph.edu.dlsu.codehub.activityClasses;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -112,7 +111,7 @@ public class ViewProfileActivity extends BaseToolbarActivity {
                 {
                     Picasso.get()
                             .load(snapshot.getValue().toString())
-                            .placeholder(R.drawable.boy_avatar)
+                            .placeholder(R.drawable.profile_image)
                             .into(profilepic);
                 }
 

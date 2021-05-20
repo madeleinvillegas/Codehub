@@ -74,6 +74,8 @@ public class EditProfileDataActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
 
@@ -109,7 +111,7 @@ public class EditProfileDataActivity extends AppCompatActivity {
                 {
                     Picasso.get()
                             .load(snapshot.getValue().toString())
-                            .placeholder(R.drawable.boy_avatar)
+                            .placeholder(R.drawable.profile_image)
                             .into(currentProfilePicture);
                     currentProfilePicture.setTag(snapshot.getValue().toString());
                 }

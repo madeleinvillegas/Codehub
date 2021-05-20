@@ -62,6 +62,7 @@ public class BaseToolbarActivity extends AppCompatActivity {
             case R.id.log_out:
                 FirebaseAuth.getInstance().signOut();
                 Intent intent1 = new Intent(getApplicationContext(), LoginActivity.class);
+                finish();
                 startActivity(intent1);
 
                 return true;

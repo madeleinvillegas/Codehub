@@ -3,6 +3,7 @@ package ph.edu.dlsu.codehub.activityClasses;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
@@ -18,6 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -90,20 +94,37 @@ public class RegisterActivity extends AppCompatActivity {
                                             userMap.put("address", "");
                                             userMap.put("occupation", "");
 
-                                            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+
+                                            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("default_pics");
+
+                                            storageReference.child("profile_image.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                 @Override
-                                                public void onComplete(@NonNull Task task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
-                                                        Intent intent = new Intent(RegisterActivity.this, EditProfileDataActivity.class);
-                                                        intent.putExtra("prior", "register");
-                                                        startActivity(intent);
-                                                        finish();
-                                                    }
-                                                    else {
-                                                        String errorMessage = task.getException().getMessage();
-                                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
-                                                    }
+                                                public void onSuccess(Uri uri) {
+                                                    userMap.put("backgroundImageLink", uri.toString());
+
+                                                    storageReference.child("background_image.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                        @Override
+                                                        public void onSuccess(Uri uri) {
+                                                            userMap.put("profileImageLink", uri.toString());
+
+                                                            UsersDatabaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        Toast.makeText(RegisterActivity.this, "Your account has been created", Toast.LENGTH_SHORT).show();
+                                                                        Intent intent = new Intent(RegisterActivity.this, EditProfileDataActivity.class);
+                                                                        intent.putExtra("prior", "register");
+                                                                        startActivity(intent);
+                                                                        finish();
+                                                                    }
+                                                                    else {
+                                                                        String errorMessage = task.getException().getMessage();
+                                                                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    });
                                                 }
                                             });
                                         }

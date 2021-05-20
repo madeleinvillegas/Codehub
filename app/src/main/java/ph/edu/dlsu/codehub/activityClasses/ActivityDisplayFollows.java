@@ -148,8 +148,7 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
                         if(snapshot.exists())
                         {
                             String fullName = snapshot.child("fullName").getValue().toString();
-                            String profileImg = snapshot.child("profileImageLink").getValue().toString();
-
+                            String profileImg = Objects.requireNonNull(snapshot.child("profileImageLink").getValue()).toString();
                             holder.setName(fullName);
                             holder.setProfilePicture(profileImg);
 

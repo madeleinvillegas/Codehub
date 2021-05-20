@@ -111,6 +111,8 @@ public class SearchActivity extends BaseToolbarActivity{
     private void searchPeopleWithFriends(String query) {
 
         query = query.toLowerCase();
+
+
         //should display a list of all users since the order has been omitted
         Query searchPeopleWithFriendsQuery = usersDatabaseReference.orderByChild("fullNameInLowerCase" ).startAt(query).endAt(query + "\uf8ff");
 

@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     Toast.makeText(getApplicationContext(), "You didn't properly fill out your data last time.", Toast.LENGTH_SHORT).show();
                     intent = new Intent(getApplicationContext(), EditProfileDataActivity.class);
+                    intent.putExtra("prior", "login");
                 }
                 else
                 {

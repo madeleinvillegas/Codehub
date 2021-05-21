@@ -17,6 +17,8 @@ Notifications:View holder classes are repetitive
 There's a null error in notifications
 Add notifications for report post and result of admin (if keep or delete)
 
+View Single Post: Author is null
+
 IMPORTANT:
 ***
 Our database is not dynamic. Meaning, if I change my name, then the name of posts that I posted would not be changed. This has bad implications.

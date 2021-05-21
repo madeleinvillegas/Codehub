@@ -49,6 +49,9 @@ import ph.edu.dlsu.codehub.R;
 // 1: Someone Commented On Your Post
 // 2: Someone Followed You
 // 3: You Followed Someone
+// 4: Your post has been reported
+// 5: The reported post was deleted
+// 6: The reported post was kept
 
 
 //TODO: Make Event Notifications On Clickable
@@ -93,32 +96,19 @@ public class NotificationsFragment extends Fragment {
     }
 
     public static class notificationsViewHolder extends RecyclerView.ViewHolder{
-        CircleImageView notificationImage;
         TextView notificationContent, timeStamp;
 
-        public notificationsViewHolder(View itemView)
-        {
+        public notificationsViewHolder(View itemView) {
             super(itemView);
             notificationContent = (TextView) itemView.findViewById(R.id.notification_description);
-            notificationImage = (CircleImageView) itemView.findViewById(R.id.notification_image);
             timeStamp = (TextView) itemView.findViewById(R.id.time_stamp);
         }
 
         //Add class methods here
-        public void setContent(String content)
-        {
-            //Screw bold text
+        public void setContent(String content) {
             notificationContent.setText(content);
         }
 
-        public void setImage(String image) {
-            //TODO: for some reason this code doesn't work
-
-            Picasso.get()
-                    .load(image)
-                    .placeholder(R.drawable.ic_baseline_person_24)
-                    .into(notificationImage);
-        }
 
         @SuppressLint("SetTextI18n")
         public void setTimeStamp(String date, String time)
@@ -162,100 +152,83 @@ public class NotificationsFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull @NotNull notificationsViewHolder holder, int position, @NonNull @NotNull Notifications model) {
-                String image, time, date;
-                image = model.getProfileImageLink();
+                String time, date;
                 date = model.getCreationDate();
                 time = model.getTime();
-                holder.setImage(image);
-                Log.d("DEBUGGING", image);
                 holder.setTimeStamp(date, time);
+                int codes = model.getNotificationType();
+                if (codes == 0 || codes == 1) {
+//                    Log.d("Actor UID", model.getActorUid());    // TODO: this is null
 
+//                    userRef.child(model.getActorUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+//                        int code = model.getNotificationType();
+//                        @Override
+//                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+//                            if(code == 0) {
+//                                holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " commented on your post");
+//                            } else if (code == 1) {
+//                                holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " liked your post");
+//                            }
+//                        }
+//                        @Override public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+//                    });
+                } else if (codes == 2 || codes == 3) {
+                    userRef.child(model.getActorUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+                        int code = model.getNotificationType();
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            if(code == 2) {
+                                holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + "followed you");
+                            } else if (code == 3) {
+                                holder.setContent("You followed " + Objects.requireNonNull(snapshot.getValue()).toString());
+                            }
 
-
-                userRef.child(model.getActorUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
-                    int code = model.getNotificationType();
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        if(code == 0)
-                        {
-                            holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " commented on your post");
                         }
+                        @Override public void onCancelled(@NonNull @NotNull DatabaseError error) { }
+                    });
+                } else {
+                    holder.setContent(model.getNotificationContent());
+                }
 
-                        else if (code == 1)
-                        {
-                            holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " liked your post");
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                    }
-                });
-
-
-                userRef.child(model.getActorUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
-                    int code = model.getNotificationType();
-
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        if(code == 2)
-                        {
-                            holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + "followed you");
-                        }
-                        else if (code == 3)
-                        {
-                            holder.setContent("You followed " + Objects.requireNonNull(snapshot.getValue()).toString());
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                    }
-                });
-
-                //TODO: DO SOMETHING ABOUT THIS
                 holder.itemView.setOnClickListener(view -> {
                     int code = model.getNotificationType();
+                    Intent intent;
+                    switch(code) {
+                        case 0: // 0: Someone Liked Your Post
+                        case 1: // 1: Someone Commented On Your Post
+                        case 6: // 6: The reported post was kept
+                            intent = new Intent(getActivity(), ViewSinglePostActivity.class);
+                            intent.putExtra("Position", model.getLinkUID());
+                            startActivity(intent);
+                            break;
+                        case 2: // 2: Someone Followed You
+                        case 3: // 3: You followed someone
+                        case 5: // 5: The reported post was deleted
+                            intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
+                            intent.putExtra("Position", model.getLinkUID());
+                            startActivity(intent);
+                            break;
+                        case 4: // 4: Your post has been reported
+                            DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
+                            postRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                    if (snapshot.hasChild(model.getLinkUID())) {
+                                        Intent intent = new Intent(getActivity(), ViewSinglePostActivity.class);
+                                        intent.putExtra("Position", model.getLinkUID());
+                                        startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
+                                        intent.putExtra("Position", model.getLinkUID());
+                                        startActivity(intent);
+                                    }
+                                }
+                                @Override public void onCancelled(@NonNull @NotNull DatabaseError error) { }
+                            });
+                            break;
 
-                    if (code == 0) {
-                        // 0: Someone Liked Your Post
-                        Intent intent = new Intent(getActivity(), ViewSinglePostActivity.class);
-                        intent.putExtra("Position", model.getLinkUID());
-                        startActivity(intent);
-
-                    } else if (code == 1)
-                    {
-                        // 1: Someone Commented On Your Post
-                        Intent intent = new Intent(getActivity(), ViewSinglePostActivity.class);
-                        intent.putExtra("Position", model.getLinkUID());
-                        startActivity(intent);
-
-                    } else if (code == 2)
-                    {
-                        // 2: Someone Followed You
-                        Intent intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
-                        intent.putExtra("Position", model.getLinkUID());
-                        startActivity(intent);
-
-
-                    } else if (code == 3)
-                    {
-                        // 2: Someone Followed You
-                        Intent intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
-                        intent.putExtra("Position", model.getLinkUID());
-                        startActivity(intent);
                     }
                 });
-
-
-
-
-
-
             }
         };
         notificationsList.setAdapter(adapter);

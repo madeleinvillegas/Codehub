@@ -1,6 +1,7 @@
 package ph.edu.dlsu.codehub.activityClasses;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -72,76 +73,78 @@ public class ReportPostActivity extends AppCompatActivity {
 
     }
 
-    private void report_post()
-    {
-        progressBar.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-
+    private void report_post() {
         DatabaseReference postReported = reportDataBaseReference.child(postId);
         String reason = reportReason.getText().toString();
-        HashMap data = new HashMap<String, String>();
+        if (TextUtils.isEmpty(reason)) {
+            Toast.makeText(this, "Please input the reason for reporting", Toast.LENGTH_SHORT).show();
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            HashMap data = new HashMap<String, String>();
 
-        postReported.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.hasChild("reporter")) {
-                    String pos = snapshot.child("reporter").getValue().toString();
-                    String tmp = snapshot.getKey();
-                    String[] tmps = tmp.split(" ");
-                    String uidOfThePostAuthor = tmps[0];
-                    Log.d("DEBUGGING", uidOfThePostAuthor);
-                    if (pos.equals(userIdOfTheReporter)) {
-                        //if user already reported
-                        Toast.makeText(getApplicationContext(), "Post Already Reported", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            postReported.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.hasChild("reporter")) {
+                        String pos = snapshot.child("reporter").getValue().toString();
+                        String tmp = snapshot.getKey();
+                        String[] tmps = tmp.split(" ");
+                        uidOfThePostAuthor = tmps[0];
+                        Log.d("DEBUGGING", uidOfThePostAuthor);
+                        if (pos.equals(userIdOfTheReporter)) {
+                            //if user already reported
+                            Toast.makeText(getApplicationContext(), "Post Already Reported", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        }
+                        else {
+                            saveToFirebase();
+                        }
                     }
                     else {
                         saveToFirebase();
                     }
                 }
-                else {
-                    saveToFirebase();
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Pulling of  report database failed", Toast.LENGTH_LONG).show();
+
                 }
-            }
+                public void saveToFirebase() {
+                    data.put("reporter", userIdOfTheReporter);
+                    data.put("reason", reason);
+                    data.put("postId", postId);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Pulling of  report database failed", Toast.LENGTH_LONG).show();
-
-            }
-            public void saveToFirebase() {
-                data.put("reporter", userIdOfTheReporter);
-                data.put("reason", reason);
-                data.put("postId", postId);
-
-                progressBar.setVisibility(View.VISIBLE);
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                postReported.updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful())
-                        {
-                            Toast.makeText(getApplicationContext(), "Report Successful", Toast.LENGTH_LONG).show();
-                            progressBar.setVisibility(View.GONE);
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            FirebaseNotificationsApi firebaseNotificationsApi = new
-                                    FirebaseNotificationsApi(uidOfThePostAuthor, userIdOfTheReporter, postId, "report");
-                            firebaseNotificationsApi.addReportNotification();
-                            finish();
+                    progressBar.setVisibility(View.VISIBLE);
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    postReported.updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful())
+                            {
+                                Toast.makeText(getApplicationContext(), "Report Successful", Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                FirebaseNotificationsApi firebaseNotificationsApi = new
+                                        FirebaseNotificationsApi(uidOfThePostAuthor, userIdOfTheReporter, postId, "report");
+                                firebaseNotificationsApi.addReportNotification();
+                                finish();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Report Failed. Try Again.", Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            }
                         }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "Report Failed. Try Again.", Toast.LENGTH_LONG).show();
-                            progressBar.setVisibility(View.GONE);
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
+
     }
 }

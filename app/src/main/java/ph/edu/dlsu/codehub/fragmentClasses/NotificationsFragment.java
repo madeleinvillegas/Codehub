@@ -219,7 +219,9 @@ public class NotificationsFragment extends Fragment {
                                         startActivity(intent);
                                     } else {
                                         Intent intent = new Intent(getActivity(), ViewOtherProfileActivity.class);
-                                        intent.putExtra("Position", model.getLinkUID());
+                                        String smth = model.getLinkUID();
+                                        String[] uid = smth.split(" ");
+                                        intent.putExtra("Position", uid[0]);
                                         startActivity(intent);
                                     }
                                 }

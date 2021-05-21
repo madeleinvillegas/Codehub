@@ -107,14 +107,11 @@ public class FirebaseNotificationsApi {
         usersRef.child(userIdOfActor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                Log.d("ID", userIdOfActor);
-                Log.d("ID", snapshot.getValue().toString());
 
                 String notificationContent = snapshot.getValue().toString()+ " commented on your post";
                 
                 Notifications notification = new Notifications();
                 notification.setCreationDate(currentDate);
-                notification.setProfileImageLink(usersRef.child(userIdOfActor).child("profileImageLink").toString());
                 notification.setLinkUID(linkId);
                 notification.setNotificationContent(notificationContent);
                 notification.setNotificationType(mode);
@@ -155,7 +152,6 @@ public class FirebaseNotificationsApi {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 Notifications notification = new Notifications();
                 notification.setCreationDate(currentDate);
-                notification.setProfileImageLink(FirebaseDatabase.getInstance().getReference().child("Users").child(userIdOfActor).child("profileImageLink").toString());
                 notification.setLinkUID(someoneThatYouFollowed);
                 notification.setNotificationType(mode);
                 notification.setTime(currentTime);
@@ -187,7 +183,6 @@ public class FirebaseNotificationsApi {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 Notifications notification = new Notifications();
                 notification.setCreationDate(currentDate);
-                notification.setProfileImageLink(FirebaseDatabase.getInstance().getReference().child("Users").child(userIdOfActor).child("profileImageLink").toString());
                 notification.setLinkUID(someoneThatFollowedYou);
                 notification.setNotificationType(mode);
                 notification.setTime(currentTime);
@@ -213,9 +208,9 @@ public class FirebaseNotificationsApi {
         String NotificationID = keyFormat.format(calendar.getTime());
         Notifications notification = new Notifications();
         notification.setCreationDate(currentDate);
-        notification.setProfileImageLink(FirebaseDatabase.getInstance().getReference().child("Users").child(uidOfThePostAuthor).child("profileImageLink").toString());
         notification.setNotificationType(mode);
         notification.setTime(currentTime);
+        notification.setLinkUID(uidOfThePostAuthor);
         notification.setNotificationContent("The admin has decided to delete the post you reported on the app");
         notificationRef.child(userIdOfActor).child(NotificationID).setValue(notification);
         notification.setNotificationContent("The admin has decided to delete the reported post on the app");
@@ -229,7 +224,6 @@ public class FirebaseNotificationsApi {
 
         Notifications notification = new Notifications();
         notification.setCreationDate(currentDate);
-        notification.setProfileImageLink(FirebaseDatabase.getInstance().getReference().child("Users").child(uidOfThePostAuthor).child("profileImageLink").toString());
         notification.setNotificationType(mode);
         notification.setLinkUID(linkId);
         notification.setTime(currentTime);
@@ -252,6 +246,8 @@ public class FirebaseNotificationsApi {
         notificationRef.child(userIdOfActor).child(NotificationID).setValue(notification);
         notification.setNotificationContent("Your post has been reported and is pending review from the admins");
         notificationRef.child(uidOfThePostAuthor).child(NotificationID).setValue(notification);
+
+
     }
 
     public String getUidOfThePostAuthor() {

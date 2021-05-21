@@ -48,14 +48,16 @@
                     android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
+
         <TextView
             android:id="@+id/comment_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:fontFamily="@font/abhaya_libre_semi_bold"
+            android:padding="18dp"
             android:text="The comment is here"
-            android:textSize="20sp"
             android:textColor="@color/black"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>

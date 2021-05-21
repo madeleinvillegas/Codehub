@@ -82,7 +82,7 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
         {
             displayFollowers();
             title.setText("Followers: ");
-        } else if (showWhat.equals("followedBy"))
+        } else if (showWhat.equals("following"))
         {
             displayFollowing();
             title.setText("Following: ");
@@ -148,7 +148,7 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
                         if(snapshot.exists())
                         {
 
-                            String fullName = Objects.toString(snapshot.child("fullname").getValue(), "nullValue") ;
+                            String fullName = Objects.toString(snapshot.child("fullName").getValue(), "nullValue") ;
                             String profileImg =  Objects.toString(snapshot.child("profileImageLink").getValue(), "def");
                             holder.setName(fullName);
                             holder.setProfilePicture(profileImg);
@@ -162,9 +162,20 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
                     }
                 });
 
+//                holder.itemView.setOnClickListener(view -> {
+//                    String id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+//                    if (id.equals(userId)) {
+//                        Intent intent = new Intent(ActivityDisplayFollows.this, ViewProfileActivity.class);
+//                        startActivity(intent);
+//                    } else {
+//                        Intent intent = new Intent(ActivityDisplayFollows.this, ViewOtherProfileActivity.class);
+//                        intent.putExtra("Position", holderUid);
+//                        startActivity(intent);
+//                    }
+//
+//                });
                 holder.itemView.setOnClickListener(view -> {
-                    String id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                    if (id.equals(userId)) {
+                    if (holderUid.equals(userId)) {
                         Intent intent = new Intent(ActivityDisplayFollows.this, ViewProfileActivity.class);
                         startActivity(intent);
                     } else {
@@ -214,7 +225,7 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         if(snapshot.exists())
                         {
-                            String fullName = Objects.toString(snapshot.child("fullname").getValue(), "nullValue");
+                            String fullName = Objects.toString(snapshot.child("fullName").getValue(), "nullValue");
                             String profileImg =  Objects.toString(snapshot.child("profileImageLink").getValue(), "def");
 
                             holder.setName(fullName);
@@ -230,8 +241,7 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
                 });
 
                 holder.itemView.setOnClickListener(view -> {
-                    String id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                    if (id.equals(userId)) {
+                    if (holderUid.equals(userId)) {
                         Intent intent = new Intent(ActivityDisplayFollows.this, ViewProfileActivity.class);
                         startActivity(intent);
                     } else {

@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ph.edu.dlsu.codehub.helperClasses.FirebaseNotificationsApi;
 import ph.edu.dlsu.codehub.helperClasses.Notifications;
 import ph.edu.dlsu.codehub.helperClasses.Post;
 import ph.edu.dlsu.codehub.R;
@@ -198,6 +199,16 @@ public class ViewProfileActivity extends BaseToolbarActivity {
                 holder.postTitle.setText(model.getTitle());
                 holder.setLikeBtnColor(pos);
 
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent;
+                        intent = new Intent(ViewProfileActivity.this, ViewSinglePostActivity.class);
+                        intent.putExtra("Position", pos);
+                        startActivity(intent);
+                    }
+                });
+
                 holder.reportBtn.setVisibility(View.INVISIBLE);
                 holder.commentBtn.setOnClickListener(view -> {
                     Intent intent = new Intent(ViewProfileActivity.this, CommentActivity.class);
@@ -226,7 +237,8 @@ public class ViewProfileActivity extends BaseToolbarActivity {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             //put code to display on notification on like here
-                                            putLikeNotification(pos);
+                                            FirebaseNotificationsApi firebaseNotificationsApi = new FirebaseNotificationsApi(uidOfThePostAuthor, userId, pos, "like");
+                                            firebaseNotificationsApi.addLikeNotification();
                                         }
                                     });
                                     // Stops the infinite loop
@@ -329,44 +341,4 @@ public class ViewProfileActivity extends BaseToolbarActivity {
             });
         }
     }
-    public void putLikeNotification(String postID)
-    {
-        DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
-
-
-        //Format: "AUTHOR | PERSON WHO LIKED"
-        String NotificationID =uidOfThePostAuthor + " | " + userId;
-
-        Calendar calendar = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currTime = new SimpleDateFormat("HH:mm");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currDate = new SimpleDateFormat("dd MMMM yyyy");
-        String currentTime = currTime.format(calendar.getTime());
-        String currentDate = currDate.format(calendar.getTime());
-
-
-        Notifications notification = new Notifications();
-        notification.setCreationDate(currentDate);
-        notification.setProfileImageLink(FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("profileImageLink").toString());
-        notification.setLinkUID(postID);
-        notification.setNotificationType(0);
-        notification.setTime(currentTime);
-
-        //some complicated stuff
-
-        usersRef.child(uidOfThePostAuthor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                String notificationContent = Objects.toString(snapshot.getValue(), "nullValue") + " liked your post";
-                notification.setNotificationContent(notificationContent);
-                notificationRef.child(uidOfThePostAuthor).child(NotificationID).setValue(notification);
-
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });
-
-    }
-
 }

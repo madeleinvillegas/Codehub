@@ -75,6 +75,16 @@
                 android:scaleX="0.9"
                 android:scaleY="0.9"
                 android:src="@drawable/dots" />
+            <ImageButton
+                android:id="@+id/reportss_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:background="#0000"
+                android:scaleType="fitStart"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                android:src="@drawable/report" />
 
         </LinearLayout>
 

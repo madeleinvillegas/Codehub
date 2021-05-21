@@ -14,10 +14,9 @@ Make the modules more modularized. It's hard to debug if puro copy paste. (no mo
 
 Notifications:View holder classes are repetitive
 
-There's a null error in notifications
-Add notifications for report post and result of admin (if keep or delete)
+There's a null error in notifications (Like and comment getAuthotUid() doesn't work)
 
-View Single Post: Author is null
+
 
 IMPORTANT:
 ***
@@ -84,3 +83,5 @@ Registration Related Stuff:
 I think we need to use email authentication, because users could just put dummy emails and get accounts. (ex. my email was user@email.com)
 
 suggest making a general class for notifications and likes for uniformity, and call it like Like.like(postId, User), Like.unlike(postId, User), etc (been there done that)
+
+View Single Post: Author is null

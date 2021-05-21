@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -76,8 +77,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void viewPosts() {
+        Query query = postRef.orderByChild("date/time");
         FirebaseRecyclerOptions<Post> options =
-                new FirebaseRecyclerOptions.Builder<Post>().setQuery(postRef, Post.class).build();
+                new FirebaseRecyclerOptions.Builder<Post>().setQuery(query, Post.class).build();
         FirebaseRecyclerAdapter<Post, PostViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(options) {
             @SuppressLint("SetTextI18n")
             @Override

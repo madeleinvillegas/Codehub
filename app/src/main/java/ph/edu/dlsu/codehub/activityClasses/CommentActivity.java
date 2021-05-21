@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -69,15 +70,13 @@ public class CommentActivity extends AppCompatActivity {
         userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
         commentBtn.setOnClickListener(view -> {
-            userRef.child(userId).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                    comment = commentInput.getText().toString();
-
-                    if (TextUtils.isEmpty(comment)) {
-                        Toast.makeText(CommentActivity.this, "Please add a comment", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+            comment = commentInput.getText().toString();
+            if (TextUtils.isEmpty(comment)) {
+                Toast.makeText(CommentActivity.this, "Please add a comment", Toast.LENGTH_SHORT).show();
+            } else {
+                userRef.child(userId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         Calendar calendar = Calendar.getInstance();
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat currDate = new SimpleDateFormat("dd MMMM yyyy");
                         String currentDate = currDate.format(calendar.getTime());
@@ -108,6 +107,7 @@ public class CommentActivity extends AppCompatActivity {
                                                         String authorUID = Objects.requireNonNull(snapshot.getValue()).toString();
                                                         FirebaseNotificationsApi firebaseNotificationsApi = new FirebaseNotificationsApi(authorUID, userId, pos, "comment");
                                                         firebaseNotificationsApi.addCommentNotification();
+                                                        Toast.makeText(getApplicationContext(), "Successfully added your comment.", Toast.LENGTH_SHORT).show();
                                                     }
 
                                                     @Override
@@ -118,7 +118,7 @@ public class CommentActivity extends AppCompatActivity {
                                                 commentInput.setText("");
                                             }
                                             else {
-                                                Toast.makeText(getApplication(), "Error occurred while updating your comment.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "Error occurred while updating your comment.", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
@@ -129,22 +129,23 @@ public class CommentActivity extends AppCompatActivity {
                             }
                         });
                     }
-                }
 
-                @Override
-                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                }
-            });
+                    }
+                });
+            }
+
         });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
+        Query query = postsRef.orderByChild("date/time");
         FirebaseRecyclerOptions<Comments> options =
-                new FirebaseRecyclerOptions.Builder<Comments>().setQuery(postsRef, Comments.class).build();
+                new FirebaseRecyclerOptions.Builder<Comments>().setQuery(query, Comments.class).build();
         FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapter = new
                 FirebaseRecyclerAdapter<Comments, CommentsViewHolder>(options) {
             @Override

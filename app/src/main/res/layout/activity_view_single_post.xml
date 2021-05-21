@@ -6,7 +6,7 @@
     android:padding="15dp">
 
     <ImageButton
-        android:id="@+id/report_btn"
+        android:id="@+id/reportss_btn"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_gravity="right"

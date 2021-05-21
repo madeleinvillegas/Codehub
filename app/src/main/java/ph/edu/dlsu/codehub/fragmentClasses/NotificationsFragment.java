@@ -157,7 +157,7 @@ public class NotificationsFragment extends Fragment {
                 time = model.getTime();
                 holder.setTimeStamp(date, time);
                 int codes = model.getNotificationType();
-                Log.d("DEBUG", model.getActorUid());
+//                Log.d("DEBUG", model.getActorUid());
                 if (codes == 0 || codes == 1) {
                     Log.d("Actor UID", model.getActorUid());
 

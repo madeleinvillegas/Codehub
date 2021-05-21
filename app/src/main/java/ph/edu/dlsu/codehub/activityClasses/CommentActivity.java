@@ -75,13 +75,13 @@ public class CommentActivity extends AppCompatActivity {
                     comment = commentInput.getText().toString();
 
                     if (TextUtils.isEmpty(comment)) {
-                        Toast.makeText(getApplicationContext(), "Please add a comment", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CommentActivity.this, "Please add a comment", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Calendar calendar = Calendar.getInstance();
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat currDate = new SimpleDateFormat("dd MMMM yyyy");
                         String currentDate = currDate.format(calendar.getTime());
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat currTime = new SimpleDateFormat("HH:mm");
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat currTime = new SimpleDateFormat("HH:mm:ss:SS");
                         String currentTime = currTime.format(calendar.getTime());
                         String timestamp = userId + " " + currentDate + " " + currentTime;
                         userRef.addValueEventListener(new ValueEventListener() {
@@ -102,7 +102,6 @@ public class CommentActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task task) {
                                             if(task.isSuccessful()) {
-                                                Toast.makeText(getApplication(), "Successfully created comment", Toast.LENGTH_SHORT).show();
                                                 FirebaseDatabase.getInstance().getReference().child("Posts").child(pos).child("uid").addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {

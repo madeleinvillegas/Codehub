@@ -29,15 +29,11 @@ import ph.edu.dlsu.codehub.R;
 import ph.edu.dlsu.codehub.helperClasses.FirebaseNotificationsApi;
 
 public class ReportPostActivity extends AppCompatActivity {
-
-    private Button reportBtn;
     private EditText reportReason;
-
-    private DatabaseReference reportDataBaseReference; //database reference
+    private DatabaseReference reportDataBaseReference;
     private String userIdOfTheReporter, uidOfThePostAuthor;
     private String postId;
 
-    private RelativeLayout rootLayout;
     private ProgressBar progressBar;
 
     @Override
@@ -51,9 +47,9 @@ public class ReportPostActivity extends AppCompatActivity {
         reportDataBaseReference = FirebaseDatabase.getInstance().getReference().child("Reported_Posts");
 
         //Initialize Ids
-        reportBtn = findViewById(R.id.report_this_post_btn);
+        Button reportBtn = findViewById(R.id.report_this_post_btn);
         reportReason = findViewById(R.id.report_reason);
-        rootLayout = findViewById(R.id.root_layout);
+        RelativeLayout rootLayout = findViewById(R.id.root_layout);
 
         //Initialize Progress Bar
         progressBar = new ProgressBar(ReportPostActivity.this, null, android.R.attr.progressBarStyleLarge);
@@ -84,7 +80,7 @@ public class ReportPostActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             HashMap data = new HashMap<String, String>();
 
-            postReported.addValueEventListener(new ValueEventListener() {
+            postReported.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.hasChild("reporter")) {
@@ -92,10 +88,9 @@ public class ReportPostActivity extends AppCompatActivity {
                         String tmp = snapshot.getKey();
                         String[] tmps = tmp.split(" ");
                         uidOfThePostAuthor = tmps[0];
-                        Log.d("DEBUGGING", uidOfThePostAuthor);
                         if (pos.equals(userIdOfTheReporter)) {
                             //if user already reported
-                            Toast.makeText(getApplicationContext(), "Post Already Reported", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReportPostActivity.this, "Post Already Reported", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         }
@@ -126,9 +121,9 @@ public class ReportPostActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                Toast.makeText(getApplicationContext(), "Report Successful", Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
                                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                Toast.makeText(ReportPostActivity.this, "Post Successfully Reported", Toast.LENGTH_SHORT).show();
                                 FirebaseNotificationsApi firebaseNotificationsApi = new
                                         FirebaseNotificationsApi(uidOfThePostAuthor, userIdOfTheReporter, postId, "report");
                                 firebaseNotificationsApi.addReportNotification();

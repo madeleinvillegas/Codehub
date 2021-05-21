@@ -72,6 +72,8 @@ public class ReportPostActivity extends AppCompatActivity {
     private void report_post() {
         DatabaseReference postReported = reportDataBaseReference.child(postId);
         String reason = reportReason.getText().toString();
+        String[] tmps = postId.split(" ");
+        uidOfThePostAuthor = tmps[0];
         if (TextUtils.isEmpty(reason)) {
             Toast.makeText(this, "Please input the reason for reporting", Toast.LENGTH_SHORT).show();
         } else {
@@ -85,11 +87,10 @@ public class ReportPostActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.hasChild("reporter")) {
                         String pos = snapshot.child("reporter").getValue().toString();
-                        String tmp = snapshot.getKey();
-                        String[] tmps = tmp.split(" ");
-                        uidOfThePostAuthor = tmps[0];
+
+                        Log.d("POS", pos);
+                        Log.d("UID OF REPORTER", userIdOfTheReporter);
                         if (pos.equals(userIdOfTheReporter)) {
-                            //if user already reported
                             Toast.makeText(ReportPostActivity.this, "Post Already Reported", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -105,7 +106,7 @@ public class ReportPostActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getApplicationContext(), "Pulling of  report database failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Pulling of report database failed", Toast.LENGTH_LONG).show();
 
                 }
                 public void saveToFirebase() {

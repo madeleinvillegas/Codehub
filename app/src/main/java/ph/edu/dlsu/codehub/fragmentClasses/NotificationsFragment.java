@@ -157,29 +157,28 @@ public class NotificationsFragment extends Fragment {
                 time = model.getTime();
                 holder.setTimeStamp(date, time);
                 int codes = model.getNotificationType();
+                Log.d("DEBUG", model.getActorUid());
                 if (codes == 0 || codes == 1) {
-//                    Log.d("Actor UID", model.getActorUid());    // TODO: this is null
+                    Log.d("Actor UID", model.getActorUid());
 
-//                    userRef.child(model.getActorUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
-//                        int code = model.getNotificationType();
-//                        @Override
-//                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-//                            if(code == 0) {
-//                                holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " commented on your post");
-//                            } else if (code == 1) {
-//                                holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " liked your post");
-//                            }
-//                        }
-//                        @Override public void onCancelled(@NonNull @NotNull DatabaseError error) {}
-//                    });
-                } else if (codes == 2 || codes == 3) {
                     userRef.child(model.getActorUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
-                        int code = model.getNotificationType();
                         @Override
                         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                            if(code == 2) {
+                            if(codes == 0) {
+                                holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " commented on your post");
+                            } else {
+                                holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + " liked your post");
+                            }
+                        }
+                        @Override public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+                    });
+                } else if (codes == 2 || codes == 3) {
+                    userRef.child(model.getActorUid()).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            if(codes == 2) {
                                 holder.setContent(Objects.requireNonNull(snapshot.getValue()).toString() + "followed you");
-                            } else if (code == 3) {
+                            } else {
                                 holder.setContent("You followed " + Objects.requireNonNull(snapshot.getValue()).toString());
                             }
 

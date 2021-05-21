@@ -50,7 +50,7 @@
         android:layout_height="50dp"
         android:inputType="textPassword"
         android:padding="10dp"
-        android:hint="Create Password">
+        android:hint="Password">
     </EditText>
 
     <TextView
@@ -76,7 +76,7 @@
         android:background="@drawable/login_register_rounded_corner_button"
         android:fontFamily="@font/abhaya_libre_semi_bold"
         android:text="Log in"
-        android:textSize="50px"></Button>
+        android:textSize="50px" />
 
     <Button
         android:id="@+id/register_here"

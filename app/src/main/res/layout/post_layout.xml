@@ -5,6 +5,32 @@
     android:background="@drawable/bottom_line_border_posts"
     android:padding="15dp">
 
+    <ImageButton
+        android:id="@+id/report_btn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="right"
+        android:layout_marginLeft="325dp"
+        android:layout_marginTop="10dp"
+        android:background="#0000"
+        android:scaleType="fitStart"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
+        android:src="@drawable/report" />
+
+    <ImageButton
+        android:id="@+id/options_btn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="right"
+        android:layout_marginLeft="325dp"
+        android:layout_marginTop="10dp"
+        android:background="#0000"
+        android:scaleType="fitStart"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
+        android:src="@drawable/dots" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,27 +80,7 @@
                 android:layout_weight="1" />
 <!--             TODO: Remove space sa end of triple dots -->
 
-            <ImageButton
-                android:id="@+id/report_btn"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="right"
-                android:background="#0000"
-                android:scaleType="fitStart"
-                android:scaleX="0.9"
-                android:scaleY="0.9"
-                android:src="@drawable/report" />
 
-            <ImageButton
-                android:id="@+id/options_btn"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="right"
-                android:background="#0000"
-                android:scaleType="fitStart"
-                android:scaleX="0.9"
-                android:scaleY="0.9"
-                android:src="@drawable/dots" />
 
         </LinearLayout>
 

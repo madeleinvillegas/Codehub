@@ -25,6 +25,7 @@ The provided code will serve as the social media application for android devices
 * ViewOtherProfileActivity - This class allows users to view the profiles of other people on the platform where they could follow/unfollow users
 * ViewProfileActivity - This class allows users to view their own profile 
 * ViewSinglePostActivity - This class allows users to see a single post
+
 Fragment Classes
 * CreatePostFragment - The fragment class parses data to create post for the current user
 * HomeFragment - This fragment class parses data to provide the newsfeed for the current user 

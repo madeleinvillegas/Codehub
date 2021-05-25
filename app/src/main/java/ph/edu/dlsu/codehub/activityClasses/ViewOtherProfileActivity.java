@@ -228,8 +228,8 @@ public class ViewOtherProfileActivity extends BaseToolbarActivity {
             firebaseNotificationsApi2.addFollowedBy(currentUser);
             follow.setImageResource(R.drawable.unfollow);
             //code for adding selected user
-            followTo.child(currentUser).child(userBeingViewed).setValue("True");
-            followedBy.child(userBeingViewed).child(currentUser).setValue("True");
+            followTo.child(currentUser).child(userBeingViewed).child("follow").setValue("True");
+            followedBy.child(userBeingViewed).child(currentUser).child("follow").setValue("True");
 
 
             follow.setTag("unfollow");

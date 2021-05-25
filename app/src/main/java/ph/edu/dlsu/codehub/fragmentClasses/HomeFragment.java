@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void viewPosts() {
-        Query query = postRef.orderByChild("date/time");
+        Query query = postRef.orderByChild("date");
         FirebaseRecyclerOptions<Post> options =
                 new FirebaseRecyclerOptions.Builder<Post>().setQuery(query, Post.class).build();
         FirebaseRecyclerAdapter<Post, PostViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(options) {

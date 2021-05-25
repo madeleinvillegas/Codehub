@@ -80,16 +80,33 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
 
         if ( showWhat.equals("followers") )
         {
-            displayFollowers();
+            displayFollows("FollowedBy");
             title.setText("Followers: ");
         } else if (showWhat.equals("following"))
         {
-            displayFollowing();
+            displayFollows("FollowTo");
             title.setText("Following: ");
         }
 
     }
 
+    public static class follow
+    {
+        public follow()
+        {
+
+        }
+        public String follow;
+
+        public String getFollow() {
+            return follow;
+        }
+
+        public void setFollow(String follow) {
+            this.follow = follow;
+        }
+    }
+    
     public static class FollowViewHolder extends RecyclerView.ViewHolder{
         View mView;
         CircleImageView profilePic;
@@ -123,44 +140,55 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
     }
 
 
-    private void displayFollowers() {
-        Query listOfFollowers = FirebaseDatabase.getInstance().getReference().child("FollowTo").orderByKey();
+
+    private void displayFollows(String s) {
+        Query listOfFollowers = FirebaseDatabase.getInstance().getReference().child(s).child(userId);
 
         //should be FirebaseRecyclerOptions<Nothing>
         //the model methods will not work
-        FirebaseRecyclerOptions<User> options =
-                new FirebaseRecyclerOptions.Builder<User>()
-                        .setQuery(listOfFollowers, User.class)
+        FirebaseRecyclerOptions<follow> options =
+                new FirebaseRecyclerOptions.Builder<follow>()
+                        .setQuery(listOfFollowers, follow.class)
                         .build();
 
-        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<User, ActivityDisplayFollows.FollowViewHolder>(options) {
-
-
+        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<follow, ActivityDisplayFollows.FollowViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull @NotNull ActivityDisplayFollows.FollowViewHolder holder, int position, @NonNull @NotNull User model) {
+            protected void onBindViewHolder(@NonNull @NotNull ActivityDisplayFollows.FollowViewHolder holder, int position, @NonNull @NotNull follow model) {
                 String holderUid = getRef(position).getKey();
+                    Log.d("Holder", holderUid + "|| " + userId);
+                    usersDatabaseReference.child(holderUid).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            if(snapshot.exists())
+                            {
 
-                assert holderUid != null;
+                                String fullName = Objects.toString(snapshot.child("fullName").getValue(), "nullValue") ;
+                                String profileImg =  Objects.toString(snapshot.child("profileImageLink").getValue(), "def");
+                                holder.setName(fullName);
+                                holder.setProfilePicture(profileImg);
+                            }
+                        }
 
-                usersDatabaseReference.child(holderUid).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        if(snapshot.exists())
-                        {
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                            String fullName = Objects.toString(snapshot.child("fullName").getValue(), "nullValue") ;
-                            String profileImg =  Objects.toString(snapshot.child("profileImageLink").getValue(), "def");
-                            holder.setName(fullName);
-                            holder.setProfilePicture(profileImg);
+                            holder.itemView.setOnClickListener(view -> {
+                                Intent intent;
+                                if (holderUid.equals(userId)) {
+                                    intent = new Intent(ActivityDisplayFollows.this, ViewProfileActivity.class);
+                                } else {
+                                    intent = new Intent(ActivityDisplayFollows.this, ViewOtherProfileActivity.class);
+                                    intent.putExtra("Position", holderUid);
+                                }
+                                startActivity(intent);
+
+                            });
 
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                    }
-                });
+
 
 //                holder.itemView.setOnClickListener(view -> {
 //                    String id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
@@ -174,83 +202,7 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
 //                    }
 //
 //                });
-                holder.itemView.setOnClickListener(view -> {
-                    if (holderUid.equals(userId)) {
-                        Intent intent = new Intent(ActivityDisplayFollows.this, ViewProfileActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(ActivityDisplayFollows.this, ViewOtherProfileActivity.class);
-                        intent.putExtra("Position", holderUid);
-                        startActivity(intent);
-                    }
 
-                });
-
-            }
-
-            @Override
-            public ActivityDisplayFollows.FollowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.users_display_layout, parent, false);
-
-                return new ActivityDisplayFollows.FollowViewHolder(view);
-            }
-
-        };
-        followerListRecyclerView.setAdapter(adapter);
-        adapter.startListening();
-    }
-
-    private void displayFollowing() {
-        Query listOfFollowers = FirebaseDatabase.getInstance().getReference().child("FollowedBy").orderByKey();
-
-        //should be FirebaseRecyclerOptions<Nothing>
-        //the model methods will not work
-        FirebaseRecyclerOptions<User> options =
-                new FirebaseRecyclerOptions.Builder<User>()
-                        .setQuery(listOfFollowers, User.class)
-                        .build();
-
-        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<User, ActivityDisplayFollows.FollowViewHolder>(options) {
-
-
-            @Override
-            protected void onBindViewHolder(@NonNull @NotNull ActivityDisplayFollows.FollowViewHolder holder, int position, @NonNull @NotNull User model) {
-                String holderUid = getRef(position).getKey();
-
-                assert holderUid != null;
-
-                usersDatabaseReference.child(holderUid).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        if(snapshot.exists())
-                        {
-                            String fullName = Objects.toString(snapshot.child("fullName").getValue(), "nullValue");
-                            String profileImg =  Objects.toString(snapshot.child("profileImageLink").getValue(), "def");
-
-                            holder.setName(fullName);
-                            holder.setProfilePicture(profileImg);
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                    }
-                });
-
-                holder.itemView.setOnClickListener(view -> {
-                    if (holderUid.equals(userId)) {
-                        Intent intent = new Intent(ActivityDisplayFollows.this, ViewProfileActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(ActivityDisplayFollows.this, ViewOtherProfileActivity.class);
-                        intent.putExtra("Position", holderUid);
-                        startActivity(intent);
-                    }
-
-                });
 
             }
 
@@ -272,33 +224,6 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
         super.onStart();
     }
 
-
-    public static void showMenu(@NonNull View itemView, String pos, String title, String body) {
-        PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
-        popupMenu.inflate(R.menu.triple_dots_menu);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu1:
-                        Intent intent = new Intent(itemView.getContext(), EditPostActivity.class);
-                        intent.putExtra("pos", pos);
-                        intent.putExtra("title", title);
-                        intent.putExtra("body", body);
-                        itemView.getContext().startActivity(intent);
-                        return true;
-                    case R.id.menu2:
-                        DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(pos);
-                        postRef.removeValue();
-                        Toast.makeText(itemView.getContext(), "Successfully deleted the post", Toast.LENGTH_SHORT).show();
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-        popupMenu.show();
-    }
 
 
 }

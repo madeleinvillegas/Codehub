@@ -66,6 +66,7 @@ public class ViewSinglePostActivity extends AppCompatActivity {
         userRef.child(uidOfThePostAuthor).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Log.d("Exist", String.valueOf(snapshot.exists()));
                 String name = Objects.requireNonNull(snapshot.getValue(), "Name").toString();
                 postRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @SuppressLint("SetTextI18n")

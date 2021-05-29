@@ -220,6 +220,15 @@ public class ViewProfileActivity extends BaseToolbarActivity {
                     HomeFragment.PostViewHolder.showMenu(view, pos, model.getTitle(), model.getBody());
                 });
 
+                holder.noOfLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(), ActivityDisplayLikes.class);
+                        intent.putExtra("postId", pos);
+                        startActivity(intent);
+                    }
+                });
+
                 holder.likeBtn.setOnClickListener(view -> {
                     isLiked = true;
                     likesRef.addValueEventListener(new ValueEventListener() {
@@ -233,7 +242,9 @@ public class ViewProfileActivity extends BaseToolbarActivity {
                                 }
                                 // Post will be liked
                                 else {
-                                    likesRef.child(pos).child(userId).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    HomeFragment.Likes likes = new HomeFragment.Likes();
+                                    likes.setLiked(true);
+                                    likesRef.child(pos).child(userId).setValue(likes).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             //put code to display on notification on like here

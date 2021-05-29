@@ -114,14 +114,6 @@ public class HomeFragment extends Fragment {
                 holder.postBody.setText(model.getBody());
                 holder.postTitle.setText(model.getTitle());
 
-                holder.noOfLikes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), ActivityDisplayLikes.class);
-                        intent.putExtra("postId", pos);
-                        startActivity(intent);
-                    }
-                });
 
 
                 holder.setLikeBtnColor(pos);
@@ -140,14 +132,13 @@ public class HomeFragment extends Fragment {
                     startActivity(intent);
                 });
 
-                holder.reportBtn.setOnClickListener(view -> {
-                    Intent intent = new Intent(getActivity(), ReportPostActivity.class);
-                    intent.putExtra("postId", pos);
-                    startActivity(intent);
-                });
-
-                holder.optionsBtn.setOnClickListener(view -> {
-                    PostViewHolder.showMenu(view, pos, model.getTitle(), model.getBody());
+                holder.noOfLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), ActivityDisplayLikes.class);
+                        intent.putExtra("postId", pos);
+                        startActivity(intent);
+                    }
                 });
 
                 holder.likeBtn.setOnClickListener(view -> {
@@ -185,6 +176,16 @@ public class HomeFragment extends Fragment {
                         }
                     });
                 });
+                holder.reportBtn.setOnClickListener(view -> {
+                    Intent intent = new Intent(getActivity(), ReportPostActivity.class);
+                    intent.putExtra("postId", pos);
+                    startActivity(intent);
+                });
+
+                holder.optionsBtn.setOnClickListener(view -> {
+                    PostViewHolder.showMenu(view, pos, model.getTitle(), model.getBody());
+                });
+
             }
 
             @NonNull

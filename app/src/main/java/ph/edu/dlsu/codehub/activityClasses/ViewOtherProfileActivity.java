@@ -36,6 +36,7 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ph.edu.dlsu.codehub.R;
+import ph.edu.dlsu.codehub.fragmentClasses.HomeFragment;
 import ph.edu.dlsu.codehub.helperClasses.FirebaseNotificationsApi;
 import ph.edu.dlsu.codehub.helperClasses.Notifications;
 import ph.edu.dlsu.codehub.helperClasses.Post;
@@ -304,6 +305,14 @@ public class ViewOtherProfileActivity extends BaseToolbarActivity {
                             startActivity(intent);
                         });
 
+                        holder.noOfLikes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getApplicationContext(), ActivityDisplayLikes.class);
+                                intent.putExtra("postId", pos);
+                                startActivity(intent);
+                            }
+                        });
 
                         holder.likeBtn.setOnClickListener(view -> {
                             isLiked = true;
@@ -318,7 +327,9 @@ public class ViewOtherProfileActivity extends BaseToolbarActivity {
                                         }
                                         // Post will be liked
                                         else {
-                                            likesRef.child(pos).child(userId).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            HomeFragment.Likes likes = new HomeFragment.Likes();
+                                            likes.setLiked(true);
+                                            likesRef.child(pos).child(userId).setValue(likes).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void unused) {
                                                     //put code to display on notification on like here

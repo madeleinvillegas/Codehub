@@ -33,7 +33,7 @@ import ph.edu.dlsu.codehub.R;
 
 
 
-public class ActivityDisplayLikes extends AppCompatActivity {
+public class ActivityDisplayLikes extends BaseToolbarActivity{
 
     private RecyclerView peopleWhoLiked;
     public String postId;
@@ -45,6 +45,8 @@ public class ActivityDisplayLikes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers_list);
+        setToolBar();
+
 
         title = findViewById(R.id.followersHeadingText);
         title.setText("People Who Liked");

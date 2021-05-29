@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
+import ph.edu.dlsu.codehub.activityClasses.ActivityDisplayLikes;
 import ph.edu.dlsu.codehub.activityClasses.CommentActivity;
 import ph.edu.dlsu.codehub.activityClasses.EditPostActivity;
 import ph.edu.dlsu.codehub.activityClasses.ViewSinglePostActivity;
@@ -112,6 +113,17 @@ public class HomeFragment extends Fragment {
 
                 holder.postBody.setText(model.getBody());
                 holder.postTitle.setText(model.getTitle());
+
+                holder.noOfLikes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), ActivityDisplayLikes.class);
+                        intent.putExtra("postId", pos);
+                        startActivity(intent);
+                    }
+                });
+
+
                 holder.setLikeBtnColor(pos);
                 if (uidOfThePostAuthor.equals(userId)) {
                     holder.reportBtn.setVisibility(View.INVISIBLE);
@@ -151,7 +163,9 @@ public class HomeFragment extends Fragment {
                                 }
                                 // Post will be liked
                                 else {
-                                    likesRef.child(pos).child(userId).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    Likes likes = new Likes();
+                                    likes.setLiked(true);
+                                    likesRef.child(pos).child(userId).setValue(likes).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             //put code to display on notification on like here
@@ -258,6 +272,23 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
+
+
     }
 
+
+    public static class Likes {
+        public boolean isLiked;
+
+        public Likes() {
+        }
+
+        public boolean isLiked() {
+            return isLiked;
+        }
+
+        public void setLiked(boolean liked) {
+            isLiked = liked;
+        }
+    }
 }

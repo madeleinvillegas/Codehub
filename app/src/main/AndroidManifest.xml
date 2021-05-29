@@ -48,7 +48,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activityClasses.ForgotPasswordActivity" />
+
         <activity android:name=".activityClasses.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,6 +58,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activityClasses.ActivityDisplayLikes">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
         <activity android:name=".activityClasses.RegisterActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

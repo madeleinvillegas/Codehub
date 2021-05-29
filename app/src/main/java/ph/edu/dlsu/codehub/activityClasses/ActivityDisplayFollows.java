@@ -80,7 +80,7 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
 
         if ( showWhat.equals("followers") )
         {
-            displayFollows("FollowedBy");
+            displayFollows("FollowqwedBy");
             title.setText("Followers: ");
         } else if (showWhat.equals("following"))
         {

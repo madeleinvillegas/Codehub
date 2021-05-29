@@ -107,10 +107,6 @@ public class ActivityDisplayLikes extends BaseToolbarActivity{
                             holder.setName(fullName);
                             holder.setProfilePicture(profileImg);
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
                         holder.itemView.setOnClickListener(view -> {
                             Intent intent;
@@ -123,6 +119,10 @@ public class ActivityDisplayLikes extends BaseToolbarActivity{
                             startActivity(intent);
                         });
 
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
                     }
                 });
 

@@ -167,10 +167,6 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
                                 holder.setName(fullName);
                                 holder.setProfilePicture(profileImg);
                             }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
                             holder.itemView.setOnClickListener(view -> {
                                 Intent intent;
@@ -184,6 +180,10 @@ public class ActivityDisplayFollows extends BaseToolbarActivity{
 
                             });
 
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
                         }
                     });
 

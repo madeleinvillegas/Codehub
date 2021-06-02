@@ -135,6 +135,14 @@ public class ViewSinglePostActivity extends AppCompatActivity {
             popupMenu.show();
         });
 
+        noOfLikes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ActivityDisplayLikes.class);
+                intent.putExtra("postId", uidOfPost);
+                startActivity(intent);
+            }
+        });
 
         likeBtn.setOnClickListener(view -> {
             isLiked = true;
@@ -168,7 +176,11 @@ public class ViewSinglePostActivity extends AppCompatActivity {
 
                 }
             });
+
+
         });
+
+
     }
 
     public void setLikeBtnColor(String pos) {

@@ -12,6 +12,7 @@ In this application, you can:
 The provided code will serve as the social media application for android devices. The functionalities of each activity class (as of 05/25/2021) could be broken down into the following:<br/>
 <br/>Activity Classes
 * ActivityDisplayFollows - This class allows the user to see their followers and the people they follow as well as other people’s followers/following
+* ActivityDisplayLikes - This class allows the user to see the people who liked their post
 * AdminActivity - This class allows the admin to view the reported posts and make a decision whether to keep or delete the reported post
 * BaseToolbarActivity - This class allows the app to have a toolbar on the top and bottom of the screen where they can access fragments
 * CommentActivity - This class allows users to comment on a post

@@ -9,7 +9,7 @@ In this application, you can:
 * Create, Read and Interact with content
 
 
-The provided code will serve as the social media application for android devices. The functionalities of each activity class (as of 05/25/2021) could be broken down into the following:<br/>
+The provided code will serve as the social media application for android devices. The functionalities of each activity class (as of 06/01/2021) could be broken down into the following:<br/>
 <br/>Activity Classes
 * ActivityDisplayFollows - This class allows the user to see their followers and the people they follow as well as other people’s followers/following
 * ActivityDisplayLikes - This class allows the user to see the people who liked their post
